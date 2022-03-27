@@ -3,10 +3,10 @@
 </p>
 
 # Damas
-[![GitHub Forks](https://img.shields.io/github/forks/GerardoWacker/Damas.svg?style=social&label=Fork&maxAge=2592000)](https://github.com/UnderVolt/Chocomint/network)
-[![GitHub Stars](https://img.shields.io/github/stars/GerardoWacker/Damas.svg?style=social&label=Star&maxAge=2592000)](https://github.com/UnderVolt/Chocomint/stargazers)
-[![GitHub Watches](https://img.shields.io/github/watchers/GerardoWacker/Damas.svg?style=social&label=Watch&maxAge=2592000)](https://github.com/UnderVolt/Chocomint/watchers)
-[![HitCount](http://hits.dwyl.com/GerardoWacker/damas.svg)](http://hits.dwyl.com/UnderVolt/chocomint)
+[![GitHub Forks](https://img.shields.io/github/forks/GerardoWacker/Damas.svg?style=social&label=Fork&maxAge=2592000)](https://github.com/GerardoWacker/Damas/network)
+[![GitHub Stars](https://img.shields.io/github/stars/GerardoWacker/Damas.svg?style=social&label=Star&maxAge=2592000)](https://github.com/GerardoWacker/Damas/stargazers)
+[![GitHub Watches](https://img.shields.io/github/watchers/GerardoWacker/Damas.svg?style=social&label=Watch&maxAge=2592000)](https://github.com/GerardoWacker/Damas/watchers)
+[![HitCount](http://hits.dwyl.com/GerardoWacker/damas.svg)](http://hits.dwyl.com/GerardoWacker/Damas)
 
 An online checkers game.
 
