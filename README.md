@@ -32,7 +32,7 @@ To state changes in the codebase, you must follow certain steps:
 
 In this way, you may be able to turn into an active contributor of the Damas project.
 
-## Updating chocomint
+## Updating Damas
 To update the repository's source code in your local environment, run the following command, inside the `damas` directory:
 ```shell
 git pull
