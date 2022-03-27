@@ -1,3 +1,9 @@
+# IntelliJ
+/.idea
+
+# lazygit
+lazygit.exe
+
 # Compiled class file
 *.class
 
