@@ -12,5 +12,7 @@ public class Damas
     * Launches the game
     */
    public void launch()
-   {}
+   {
+      System.out.println("¡Hola mundo!");
+   }
 }
