@@ -1,26 +1,19 @@
-package gerar.clase4.agenda;
+package damas.utils;
 
 public class Logger
 {
-   private final boolean enabled;
-
-   public Logger(final boolean enabled)
+   public static void log(final String text)
    {
-      this.enabled = enabled;
+      System.out.println("[LOG] " + text);
    }
 
-   public void log(final String texto)
+   public static void warn(final String text)
    {
-      if(enabled) System.out.println("[LOG] " + texto);
+      System.out.println("[WARN] " + text);
    }
 
-   public void warn(final String texto)
+   public static void err(final String text)
    {
-      System.out.println("[WARN] " + texto);
-   }
-
-   public void err(final String texto)
-   {
-      System.out.println("[ERROR] " + texto);
+      System.out.println("[ERROR] " + text);
    }
 }
