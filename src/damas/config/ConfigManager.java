@@ -65,8 +65,7 @@ public class ConfigManager
       if (file.exists())
       {
          String jsonText = IOUtils.toString(new FileInputStream(file), StandardCharsets.UTF_8);
-         JSONObject json = new JSONObject(jsonText);
-         return json;
+         return new JSONObject(jsonText);
       }
       return null;
    }
