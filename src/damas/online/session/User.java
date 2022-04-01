@@ -8,11 +8,12 @@ public class User
 
    /**
     * Object that represents a user. Is used for identification, session and network playing functionalities.
-    * @param username Name of the user. Will ALWAYS be lower case.
-    * @param country ISO country code representing the country from registration.
-    * @param created ISO date format String representing momento of account creation.
-    * @param plays Number of played matches.
-    * @param elo ELO/Ranking score for the player.
+    *
+    * @param username  Name of the user. Will ALWAYS be lower case.
+    * @param country   ISO country code representing the country from registration.
+    * @param created   ISO date format String representing momento of account creation.
+    * @param plays     Number of played matches.
+    * @param elo       ELO/Ranking score for the player.
     * @param developer Is the user a developer for the game.
     */
    public User(String username, String country, String created, int plays, int elo, boolean developer)
