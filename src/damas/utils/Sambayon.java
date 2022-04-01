@@ -1,7 +1,6 @@
 package damas.utils;
 
 import com.google.common.collect.Maps;
-import damas.instance.Damas;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -14,17 +13,30 @@ import org.json.JSONObject;
 
 import java.util.Map;
 
-public class Sambayon {
+/**
+ * Geolocation module to improve updates in a server's URL.
+ */
+public class Sambayon
+{
    private final String SAMBAYON_ENDPOINT = "http://sb.rar.vg/";
    private final Map<String, String> serverPool = Maps.newHashMap();
 
-   public String getServer(final String serverName) {
-      if(this.serverPool.containsKey(serverName)) {
+   /**
+    * Get a server's URL based on location.
+    * @param serverName Name/ID to identify selected server.
+    * @return The server's URL.
+    */
+   public String getServer(final String serverName)
+   {
+      if (this.serverPool.containsKey(serverName))
+      {
          Logger.log("Accedido a " + serverName + " desde los servidores en caché.");
          return this.serverPool.get(serverName);
-      } else {
+      } else
+      {
          Logger.log("Obteniendo " + serverName + " desde Sambayón...");
-         try {
+         try
+         {
             HttpClient httpclient = HttpClients.createDefault();
             StringEntity requestEntity = new StringEntity("{\"client_id\": \"chocomint\", \"req\":\"" + serverName + "\"}", ContentType.APPLICATION_JSON);
 
@@ -34,16 +46,20 @@ public class Sambayon {
             HttpResponse response = httpclient.execute(postMethod);
             HttpEntity entity = response.getEntity();
 
-            if (entity != null) {
+            if (entity != null)
+            {
                JSONObject json = new JSONObject(EntityUtils.toString(entity));
-               if(json.getBoolean("success")) {
+               if (json.getBoolean("success"))
+               {
                   this.serverPool.put(serverName, json.getString("response"));
                   return json.getString("response");
-               } else {
+               } else
+               {
                   throw new SambayonException(json.getString("response"));
                }
             }
-         } catch (Exception e) {
+         } catch (Exception e)
+         {
             Logger.err("Hubo un error en la conexión con Sambayón.");
             e.printStackTrace();
          }
@@ -52,7 +68,11 @@ public class Sambayon {
       }
    }
 
-   public boolean isAccesible() {
+   /**
+    * Checks if Sambayón is accessible by sending a ping packet.
+    */
+   public boolean isAccesible()
+   {
       return this.getServer("ping") != null;
    }
 }
