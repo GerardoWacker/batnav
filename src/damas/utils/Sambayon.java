@@ -39,7 +39,8 @@ public class Sambayon
          try
          {
             HttpClient httpclient = HttpClients.createDefault();
-            StringEntity requestEntity = new StringEntity("{\"client_id\": \"chocomint\", \"req\":\"" + serverName + "\"}", ContentType.APPLICATION_JSON);
+            StringEntity requestEntity = new StringEntity("{\"client_id\": \"chocomint\", \"req\":\"" +
+                 serverName + "\"}", ContentType.APPLICATION_JSON);
 
             HttpPost postMethod = new HttpPost(SAMBAYON_ENDPOINT);
             postMethod.setEntity(requestEntity);
