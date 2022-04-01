@@ -14,28 +14,34 @@ import org.json.JSONObject;
 
 import java.util.function.Consumer;
 
-public class RestUtils {
+public class RestUtils
+{
 
    private final String REST_ENDPOINT;
    private final Sambayon sambayon;
 
    /**
     * Helps handle requests to the static server more efficiently.
+    *
     * @param sambayon Sambayón geolocation manager.
     */
-   public RestUtils(final Sambayon sambayon) {
+   public RestUtils(final Sambayon sambayon)
+   {
       this.sambayon = sambayon;
       this.REST_ENDPOINT = sambayon.getServer("damas") + "/";
    }
 
    /**
     * Sends a request including a JSON object to the specified endpoint.
+    *
     * @param endpoint Requested endpoint to access.
-    * @param obj JSON object to send.
+    * @param obj      JSON object to send.
     * @param callback Response from server (String).
     */
-   public void sendJsonRequest(String endpoint, JSONObject obj, Consumer<String> callback) {
-      try {
+   public void sendJsonRequest(String endpoint, JSONObject obj, Consumer<String> callback)
+   {
+      try
+      {
          HttpClient httpclient = HttpClients.createDefault();
          StringEntity requestEntity = new StringEntity(obj.toString(), ContentType.APPLICATION_JSON);
 
@@ -45,23 +51,28 @@ public class RestUtils {
          HttpResponse response = httpclient.execute(postMethod);
          HttpEntity entity = response.getEntity();
 
-         if (entity != null) {
+         if (entity != null)
+         {
             String responseString = EntityUtils.toString(entity);
             callback.accept(responseString);
          }
-      } catch (Exception e) {
+      } catch (Exception e)
+      {
          e.printStackTrace();
       }
    }
 
    /**
     * Sends a request including a String to the specified endpoint.
+    *
     * @param endpoint Requested endpoint to access.
-    * @param obj JSON string to send.
+    * @param obj      JSON string to send.
     * @param callback Response from server (JsonObject).
     */
-   public void sendJSONRequest(String endpoint, JSONObject obj, Consumer<JsonObject> callback) {
-      try {
+   public void sendJSONRequest(String endpoint, JSONObject obj, Consumer<JsonObject> callback)
+   {
+      try
+      {
          HttpClient httpclient = HttpClients.createDefault();
          StringEntity requestEntity = new StringEntity(obj.toString(), ContentType.APPLICATION_JSON);
 
@@ -71,24 +82,28 @@ public class RestUtils {
          HttpResponse response = httpclient.execute(postMethod);
          HttpEntity entity = response.getEntity();
 
-         if (entity != null) {
+         if (entity != null)
+         {
             String responseString = EntityUtils.toString(entity);
-            System.out.println(responseString);
             callback.accept(new Gson().fromJson(responseString, JsonObject.class));
          }
-      } catch (Exception e) {
+      } catch (Exception e)
+      {
          e.printStackTrace();
       }
    }
 
    /**
     * Sends a request including a String to the specified endpoint.
+    *
     * @param endpoint Requested endpoint to access.
-    * @param obj JSON object to send.
+    * @param obj      JSON object to send.
     * @param callback Response from server (String).
     */
-   public void sendJsonRequest(String endpoint, String obj, Consumer<String> callback){
-      try {
+   public void sendJsonRequest(String endpoint, String obj, Consumer<String> callback)
+   {
+      try
+      {
          HttpClient httpclient = HttpClients.createDefault();
          StringEntity requestEntity = new StringEntity(obj, ContentType.APPLICATION_JSON);
 
@@ -98,11 +113,13 @@ public class RestUtils {
          HttpResponse response = httpclient.execute(postMethod);
          HttpEntity entity = response.getEntity();
 
-         if (entity != null) {
+         if (entity != null)
+         {
             String responseString = EntityUtils.toString(entity);
             callback.accept(responseString);
          }
-      }catch (Exception e){
+      } catch (Exception e)
+      {
          e.printStackTrace();
       }
    }
