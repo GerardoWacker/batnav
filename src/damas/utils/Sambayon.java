@@ -23,6 +23,7 @@ public class Sambayon
 
    /**
     * Get a server's URL based on location.
+    *
     * @param serverName Name/ID to identify selected server.
     * @return The server's URL.
     */
