@@ -29,26 +29,27 @@ public class SessionManager
 
    /**
     * Checks if a session file exists, and reads its value to login into the Socket Server.
-    *
-    * @return Session unique identifier.
     */
-   public String loadSession()
+   public void loadSession()
    {
       try
       {
          // Read session file.
          final JSONObject sessionObject = this.configManager.loadJson("ses.json");
 
-         // Save session id. into the global variable.
-         this.setSessionId(sessionObject.getString("session"));
-
-         // Return the session id.
-         return sessionObject.getString("session");
+         // Check if the file exists.
+         if (sessionObject != null)
+         {
+            // Save session id. into the global variable.
+            this.setSessionId(sessionObject.getString("session"));
+         } else
+         {
+            Logger.log("El sistema no encontró un archivo de sesión.");
+         }
       } catch (Exception e)
       {
          e.printStackTrace();
       }
-      return null;
    }
 
    /**
