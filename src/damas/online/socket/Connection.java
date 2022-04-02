@@ -91,6 +91,22 @@ public class Connection
    }
 
    /**
+    * Sends a custom packet to the Game's server.
+    * @param packet Packet to be sent.
+    * @return If the delivery was a success.
+    */
+   public boolean sendPacket(final Packet packet)
+   {
+      if(this.socket != null)
+      {
+         this.socket.emit(packet.getPacketName(), packet.getPacketContent());
+         return true;
+      }
+
+      return false;
+   }
+
+   /**
     * Gets current User.
     *
     * @return User.
