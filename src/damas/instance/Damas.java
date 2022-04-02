@@ -2,6 +2,8 @@ package damas.instance;
 
 import damas.config.ConfigManager;
 import damas.online.session.SessionManager;
+import damas.online.session.User;
+import damas.online.socket.Connection;
 import damas.utils.Logger;
 import damas.utils.RestUtils;
 import damas.utils.Sambayon;
@@ -9,13 +11,15 @@ import damas.utils.Sambayon;
 public class Damas
 {
    private final Sambayon sambayon;
-   private final RestUtils restUtils;
-   private final SessionManager sessionManager;
    private final ConfigManager configManager;
+   private RestUtils restUtils;
+   private SessionManager sessionManager;
+   private Connection connection;
 
    /**
     * Damas, a checkers game.
     * Made as a final project for Programming class.
+    *
     * @author Gerardo Wacker
     * @author Juan Ignacio Vecchio
     */
@@ -23,23 +27,28 @@ public class Damas
    {
       this.sambayon = new Sambayon();
       this.configManager = new ConfigManager();
-      this.restUtils = new RestUtils(this.sambayon);
-      this.sessionManager = new SessionManager(this.restUtils, this.configManager);
    }
 
    /**
     * Launches the game.
     */
-   public void launch()
+   public void launch() throws Exception
    {
       // Verify if server is accesible
-      if(this.sambayon.isAccesible())
+      if (this.sambayon.isAccesible())
       {
          Logger.log("Se pudo establecer una conexión con Sambayón.");
 
-         // Load session
+         // Create handlers.
+         this.restUtils = new RestUtils(this.sambayon);
+         this.connection = new Connection(this.sambayon, this.sessionManager);
+         this.sessionManager = new SessionManager(this.restUtils, this.configManager);
+
+         // Load session.
          this.sessionManager.loadSession();
 
+         // Connect to real-time server.
+         this.connection.connect(this.sessionManager.getSessionId());
       }
    }
 }
