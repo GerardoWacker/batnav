@@ -18,7 +18,7 @@ import java.util.Map;
  */
 public class Sambayon
 {
-   private final String SAMBAYON_ENDPOINT = "http://sb.rar.vg/";
+   private final String SAMBAYON_ENDPOINT = "https://sb.rar.vg/";
    private final Map<String, String> serverPool = Maps.newHashMap();
 
    /**
