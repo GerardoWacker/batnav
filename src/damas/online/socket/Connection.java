@@ -10,6 +10,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.URISyntaxException;
+import java.util.Arrays;
 
 public class Connection
 {
@@ -29,7 +30,7 @@ public class Connection
    {
       this.sambayon = sambayon;
       this.sessionManager = sessionManager;
-      this.endpoint = sambayon.getServer("damas_sock");
+      this.endpoint = "http://127.0.0.1:1302/";
    }
 
    /**
@@ -41,10 +42,12 @@ public class Connection
    {
       try
       {
+         Logger.log("Intentando conectarse a servidor de juego...");
          // Creates the Socket object with the obtained endpoint.
-         this.socket = IO.socket(this.endpoint);
+         this.socket = IO.socket(this.endpoint).connect();
          this.socket.on(Socket.EVENT_CONNECT, args -> {
-            this.socket.emit("authenticate", this.sessionManager.getSessionId());
+            Logger.log("Conectado a servidor de juego.");
+            this.socket.emit("authenticate", uuid);
             this.socket.on("authentication", this::authentication);
          });
 
@@ -59,11 +62,15 @@ public class Connection
     *
     * @param json Response String containing a JSON object. Structure: {success: boolean, content: string/object}
     */
-   private void authentication(final Object json)
+   private void authentication(final Object[] json)
    {
+      String r = Arrays.toString(json);
+      r = r.substring(1, r.length() - 1);
+
       try
       {
-         final JSONObject response = new JSONObject(json);
+         System.out.println(r);
+         final JSONObject response = new JSONObject(r);
          if (response.getBoolean("success"))
          {
             // Create a User object based off JSON.
@@ -78,6 +85,9 @@ public class Connection
                  userObject.getBoolean("developer")
             ));
             Logger.log("Iniciada sesión como " + this.getCurrentUser());
+            this.socket.emit("ready", this.sessionManager.getSessionId());
+            Logger.log("Enviado paquete de ready");
+            this.socket.on("match-found", this::matchFound);
          } else
          {
             Logger.warn("Ha surgido un error iniciando sesión.");
@@ -88,6 +98,12 @@ public class Connection
       {
          e.printStackTrace();
       }
+   }
+
+   private void matchFound(final Object json)
+   {
+      Logger.log("Encontrada partida.");
+      System.out.println(json);
    }
 
    /**
@@ -123,6 +139,6 @@ public class Connection
     */
    public void setCurrentUser(User user)
    {
-      this.currentUser = currentUser;
+      this.currentUser = user;
    }
 }
