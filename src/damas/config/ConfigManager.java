@@ -27,6 +27,11 @@ public class ConfigManager
       final AppDirs appDirs = AppDirsFactory.getInstance();
       this.gson = new GsonBuilder().create();
       this.dataDir = new File(appDirs.getUserDataDir(".batnav", "latest", "gw_jiv"));
+
+      if (this.dataDir.mkdirs())
+      {
+         Logger.log("Creado directorio de archivos");
+      }
    }
 
    /**
@@ -38,7 +43,7 @@ public class ConfigManager
     */
    public void saveJson(final String fileName, final JsonObject jsonObject) throws IOException
    {
-      Logger.log("Guardando archivo " + fileName + ".");
+      Logger.log("Guardando archivo " + fileName + "...");
 
       // Create a Writer with the specified file name.
       Writer writer = new FileWriter(new File(this.getDataDir(), fileName));
