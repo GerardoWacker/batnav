@@ -10,6 +10,12 @@ public class Start
    public static void main(String[] args)
    {
       // Launches the game
-      damas.launch();
+      try
+      {
+         damas.launch();
+      } catch (Exception e)
+      {
+         e.printStackTrace();
+      }
    }
 }
