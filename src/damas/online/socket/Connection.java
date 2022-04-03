@@ -30,7 +30,7 @@ public class Connection
    {
       this.sambayon = sambayon;
       this.sessionManager = sessionManager;
-      this.endpoint = "http://127.0.0.1:1302/";
+      this.endpoint = sambayon.getServer("damas_sock");
    }
 
    /**
