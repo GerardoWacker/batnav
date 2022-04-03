@@ -1,30 +1,33 @@
-<p align="center">
-  <img width="200px" src="assets/dama.png">
-</p>
-
-# Damas
+# BatNav
 [![GitHub Forks](https://img.shields.io/github/forks/GerardoWacker/Damas.svg?style=social&label=Fork&maxAge=2592000)](https://github.com/GerardoWacker/Damas/network)
 [![GitHub Stars](https://img.shields.io/github/stars/GerardoWacker/Damas.svg?style=social&label=Star&maxAge=2592000)](https://github.com/GerardoWacker/Damas/stargazers)
 [![GitHub Watches](https://img.shields.io/github/watchers/GerardoWacker/Damas.svg?style=social&label=Watch&maxAge=2592000)](https://github.com/GerardoWacker/Damas/watchers)
 [![HitCount](http://hits.dwyl.com/GerardoWacker/damas.svg)](http://hits.dwyl.com/GerardoWacker/Damas)
 
-An online checkers game.
+A multiplayer naval battle simulator.
 
-## Status
+## ❓ FAQ
+### 🤔 What's this?
 This is a one-time game. It's not intended to be taken seriously. Nevertheless, it'll be heavily updated in the months of March-June of '22.
 
-## Running Damas
-Releases should be flowing shortly.
-However, if you have the required knowledge to set-up the project, you'll know what to do. 
+## How to use?
 
-## Developing for Damas
+### 💻 Run
+Releases should be flowing shortly.
+However, if you have the required knowledge to set-up the project, you'll have to...
+### 👷‍♂️ Build
+We use Maven to manage everything project-related.
+To make an executable for the project, run the Maven `compile` script.
+### ⬇ Update
+To update the repository's source code in your local environment, run the following command, inside the `batnav` directory:
+```shell
+git pull
+```
+### ✏ Develop
 This is a personal project, so there's no need to commit into it. Nevertheless, if you want to help,  make sure you have the following before beginning:
 - Java Runtime Environment version 17.
 - Java Development Kit version 17.
 - A compatible IDE. We recommend [IntelliJ IDEA](https://www.jetbrains.com/idea/) or [Visual Studio Code](https://code.visualstudio.com/).
-
-We also use the following dependencies:
-- Socket.IO
 
 To state changes in the codebase, you must follow certain steps:
 - First, [create your own fork](https://docs.github.com/en/free-pro-team@latest/github/getting-started-with-github/fork-a-repo), based on the current codebase.
@@ -32,13 +35,7 @@ To state changes in the codebase, you must follow certain steps:
 
 In this way, you may be able to turn into an active contributor of the Damas project.
 
-## Updating Damas
-To update the repository's source code in your local environment, run the following command, inside the `batnav` directory:
-```shell
-git pull
-```
+## 📝 License
 
+**[gerardowacker/batnav](https://github.com/gerardowacker/batnav)** is protected by the [GNU Public Licence 3](https://opensource.org/licenses/GPL-3.0).
 
-## License
-
-Damas's code is protected by the [GNU Public Licence 3](https://opensource.org/licenses/GPL-3.0)
