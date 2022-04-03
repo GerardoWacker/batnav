@@ -1,11 +1,11 @@
-package damas;
+package batnav;
 
-import damas.instance.Damas;
+import batnav.instance.Game;
 
 public class Start
 {
    // Creates a new instance for the main game.
-   private static final Damas damas = new Damas();
+   private static final Game damas = new Game();
 
    public static void main(String[] args)
    {

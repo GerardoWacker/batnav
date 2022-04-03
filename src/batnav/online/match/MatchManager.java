@@ -1,6 +1,6 @@
-package damas.online.match;
+package batnav.online.match;
 
-import damas.online.socket.Connection;
+import batnav.online.socket.Connection;
 
 public class MatchManager
 {

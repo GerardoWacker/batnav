@@ -1,4 +1,4 @@
-package damas.online.match;
+package batnav.online.match;
 
 public class Bomb
 {

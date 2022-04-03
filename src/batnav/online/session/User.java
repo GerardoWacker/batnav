@@ -1,4 +1,4 @@
-package damas.online.session;
+package batnav.online.session;
 
 public class User
 {

@@ -1,9 +1,9 @@
-package damas.config;
+package batnav.config;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
-import damas.utils.Logger;
+import batnav.utils.Logger;
 import net.harawata.appdirs.AppDirs;
 import net.harawata.appdirs.AppDirsFactory;
 import org.apache.commons.io.IOUtils;

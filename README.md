@@ -33,7 +33,7 @@ To state changes in the codebase, you must follow certain steps:
 In this way, you may be able to turn into an active contributor of the Damas project.
 
 ## Updating Damas
-To update the repository's source code in your local environment, run the following command, inside the `damas` directory:
+To update the repository's source code in your local environment, run the following command, inside the `batnav` directory:
 ```shell
 git pull
 ```

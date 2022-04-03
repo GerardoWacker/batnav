@@ -1,6 +1,4 @@
-package damas.online.socket;
-
-import org.json.JSONObject;
+package batnav.online.socket;
 
 public class Packet
 {
