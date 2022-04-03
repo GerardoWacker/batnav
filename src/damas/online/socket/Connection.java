@@ -99,20 +99,23 @@ public class Connection
       }
    }
 
-   private void matchFound(final Object json)
+   private void matchFound(final Object[] json)
    {
       Logger.log("Encontrada partida.");
-      System.out.println(json);
+      String r = Arrays.toString(json);
+      r = r.substring(1, r.length() - 1);
+      System.out.println(r);
    }
 
    /**
     * Sends a custom packet to the Game's server.
+    *
     * @param packet Packet to be sent.
     * @return If the delivery was a success.
     */
    public boolean sendPacket(final Packet packet)
    {
-      if(this.socket != null)
+      if (this.socket != null)
       {
          this.socket.emit(packet.getPacketName(), packet.getPacketContent());
          return true;
