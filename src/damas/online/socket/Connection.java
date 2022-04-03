@@ -69,12 +69,11 @@ public class Connection
 
       try
       {
-         System.out.println(r);
          final JSONObject response = new JSONObject(r);
          if (response.getBoolean("success"))
          {
             // Create a User object based off JSON.
-            final JSONObject userObject = response.getJSONObject("content");
+            final JSONObject userObject = response.getJSONObject("content").getJSONObject("content");
 
             this.setCurrentUser(new User(
                  userObject.getString("username"),
@@ -84,7 +83,7 @@ public class Connection
                  userObject.getJSONObject("stats").getInt("elo"),
                  userObject.getBoolean("developer")
             ));
-            Logger.log("Iniciada sesión como " + this.getCurrentUser());
+            Logger.log("Iniciada sesión como " + this.getCurrentUser().getUsername());
             this.socket.emit("ready", this.sessionManager.getSessionId());
             Logger.log("Enviado paquete de ready");
             this.socket.on("match-found", this::matchFound);
