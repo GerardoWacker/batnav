@@ -49,6 +49,7 @@ public class Connection
             Logger.log("Conectado a servidor de juego.");
             this.socket.emit("authenticate", uuid);
             this.socket.on("authentication", this::authentication);
+            this.socket.on("match-found", this::matchFound);
          });
 
       } catch (Exception e)
@@ -86,7 +87,6 @@ public class Connection
             Logger.log("Iniciada sesión como " + this.getCurrentUser().getUsername());
             this.socket.emit("ready", this.sessionManager.getSessionId());
             Logger.log("Enviado paquete de ready");
-            this.socket.on("match-found", this::matchFound);
          } else
          {
             Logger.warn("Ha surgido un error iniciando sesión.");
