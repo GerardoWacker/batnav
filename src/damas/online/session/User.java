@@ -25,4 +25,34 @@ public class User
       this.elo = elo;
       this.developer = developer;
    }
+
+   public String getUsername()
+   {
+      return username;
+   }
+
+   public String getCountry()
+   {
+      return country;
+   }
+
+   public String getCreated()
+   {
+      return created;
+   }
+
+   public int getPlays()
+   {
+      return plays;
+   }
+
+   public int getElo()
+   {
+      return elo;
+   }
+
+   public boolean isDeveloper()
+   {
+      return developer;
+   }
 }
