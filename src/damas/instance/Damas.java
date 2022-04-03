@@ -41,10 +41,10 @@ public class Damas
 
          // Create handlers.
          this.restUtils = new RestUtils(this.sambayon);
-         this.connection = new Connection(this.sambayon, this.sessionManager);
          this.sessionManager = new SessionManager(this.restUtils, this.configManager);
+         this.connection = new Connection(this.sambayon, this.sessionManager);
 
-         this.sessionManager.login("usuario", "asdfghjkl");
+         this.sessionManager.login("gerar", "asdfghjkl");
 
          // Load session.
          this.sessionManager.loadSession();
