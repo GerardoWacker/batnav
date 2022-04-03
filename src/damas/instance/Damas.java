@@ -44,8 +44,6 @@ public class Damas
          this.sessionManager = new SessionManager(this.restUtils, this.configManager);
          this.connection = new Connection(this.sambayon, this.sessionManager);
 
-         this.sessionManager.login("gerar", "asdfghjkl");
-
          // Load session.
          this.sessionManager.loadSession();
 
