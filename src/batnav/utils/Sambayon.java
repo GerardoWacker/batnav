@@ -1,4 +1,4 @@
-package damas.utils;
+package batnav.utils;
 
 import com.google.common.collect.Maps;
 import org.apache.http.HttpEntity;

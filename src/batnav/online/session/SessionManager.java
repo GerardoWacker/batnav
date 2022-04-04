@@ -1,9 +1,9 @@
-package damas.online.session;
+package batnav.online.session;
 
 import com.google.gson.JsonObject;
-import damas.config.ConfigManager;
-import damas.utils.Logger;
-import damas.utils.RestUtils;
+import batnav.config.ConfigManager;
+import batnav.utils.Logger;
+import batnav.utils.RestUtils;
 import org.json.JSONObject;
 
 import java.io.IOException;

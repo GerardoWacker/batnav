@@ -1,10 +1,10 @@
 <project>
     <modelVersion>4.0.0</modelVersion>
-    <groupId>damas</groupId>
-    <artifactId>Damas</artifactId>
+    <groupId>batnav</groupId>
+    <artifactId>Game</artifactId>
     <version>*-SNAPSHOT</version>
     <properties>
-        <exec.mainClass>damas.Start</exec.mainClass>
+        <exec.mainClass>batnav.Start</exec.mainClass>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
@@ -28,7 +28,7 @@
                             <goal>java</goal>
                         </goals>
                         <configuration>
-                            <mainClass>damas.Start</mainClass>
+                            <mainClass>batnav.Start</mainClass>
                         </configuration>
                     </execution>
                 </executions>

@@ -1,7 +1,7 @@
-package damas.online.match;
+package batnav.online.match;
 
 import com.google.common.collect.Lists;
-import damas.online.session.User;
+import batnav.online.session.User;
 
 import java.util.List;
 

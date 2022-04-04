@@ -1,14 +1,13 @@
-package damas.instance;
+package batnav.instance;
 
-import damas.config.ConfigManager;
-import damas.online.session.SessionManager;
-import damas.online.session.User;
-import damas.online.socket.Connection;
-import damas.utils.Logger;
-import damas.utils.RestUtils;
-import damas.utils.Sambayon;
+import batnav.config.ConfigManager;
+import batnav.online.session.SessionManager;
+import batnav.online.socket.Connection;
+import batnav.utils.Logger;
+import batnav.utils.RestUtils;
+import batnav.utils.Sambayon;
 
-public class Damas
+public class Game
 {
    private final Sambayon sambayon;
    private final ConfigManager configManager;
@@ -23,7 +22,7 @@ public class Damas
     * @author Gerardo Wacker
     * @author Juan Ignacio Vecchio
     */
-   public Damas()
+   public Game()
    {
       this.sambayon = new Sambayon();
       this.configManager = new ConfigManager();

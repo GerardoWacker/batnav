@@ -1,15 +1,14 @@
-package damas.online.socket;
+package batnav.online.socket;
 
-import damas.online.session.SessionManager;
-import damas.online.session.User;
-import damas.utils.Logger;
-import damas.utils.Sambayon;
+import batnav.online.session.SessionManager;
+import batnav.online.session.User;
+import batnav.utils.Logger;
+import batnav.utils.Sambayon;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.URISyntaxException;
 import java.util.Arrays;
 
 public class Connection

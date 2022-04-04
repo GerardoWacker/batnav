@@ -1,4 +1,4 @@
-package damas.utils;
+package batnav.utils;
 
 public class SambayonException extends Exception
 {
