@@ -33,7 +33,7 @@ To state changes in the codebase, you must follow certain steps:
 - First, [create your own fork](https://docs.github.com/en/free-pro-team@latest/github/getting-started-with-github/fork-a-repo), based on the current codebase.
 - Then, [open a pull request](https://docs.github.com/en/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request) to notify us that your code is ready for review.
 
-This way, you may be able to turn into an active contributor of the Damas project.
+This way, you may be able to turn into an active contributor of the `batnav` project.
 
 ## 📝 License
 
