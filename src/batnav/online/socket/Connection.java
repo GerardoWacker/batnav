@@ -1,5 +1,7 @@
 package batnav.online.socket;
 
+import batnav.online.match.Match;
+import batnav.online.match.MatchManager;
 import batnav.online.session.SessionManager;
 import batnav.online.session.User;
 import batnav.utils.Logger;
@@ -15,21 +17,23 @@ public class Connection
 {
    private Socket socket;
    private final String endpoint;
-   private final Sambayon sambayon;
    private final SessionManager sessionManager;
+   private final MatchManager matchManager;
 
    private User currentUser;
 
    /**
     * Socket connection Manager
     *
-    * @param sambayon Sambayon geolocation server.
+    * @param sambayon       Sambayon geolocation server.
+    * @param sessionManager Session manager.
+    * @param matchManager   Match manager.
     */
-   public Connection(final Sambayon sambayon, final SessionManager sessionManager)
+   public Connection(final Sambayon sambayon, final SessionManager sessionManager, final MatchManager matchManager)
    {
-      this.sambayon = sambayon;
       this.sessionManager = sessionManager;
       this.endpoint = sambayon.getServer("damas_sock");
+      this.matchManager = matchManager;
    }
 
    /**
@@ -48,7 +52,7 @@ public class Connection
             Logger.log("Conectado a servidor de juego.");
             this.socket.emit("authenticate", uuid);
             this.socket.on("authentication", this::authentication);
-            this.socket.on("match-found", this::matchFound);
+            this.socket.on("match", this::matchFound);
          });
 
       } catch (Exception e)
@@ -90,6 +94,8 @@ public class Connection
          {
             Logger.warn("Ha surgido un error iniciando sesión.");
             Logger.warn(response.getString("content"));
+
+            this.sessionManager.setAndSaveSessionId(null);
          }
 
       } catch (JSONException e)
@@ -98,12 +104,62 @@ public class Connection
       }
    }
 
-   private void matchFound(final Object[] json)
+   /**
+    * Method used when the `match` packet is received.
+    *
+    * @param json Response String containing a JSON object. Structure: {success: boolean, content: object}
+    */
+   private void match(final Object[] json)
    {
       Logger.log("Encontrada partida.");
+
+      // JSON parsing hack.
       String r = Arrays.toString(json);
       r = r.substring(1, r.length() - 1);
-      System.out.println(r);
+
+      try
+      {
+         final JSONObject response = new JSONObject(r);
+         if (response.getBoolean("success"))
+         {
+            // Create JSON Objects based on response.
+            final JSONObject matchObject = response.getJSONObject("content");
+            final JSONObject opponentObject = matchObject.getJSONObject("opponent");
+
+            this.matchManager.setCurrentMatch(
+                 new Match(
+                      matchObject.getString("matchId"),
+                      new User(
+                           opponentObject.getString("username"),
+                           opponentObject.getString("country"),
+                           opponentObject.getJSONObject("stats").getInt("plays"),
+                           opponentObject.getJSONObject("stats").getInt("elo"),
+                           opponentObject.getBoolean("developer")
+                      )
+                 )
+            );
+
+            // TODO: Display match interface
+         } else
+         {
+            final JSONObject matchFailObject = response.getJSONObject("content");
+
+            if(matchFailObject.getBoolean("retry"))
+            {
+               Logger.err("Reintentando matchmaking: " + matchFailObject.getString("message"));
+               this.matchManager.joinRankedQueue(this);
+            }
+            else
+            {
+               Logger.log("El usuario abandonó la búsqueda de partidos.");
+               // TODO: Display menu interface
+            }
+         }
+
+      } catch (JSONException e)
+      {
+         e.printStackTrace();
+      }
    }
 
    /**

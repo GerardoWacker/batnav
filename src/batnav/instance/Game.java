@@ -1,6 +1,7 @@
 package batnav.instance;
 
 import batnav.config.ConfigManager;
+import batnav.online.match.MatchManager;
 import batnav.online.session.SessionManager;
 import batnav.online.socket.Connection;
 import batnav.utils.Logger;
@@ -14,6 +15,7 @@ public class Game
    private RestUtils restUtils;
    private SessionManager sessionManager;
    private Connection connection;
+   private MatchManager matchManager;
 
    /**
     * Damas, a checkers game.
@@ -41,7 +43,8 @@ public class Game
          // Create handlers.
          this.restUtils = new RestUtils(this.sambayon);
          this.sessionManager = new SessionManager(this.restUtils, this.configManager);
-         this.connection = new Connection(this.sambayon, this.sessionManager);
+         this.matchManager = new MatchManager(this.sessionManager);
+         this.connection = new Connection(this.sambayon, this.sessionManager, matchManager);
 
          // Load session.
          this.sessionManager.loadSession();
