@@ -4,7 +4,12 @@ import batnav.online.session.SessionManager;
 import batnav.online.socket.Connection;
 import batnav.online.socket.JSONPacket;
 import batnav.online.socket.Packet;
+import com.google.common.collect.Lists;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.List;
 
 public class MatchManager
 {
@@ -37,6 +42,68 @@ public class MatchManager
       connection.sendPacket(new Packet("leave-ranked-queue", this.sessionManager.getSessionId()));
    }
 
+   /**
+    * Method executed when a bomb packet has been received. It updates the current match and the game's interface.
+    *
+    * @param response Packet from server.
+    */
+   public void receiveBomb(final Object[] response)
+   {
+      try
+      {
+         final JSONObject json = Connection.decodePacket(response);
+         final JSONArray coordinates = json.getJSONArray("coordinates");
+
+         this.getCurrentMatch().addOpponentBomb(new int[]{coordinates.getInt(0), coordinates.getInt(1)});
+
+         // TODO: Update game interface
+      } catch (JSONException e)
+      {
+         e.printStackTrace();
+      }
+   }
+
+   /**
+    * Method executed when a bomb packet has been received. It updates the current match and the game's interface.
+    *
+    * @param response Packet from server.
+    */
+   public void receiveShips(final Object[] response)
+   {
+      this.getCurrentMatch().hasReceivedOpponentShips();
+   }
+
+   /**
+    * Method executed when the player's bomb has been thrown. It updates the current match and the game's interface.
+    *
+    * @param response Packet from server.
+    */
+   public void hasThrownBomb(final Object[] response)
+   {
+      try
+      {
+         final JSONObject json = Connection.decodePacket(response);
+
+         if (json.getBoolean("success"))
+         {
+            final JSONObject content = json.getJSONObject("content");
+
+            final int x = content.getJSONArray("coordinates").getInt(0),
+                 y = content.getJSONArray("coordinates").getInt(1);
+
+            final boolean hasHit = content.getBoolean("hasHit");
+
+            this.getCurrentMatch().addPlayerBomb(new Bomb(
+                 x, y, false, hasHit
+            ));
+
+            // TODO: Update Game UI
+         }
+      } catch (JSONException e)
+      {
+         e.printStackTrace();
+      }
+   }
 
    /**
     * Sets the current match.
