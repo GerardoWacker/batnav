@@ -75,22 +75,8 @@ public class SessionManager
          /* Response model: {success: boolean, content: string} */
          if (response.get("success").getAsBoolean())
          {
-            // JSON object to store in local configuration.
-            final JsonObject sessionStore = new JsonObject();
-            sessionStore.addProperty("session", response.get("content").getAsString());
-
-            // Save file.
-            try
-            {
-               this.configManager.saveJson("ses.json", sessionStore);
-            } catch (IOException e)
-            {
-               Logger.err("Hubo un problema al guardar la sesión.");
-               e.printStackTrace();
-            }
-
             // Save session unique identifier.
-            this.setSessionId(response.get("content").getAsString());
+            this.setAndSaveSessionId(response.get("content").getAsString());
 
             returnValue.set(true);
          }
@@ -100,13 +86,44 @@ public class SessionManager
    }
 
    /**
-    * Sets the session unique identifier.
-    *
-    * @param sessionId UUID String.
+    * Saves the session unique identifier into local configuration.
+    * @param sessionId Unique session identifier (UUID).
     */
+   public void saveSession(String sessionId)
+   {
+      final JsonObject sessionStore = new JsonObject();
+      sessionStore.addProperty("session", sessionId);
+
+      try
+      {
+         this.configManager.saveJson("ses.json", sessionStore);
+      } catch (IOException e)
+      {
+         Logger.err("Hubo un problema al guardar la sesión.");
+         e.printStackTrace();
+      }
+   }
+
    public void setSessionId(String sessionId)
    {
       this.sessionId = sessionId;
+   }
+
+   /**
+    * Sets the session unique identifier.
+    *
+    * @param sessionId Unique session identifier (UUID).
+    */
+   public void setAndSaveSessionId(String sessionId)
+   {
+      this.sessionId = sessionId;
+      if (sessionId == null)
+      {
+         this.saveSession("");
+      } else
+      {
+         this.saveSession(sessionId);
+      }
    }
 
    /**
