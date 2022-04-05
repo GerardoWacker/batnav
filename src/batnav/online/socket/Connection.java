@@ -77,12 +77,9 @@ public class Connection
     */
    private void authentication(final Object[] json)
    {
-      String r = Arrays.toString(json);
-      r = r.substring(1, r.length() - 1);
-
       try
       {
-         final JSONObject response = new JSONObject(r);
+         final JSONObject response = Connection.decodePacket(json);
          if (response.getBoolean("success"))
          {
             // Create a User object based off JSON.
@@ -122,13 +119,9 @@ public class Connection
    {
       Logger.log("Encontrada partida.");
 
-      // JSON parsing hack.
-      String r = Arrays.toString(json);
-      r = r.substring(1, r.length() - 1);
-
       try
       {
-         final JSONObject response = new JSONObject(r);
+         final JSONObject response = Connection.decodePacket(json);
          if (response.getBoolean("success"))
          {
             // Create JSON Objects based on response.
@@ -206,5 +199,19 @@ public class Connection
    public void setCurrentUser(User user)
    {
       this.currentUser = user;
+   }
+
+   /**
+    * Converts a socket response type into a parseable JSON object.
+    *
+    * @param content Packet content.
+    * @return JSON Object with the packet content.
+    */
+   public static JSONObject decodePacket(final Object[] content) throws JSONException
+   {
+      String r = Arrays.toString(content);
+      r = r.substring(1, r.length() - 1);
+
+      return new JSONObject(r);
    }
 }
