@@ -57,10 +57,10 @@ public class Connection
 
             // Match.
             this.socket.on("match", this::match);
-            this.socket.on("match-bomb-thrown", data -> {}); // TODO: Update match
-            this.socket.on("match-bomb-receive", data -> {}); // TODO: Update match
+            this.socket.on("match-bomb-thrown", this.matchManager::hasThrownBomb);
+            this.socket.on("match-bomb-receive", this.matchManager::receiveBomb);
             this.socket.on("match-ships-set", data -> {}); // TODO: Update match
-            this.socket.on("match-ships-receive", data -> {}); // TODO: Update match
+            this.socket.on("match-ships-receive", this.matchManager::receiveShips);
 
          });
 
