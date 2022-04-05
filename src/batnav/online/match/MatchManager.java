@@ -19,6 +19,7 @@ public class MatchManager
 
    /**
     * Sends a packet joining the matchmaking queue.
+    *
     * @param connection Real-time connection manager.
     */
    public void joinRankedQueue(final Connection connection)
@@ -28,6 +29,7 @@ public class MatchManager
 
    /**
     * Sends a packet leaving the matchmaking queue.
+    *
     * @param connection Real-time connection manager.
     */
    public void leaveRankedQueue(final Connection connection)
@@ -35,6 +37,12 @@ public class MatchManager
       connection.sendPacket(new Packet("leave-ranked-queue", this.sessionManager.getSessionId()));
    }
 
+
+   /**
+    * Sets the current match.
+    *
+    * @param currentMatch Current Match object.
+    */
    public void setCurrentMatch(Match currentMatch)
    {
       this.currentMatch = currentMatch;
