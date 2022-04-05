@@ -144,12 +144,11 @@ public class Connection
          {
             final JSONObject matchFailObject = response.getJSONObject("content");
 
-            if(matchFailObject.getBoolean("retry"))
+            if (matchFailObject.getBoolean("retry"))
             {
                Logger.err("Reintentando matchmaking: " + matchFailObject.getString("message"));
                this.matchManager.joinRankedQueue(this);
-            }
-            else
+            } else
             {
                Logger.log("El usuario abandonó la búsqueda de partidos.");
                // TODO: Display menu interface
