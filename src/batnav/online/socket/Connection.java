@@ -51,8 +51,17 @@ public class Connection
          this.socket.on(Socket.EVENT_CONNECT, args -> {
             Logger.log("Conectado a servidor de juego.");
             this.socket.emit("authenticate", uuid);
+
+            // Authentication.
             this.socket.on("authentication", this::authentication);
-            this.socket.on("match", this::matchFound);
+
+            // Match.
+            this.socket.on("match", this::match);
+            this.socket.on("match-bomb-thrown", data -> {}); // TODO: Update match
+            this.socket.on("match-bomb-receive", data -> {}); // TODO: Update match
+            this.socket.on("match-ships-set", data -> {}); // TODO: Update match
+            this.socket.on("match-ships-receive", data -> {}); // TODO: Update match
+
          });
 
       } catch (Exception e)
@@ -126,6 +135,7 @@ public class Connection
             final JSONObject matchObject = response.getJSONObject("content");
             final JSONObject opponentObject = matchObject.getJSONObject("opponent");
 
+            // Set current match.
             this.matchManager.setCurrentMatch(
                  new Match(
                       matchObject.getString("matchId"),
