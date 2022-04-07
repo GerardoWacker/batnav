@@ -7,10 +7,11 @@ public class Bomb
 
    /**
     * Throwable bomb. Kaboom!
-    * @param x Position in the X axis.
-    * @param y Position in the Y axis.
+    *
+    * @param x        Position in the X axis.
+    * @param y        Position in the Y axis.
     * @param opponent Is the bomb from the opponent.
-    * @param hasHit Has the bomb hit a target.
+    * @param hasHit   Has the bomb hit a target.
     */
    public Bomb(int x, int y, boolean opponent, boolean hasHit)
    {
