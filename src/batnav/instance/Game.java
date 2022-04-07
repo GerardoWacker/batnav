@@ -1,6 +1,7 @@
 package batnav.instance;
 
 import batnav.config.ConfigManager;
+import batnav.notifications.NotificationManager;
 import batnav.online.session.SessionManager;
 import batnav.online.socket.Connection;
 import batnav.utils.Logger;
@@ -11,6 +12,7 @@ public class Game
 {
    private final Sambayon sambayon;
    private final ConfigManager configManager;
+   private final NotificationManager notificationManager;
    private RestUtils restUtils;
    private SessionManager sessionManager;
    private Connection connection;
@@ -26,6 +28,7 @@ public class Game
    {
       this.sambayon = new Sambayon();
       this.configManager = new ConfigManager();
+      this.notificationManager = new NotificationManager();
    }
 
    /**
