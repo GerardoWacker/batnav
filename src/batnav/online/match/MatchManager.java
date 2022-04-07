@@ -4,7 +4,6 @@ import batnav.online.session.SessionManager;
 import batnav.online.socket.Connection;
 import batnav.online.socket.JSONPacket;
 import batnav.online.socket.Packet;
-import com.google.common.collect.Lists;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -40,6 +39,45 @@ public class MatchManager
    public void leaveRankedQueue(final Connection connection)
    {
       connection.sendPacket(new Packet("leave-ranked-queue", this.sessionManager.getSessionId()));
+   }
+
+   /**
+    *
+    * @param connection Real-time connection manager.
+    * @param x X coordinates for the bomb.
+    * @param y Y coordinates for the bomb.
+    */
+   public void throwBomb(final Connection connection, final int x, final int y)
+   {
+      try
+      {
+         final JSONObject objectToSend = new JSONObject();
+         objectToSend.put("matchId", this.getCurrentMatch().getId());
+         objectToSend.put("playerId", this.sessionManager.getSessionId());
+         objectToSend.put("coordinates", new int[]{x, y});
+         connection.sendPacket(new JSONPacket("match-throw-bomb", objectToSend));
+      } catch (JSONException e)
+      {
+         e.printStackTrace();
+      }
+   }
+
+   /**
+    * Sends a packet to set ships.
+    *
+    * @param connection Real-time connection manager
+    * @param shipList List containing every ship object.
+    */
+   public void setShips(final Connection connection, List<Ship> shipList)
+   {
+      final JSONArray shipArray = new JSONArray();
+
+      for (Ship ship : shipList)
+      {
+         shipArray.put(new JSONArray().put(new int[]{ship.getX(), ship.getY()}));
+      }
+
+      connection.sendPacket(new Packet("match-set-ships", shipArray.toString()));
    }
 
    /**
