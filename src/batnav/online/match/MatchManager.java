@@ -42,10 +42,9 @@ public class MatchManager
    }
 
    /**
-    *
     * @param connection Real-time connection manager.
-    * @param x X coordinates for the bomb.
-    * @param y Y coordinates for the bomb.
+    * @param x          X coordinates for the bomb.
+    * @param y          Y coordinates for the bomb.
     */
    public void throwBomb(final Connection connection, final int x, final int y)
    {
@@ -66,7 +65,7 @@ public class MatchManager
     * Sends a packet to set ships.
     *
     * @param connection Real-time connection manager
-    * @param shipList List containing every ship object.
+    * @param shipList   List containing every ship object.
     */
    public void setShips(final Connection connection, List<Ship> shipList)
    {
