@@ -44,7 +44,7 @@ public class Game
          this.restUtils = new RestUtils(this.sambayon);
          this.sessionManager = new SessionManager(this.restUtils, this.configManager);
          this.matchManager = new MatchManager(this.sessionManager);
-         this.connection = new Connection(this.sambayon, this.sessionManager, matchManager);
+         this.connection = new Connection(this.sambayon, this.sessionManager, this.matchManager);
 
          // Load session.
          this.sessionManager.loadSession();
@@ -52,5 +52,35 @@ public class Game
          // Connect to real-time server.
          this.connection.connect(this.sessionManager.getSessionId());
       }
+   }
+
+   public Sambayon getSambayon()
+   {
+      return sambayon;
+   }
+
+   public ConfigManager getConfigManager()
+   {
+      return configManager;
+   }
+
+   public RestUtils getRestUtils()
+   {
+      return restUtils;
+   }
+
+   public SessionManager getSessionManager()
+   {
+      return sessionManager;
+   }
+
+   public Connection getConnection()
+   {
+      return connection;
+   }
+
+   public MatchManager getMatchManager()
+   {
+      return matchManager;
    }
 }
