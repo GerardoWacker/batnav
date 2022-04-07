@@ -2,6 +2,7 @@ package batnav.online.match;
 
 import com.google.common.collect.Lists;
 import batnav.online.session.User;
+import org.json.JSONArray;
 
 import java.util.List;
 
@@ -102,5 +103,15 @@ public class Match
    public boolean hasReceivedOpponentShips()
    {
       return hasReceivedOpponentShips;
+   }
+
+   public String getId()
+   {
+      return id;
+   }
+
+   public User getOpponent()
+   {
+      return opponent;
    }
 }
