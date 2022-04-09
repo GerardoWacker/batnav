@@ -1,5 +1,7 @@
 package batnav.online.socket;
 
+import batnav.notifications.Notification;
+import batnav.notifications.NotificationManager;
 import batnav.online.session.SessionManager;
 import batnav.online.session.User;
 import batnav.utils.Logger;
@@ -17,6 +19,7 @@ public class Connection
    private final String endpoint;
    private final Sambayon sambayon;
    private final SessionManager sessionManager;
+   private final NotificationManager notificationManager;
 
    private User currentUser;
 
@@ -24,12 +27,14 @@ public class Connection
     * Socket connection Manager
     *
     * @param sambayon Sambayon geolocation server.
+    * @param notificationManager
     */
-   public Connection(final Sambayon sambayon, final SessionManager sessionManager)
+   public Connection(final Sambayon sambayon, final SessionManager sessionManager, final NotificationManager notificationManager)
    {
       this.sambayon = sambayon;
       this.sessionManager = sessionManager;
       this.endpoint = sambayon.getServer("damas_sock");
+      this.notificationManager = notificationManager;
    }
 
    /**
@@ -88,12 +93,28 @@ public class Connection
             Logger.log("Enviado paquete de ready");
          } else
          {
+            this.notificationManager.addNotification(
+                 new Notification(
+                      Notification.Priority.CRITICAL,
+                      "Ha ocurrido un error",
+                      "Error de sesión" + response.getString("content"),
+                      a -> {}
+                 )
+            );
             Logger.warn("Ha surgido un error iniciando sesión.");
             Logger.warn(response.getString("content"));
          }
 
       } catch (JSONException e)
       {
+         this.notificationManager.addNotification(
+              new Notification(
+                   Notification.Priority.CRITICAL,
+                   "Ha ocurrido un error",
+                   e.getLocalizedMessage(),
+                   a -> {}
+              )
+         );
          e.printStackTrace();
       }
    }
