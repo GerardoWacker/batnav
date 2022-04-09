@@ -1,5 +1,6 @@
 package batnav.utils;
 
+import batnav.notifications.NotificationManager;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import org.apache.http.HttpEntity;
@@ -19,16 +20,19 @@ public class RestUtils
 
    private final String REST_ENDPOINT;
    private final Sambayon sambayon;
+   private final NotificationManager notificationManager;
 
    /**
     * Helps handle requests to the static server more efficiently.
     *
     * @param sambayon Sambayón geolocation manager.
+    * @param notificationManager
     */
-   public RestUtils(final Sambayon sambayon)
+   public RestUtils(final Sambayon sambayon, NotificationManager notificationManager)
    {
       this.sambayon = sambayon;
       this.REST_ENDPOINT = sambayon.getServer("damas") + "/";
+      this.notificationManager = notificationManager;
    }
 
    /**
