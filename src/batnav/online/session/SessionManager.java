@@ -1,5 +1,7 @@
 package batnav.online.session;
 
+import batnav.notifications.Notification;
+import batnav.notifications.NotificationManager;
 import com.google.gson.JsonObject;
 import batnav.config.ConfigManager;
 import batnav.utils.Logger;
@@ -14,6 +16,7 @@ public class SessionManager
    private String sessionId;
    private final RestUtils restUtils;
    private final ConfigManager configManager;
+   private final NotificationManager notificationManager;
 
    /**
     * Manager used for sessions and authentication purposes.
@@ -21,10 +24,11 @@ public class SessionManager
     * @param restUtils Rest utils.
     * @author Gerardo Wacker
     */
-   public SessionManager(final RestUtils restUtils, final ConfigManager configManager)
+   public SessionManager(final RestUtils restUtils, final ConfigManager configManager, final NotificationManager notificationManager)
    {
       this.restUtils = restUtils;
       this.configManager = configManager;
+      this.notificationManager = notificationManager;
    }
 
    /**
@@ -48,6 +52,14 @@ public class SessionManager
          }
       } catch (Exception e)
       {
+         this.notificationManager.addNotification(
+              new Notification(
+                   Notification.Priority.CRITICAL,
+                   "El sistema encontró un error inesperado",
+                   e.getLocalizedMessage(),
+                   a -> {}
+              )
+         );
          e.printStackTrace();
       }
    }
@@ -99,7 +111,14 @@ public class SessionManager
          this.configManager.saveJson("ses.json", sessionStore);
       } catch (IOException e)
       {
-         Logger.err("Hubo un problema al guardar la sesión.");
+         this.notificationManager.addNotification(
+              new Notification(
+                   Notification.Priority.CRITICAL,
+                   "Ha ocurrido un error",
+                   e.getLocalizedMessage(),
+                   a -> {}
+              )
+         );
          e.printStackTrace();
       }
    }
