@@ -55,7 +55,7 @@ public class SessionManager
          this.notificationManager.addNotification(
               new Notification(
                    Notification.Priority.CRITICAL,
-                   "El sistema encontró un error inesperado",
+                   "Ha ocurrido un error",
                    e.getLocalizedMessage(),
                    a -> {}
               )
