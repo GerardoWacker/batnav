@@ -1,5 +1,7 @@
 package batnav.utils;
 
+import batnav.notifications.Notification;
+import batnav.notifications.NotificationManager;
 import com.google.common.collect.Maps;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -20,6 +22,18 @@ public class Sambayon
 {
    private final String SAMBAYON_ENDPOINT = "https://sb.rar.vg/";
    private final Map<String, String> serverPool = Maps.newHashMap();
+
+   private final NotificationManager notificationManager;
+
+   /**
+    * Sambayón geolocation manager
+    *
+    * @param notificationManager Notification manager.
+    */
+   public Sambayon(final NotificationManager notificationManager)
+   {
+      this.notificationManager = notificationManager;
+   }
 
    /**
     * Get a server's URL based on location.
@@ -62,6 +76,14 @@ public class Sambayon
             }
          } catch (Exception e)
          {
+            this.notificationManager.addNotification(
+                 new Notification(
+                      Notification.Priority.CRITICAL,
+                      "Ha ocurrido un error",
+                      "Hubo un error en la conexión con Sambayón",
+                      a -> {}
+                 )
+            );
             Logger.err("Hubo un error en la conexión con Sambayón.");
             e.printStackTrace();
          }

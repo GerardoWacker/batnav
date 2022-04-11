@@ -1,6 +1,7 @@
 package batnav.instance;
 
 import batnav.config.ConfigManager;
+import batnav.notifications.NotificationManager;
 import batnav.online.session.SessionManager;
 import batnav.online.socket.Connection;
 import batnav.utils.Logger;
@@ -11,6 +12,7 @@ public class Game
 {
    private final Sambayon sambayon;
    private final ConfigManager configManager;
+   private final NotificationManager notificationManager;
    private RestUtils restUtils;
    private SessionManager sessionManager;
    private Connection connection;
@@ -24,7 +26,8 @@ public class Game
     */
    public Game()
    {
-      this.sambayon = new Sambayon();
+      this.notificationManager = new NotificationManager();
+      this.sambayon = new Sambayon(this.notificationManager);
       this.configManager = new ConfigManager();
    }
 
@@ -39,9 +42,9 @@ public class Game
          Logger.log("Se pudo establecer una conexión con Sambayón.");
 
          // Create handlers.
-         this.restUtils = new RestUtils(this.sambayon);
-         this.sessionManager = new SessionManager(this.restUtils, this.configManager);
-         this.connection = new Connection(this.sambayon, this.sessionManager);
+         this.restUtils = new RestUtils(this.sambayon, this.notificationManager);
+         this.sessionManager = new SessionManager(this.restUtils, this.configManager, this.notificationManager);
+         this.connection = new Connection(this.sambayon, this.sessionManager, notificationManager);
 
          // Load session.
          this.sessionManager.loadSession();
