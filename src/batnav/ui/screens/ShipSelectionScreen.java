@@ -1,6 +1,7 @@
-package batnav.ui;
+package batnav.ui.screens;
 
 import batnav.online.match.Ship;
+import batnav.ui.boards.ShipSelectionBoard;
 import com.google.common.collect.Lists;
 
 import javax.swing.*;
@@ -11,7 +12,7 @@ import java.util.List;
 
 public class ShipSelectionScreen extends JFrame implements ActionListener
 {
-   protected List<Ship> ships;
+   private List<Ship> ships;
    private Ship selectedShip;
    private final ShipSelectionBoard shipSelectionBoard;
 
@@ -55,5 +56,15 @@ public class ShipSelectionScreen extends JFrame implements ActionListener
 
          this.shipSelectionBoard.update();
       }
+   }
+
+   public List<Ship> getShips()
+   {
+      return ships;
+   }
+
+   public Ship getSelectedShip()
+   {
+      return selectedShip;
    }
 }

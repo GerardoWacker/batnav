@@ -1,15 +1,15 @@
-package batnav.ui;
+package batnav.ui.screens;
 
 import batnav.online.match.Bomb;
 import batnav.online.match.Match;
-import batnav.online.match.Ship;
 import batnav.online.session.User;
+import batnav.ui.boards.OpponentBoard;
+import batnav.ui.boards.PlayerBoard;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Arrays;
 
 public class TestScreen extends JFrame implements ActionListener
 {

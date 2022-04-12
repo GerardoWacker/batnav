@@ -1,6 +1,7 @@
-package batnav.ui;
+package batnav.ui.boards;
 
 import batnav.online.match.Ship;
+import batnav.ui.screens.ShipSelectionScreen;
 
 import java.awt.*;
 
@@ -19,7 +20,7 @@ public class ShipSelectionBoard extends Board
    {
       super.paint(g);
 
-      for (Ship ship : this.parent.ships)
+      for (Ship ship : this.parent.getShips())
       {
          this.drawShip(g, ship);
       }

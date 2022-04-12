@@ -1,4 +1,4 @@
-package batnav.ui;
+package batnav.ui.boards;
 
 import batnav.online.match.Bomb;
 import batnav.online.match.Ship;
