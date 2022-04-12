@@ -4,9 +4,12 @@ import batnav.config.ConfigManager;
 import batnav.online.match.MatchManager;
 import batnav.online.session.SessionManager;
 import batnav.online.socket.Connection;
+import batnav.ui.TestScreen;
 import batnav.utils.Logger;
 import batnav.utils.RestUtils;
 import batnav.utils.Sambayon;
+
+import java.awt.event.WindowEvent;
 
 public class Game
 {
@@ -16,6 +19,8 @@ public class Game
    private SessionManager sessionManager;
    private Connection connection;
    private MatchManager matchManager;
+
+   private TestScreen testScreen;
 
    /**
     * Damas, a checkers game.
@@ -35,6 +40,8 @@ public class Game
     */
    public void launch() throws Exception
    {
+      this.testScreen = new TestScreen();
+
       // Verify if server is accesible
       if (this.sambayon.isAccesible())
       {
@@ -51,6 +58,9 @@ public class Game
 
          // Connect to real-time server.
          this.connection.connect(this.sessionManager.getSessionId());
+      } else
+      {
+         this.testScreen.dispatchEvent(new WindowEvent(this.testScreen, WindowEvent.WINDOW_CLOSING));
       }
    }
 
