@@ -30,4 +30,19 @@ public class Bomb
    {
       return new int[]{this.x, this.y};
    }
+
+   public int getX()
+   {
+      return x;
+   }
+
+   public int getY()
+   {
+      return y;
+   }
+
+   public boolean isHasHit()
+   {
+      return hasHit;
+   }
 }
