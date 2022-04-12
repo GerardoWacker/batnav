@@ -1,23 +1,19 @@
 package batnav.ui;
 
-import batnav.online.match.Match;
+import batnav.online.match.Bomb;
 import batnav.online.match.Ship;
 import batnav.utils.Colour;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class Board extends JButton
 {
+   private final int tileSize = 38;
+   private final int boardSize = tileSize * 10;
 
-   private final Match match;
-
-   public Board(final Match match)
+   public Board()
    {
-      this.match = match;
-
       // As the Board is a button, disabling the default values for styling is necessary.
       super.setBorderPainted(false);
       super.setFocusPainted(false);
@@ -33,8 +29,6 @@ public class Board extends JButton
       super.paint(g);
 
       // Set board position and size.
-      final int tileSize = 50;
-      final int boardSize = tileSize * 10;
       final int paddingX = (this.getWidth() - boardSize) / 2;
       final int paddingY = (this.getHeight() - boardSize) / 2;
 
@@ -49,11 +43,6 @@ public class Board extends JButton
          g.drawLine(paddingX + i * tileSize, paddingY, paddingX + i * tileSize, paddingY + boardSize);
          g.drawLine(paddingX, paddingY + i * tileSize, paddingX + boardSize, paddingY + i * tileSize);
       }
-
-      for (Ship ship : this.match.getPlayerShips())
-      {
-         this.drawShip(g, ship);
-      }
    }
 
    public void update()
@@ -61,10 +50,20 @@ public class Board extends JButton
       this.repaint();
    }
 
+   public void drawBomb(Graphics g, final Bomb bomb)
+   {
+      final int paddingX = (this.getWidth() - boardSize) / 2;
+      final int paddingY = (this.getHeight() - boardSize) / 2;
+
+      final int x = paddingX + bomb.getX() * tileSize;
+      final int y = paddingY + bomb.getY() * tileSize;
+
+      g.setColor(Colour.DarkGray);
+      g.fillOval(x + 9, y + 9, 20, 20);
+   }
+
    public void drawShip(Graphics g, final Ship ship)
    {
-      final int tileSize = 50;
-      final int boardSize = tileSize * 10;
       final int paddingX = (this.getWidth() - boardSize) / 2;
       final int paddingY = (this.getHeight() - boardSize) / 2;
 
@@ -72,7 +71,7 @@ public class Board extends JButton
       final int y = paddingY + ship.getY() * tileSize;
       final int width = ship.getSize() * tileSize;
 
-      g.setColor(Colour.Tomato);
+      g.setColor(Colour.Teal);
       if(ship.isVertical())
          g.fillRect(x, y, tileSize, width);
       else
@@ -82,16 +81,14 @@ public class Board extends JButton
    public int[] handleClick(final Point point)
    {
       // Set board position and size.
-      final int tileSize = 50;
-      final int boardSize = tileSize * 10;
-      final int paddingX = (this.getWidth() - boardSize) / 2;
-      final int paddingY = (this.getHeight() - boardSize) / 2;
+      final int paddingX = (this.getWidth() - boardSize) / 2 + this.getX();
+      final int paddingY = (this.getHeight() - boardSize) / 2 + this.getY();
 
       // Check if the click was executed inside the board.
       if (point.x > paddingX && point.y > paddingY && point.x < paddingX + boardSize && point.y < paddingY + boardSize)
       {
          // Perform calculations to get coordinates and return the values in an array.
-         return new int[]{(point.x - paddingX) / 50, (point.y - paddingY) / 50};
+         return new int[]{(point.x - paddingX) / tileSize, (point.y - paddingY) / tileSize};
       }
       else
          return null;
