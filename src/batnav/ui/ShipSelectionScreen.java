@@ -53,7 +53,6 @@ public class ShipSelectionScreen extends JFrame implements ActionListener {
 
       this.add(shipSelectionBoard, BorderLayout.CENTER);
       this.add(panelSouth, BorderLayout.SOUTH);
-      final JList<Ship> myshipsJlist = new JList<>();
 
       panelEast.setLayout(new GridLayout(8, 1));
       final JScrollPane scrollPane = new JScrollPane(panelEast);
