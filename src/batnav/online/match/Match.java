@@ -23,7 +23,6 @@ public class Match
       this.playerBombs = Lists.newArrayList();
       this.opponentBombs = Lists.newArrayList();
       this.playerShips = Lists.newArrayList();
-      this.playerShips.add(new Ship(2).setPosition(0, 0, false));
    }
 
    /**
