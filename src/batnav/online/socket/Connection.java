@@ -2,6 +2,8 @@ package batnav.online.socket;
 
 import batnav.online.match.Match;
 import batnav.online.match.MatchManager;
+import batnav.notifications.Notification;
+import batnav.notifications.NotificationManager;
 import batnav.online.session.SessionManager;
 import batnav.online.session.User;
 import batnav.utils.Logger;
@@ -19,6 +21,7 @@ public class Connection
    private final String endpoint;
    private final SessionManager sessionManager;
    private final MatchManager matchManager;
+   private final NotificationManager notificationManager;
 
    private User currentUser;
 
@@ -28,12 +31,14 @@ public class Connection
     * @param sambayon       Sambayon geolocation server.
     * @param sessionManager Session manager.
     * @param matchManager   Match manager.
+    * @param notificationManager
     */
-   public Connection(final Sambayon sambayon, final SessionManager sessionManager, final MatchManager matchManager)
+   public Connection(final Sambayon sambayon, final SessionManager sessionManager, final MatchManager matchManager, final NotificationManager notificationManager)
    {
       this.sessionManager = sessionManager;
       this.endpoint = sambayon.getServer("damas_sock");
       this.matchManager = matchManager;
+      this.notificationManager = notificationManager;
    }
 
    /**
@@ -98,6 +103,14 @@ public class Connection
             Logger.log("Enviado paquete de ready");
          } else
          {
+            this.notificationManager.addNotification(
+                 new Notification(
+                      Notification.Priority.CRITICAL,
+                      "Ha ocurrido un error",
+                      "Error de sesión" + response.getString("content"),
+                      a -> {}
+                 )
+            );
             Logger.warn("Ha surgido un error iniciando sesión.");
             Logger.warn(response.getString("content"));
 
@@ -106,6 +119,14 @@ public class Connection
 
       } catch (JSONException e)
       {
+         this.notificationManager.addNotification(
+              new Notification(
+                   Notification.Priority.CRITICAL,
+                   "Ha ocurrido un error",
+                   e.getLocalizedMessage(),
+                   a -> {}
+              )
+         );
          e.printStackTrace();
       }
    }
