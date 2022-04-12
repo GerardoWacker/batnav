@@ -25,11 +25,11 @@ public class Game
    private TestScreen testScreen;
 
    /**
-    * Damas, a checkers game.
-    * Made as a final project for Programming class.
+    * batnav, a naval battle simulator.
     *
     * @author Gerardo Wacker
     * @author Juan Ignacio Vecchio
+    * @author Matías Mena Da Dalt
     */
    public Game()
    {
