@@ -23,6 +23,7 @@ public class Match
       this.playerBombs = Lists.newArrayList();
       this.opponentBombs = Lists.newArrayList();
       this.playerShips = Lists.newArrayList();
+      this.playerShips.add(new Ship(2).setPosition(0, 0, false));
    }
 
    /**
@@ -72,6 +73,11 @@ public class Match
       );
    }
 
+   public void addPlayerShip(final Ship ship)
+   {
+      this.getPlayerShips().add(ship);
+   }
+
    public void addPlayerShips(final List<Ship> shipList)
    {
       // TODO: Player ships implementation.
@@ -113,5 +119,20 @@ public class Match
    public User getOpponent()
    {
       return opponent;
+   }
+
+   public List<Bomb> getPlayerBombs()
+   {
+      return playerBombs;
+   }
+
+   public List<Bomb> getOpponentBombs()
+   {
+      return opponentBombs;
+   }
+
+   public List<Ship> getPlayerShips()
+   {
+      return playerShips;
    }
 }

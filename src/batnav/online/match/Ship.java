@@ -29,11 +29,12 @@ public class Ship
     * @param y        Position in the Y axis.
     * @param vertical Is the ship vertically positioned
     */
-   public void setPosition(final int x, final int y, final boolean vertical)
+   public Ship setPosition(final int x, final int y, final boolean vertical)
    {
       this.x = x;
       this.y = y;
       this.vertical = vertical;
+      return this;
    }
 
    /**
