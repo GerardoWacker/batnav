@@ -1,5 +1,6 @@
 package batnav.ui;
 
+import batnav.online.match.Bomb;
 import batnav.online.match.Match;
 import batnav.online.match.Ship;
 import batnav.online.session.User;
@@ -12,19 +13,23 @@ import java.util.Arrays;
 
 public class TestScreen extends JFrame implements ActionListener
 {
-   private final Board board;
+   private final PlayerBoard playerBoard;
+   private final OpponentBoard opponentBoard;
    private final Match match;
 
    public TestScreen()
    {
-      this.setBounds(100, 100, 800, 800);
+      this.match = new Match("", new User("tu vieja", "AR", 0, 0, false));
+      this.setBounds(100, 100, 450, 900);
       this.setDefaultCloseOperation(EXIT_ON_CLOSE);
       this.setFocusable(false);
       this.setResizable(false);
-      this.add(this.board = new Board(
-           this.match = new Match("id", new User("", "", 0, 0, false))
-      ));
-      this.board.addActionListener(this);
+      this.add(this.playerBoard = new PlayerBoard(this.match), BorderLayout.NORTH);
+      this.add(this.opponentBoard = new OpponentBoard(this.match), BorderLayout.SOUTH);
+
+      this.opponentBoard.addActionListener(this);
+
+      this.setLayout(new GridLayout(2, 1));
       this.setVisible(true);
    }
 
@@ -37,8 +42,14 @@ public class TestScreen extends JFrame implements ActionListener
       if (point != null)
       {
          // Get coordinates based on clicked point.
-         int[] coordinates = board.handleClick(point);
-         this.match.getPlayerShips().get(0).setPosition(coordinates[0], coordinates[1], true);
+         int[] coordinates = opponentBoard.handleClick(point);
+
+         // Add a null check before setting positions.
+         if (coordinates != null)
+            this.match.addPlayerBomb(new Bomb(coordinates[0], coordinates[1], false, false));
+
+         this.playerBoard.update();
+         this.opponentBoard.update();
       }
    }
 }
