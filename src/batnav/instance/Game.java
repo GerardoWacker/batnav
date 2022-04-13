@@ -5,10 +5,13 @@ import batnav.online.match.MatchManager;
 import batnav.notifications.NotificationManager;
 import batnav.online.session.SessionManager;
 import batnav.online.socket.Connection;
+import batnav.ui.screens.LoginScreen;
+import batnav.ui.screens.MainMenuScreen;
 import batnav.ui.screens.TestScreen;
 import batnav.utils.Logger;
 import batnav.utils.RestUtils;
 import batnav.utils.Sambayon;
+import com.sun.tools.javac.Main;
 
 import java.awt.event.WindowEvent;
 
@@ -22,7 +25,7 @@ public class Game
    private Connection connection;
    private MatchManager matchManager;
 
-   private TestScreen testScreen;
+   private MainMenuScreen mainMenuScreen;
 
    /**
     * batnav, a naval battle simulator.
@@ -43,12 +46,15 @@ public class Game
     */
    public void launch() throws Exception
    {
-      this.testScreen = new TestScreen();
+      this.mainMenuScreen = new MainMenuScreen();
+      this.mainMenuScreen.setDisplayString("Conectando con Sambayón");
 
       // Verify if server is accesible
       if (this.sambayon.isAccesible())
       {
          Logger.log("Se pudo establecer una conexión con Sambayón.");
+
+         this.mainMenuScreen.setDisplayString("Creando managers");
 
          // Create handlers.
          this.matchManager = new MatchManager(this.sessionManager);
@@ -56,14 +62,25 @@ public class Game
          this.sessionManager = new SessionManager(this.restUtils, this.configManager, this.notificationManager);
          this.connection = new Connection(this.sambayon, this.sessionManager, this.matchManager, this.notificationManager);
 
+         this.mainMenuScreen.setDisplayString("Cargando sesión");
+
          // Load session.
          this.sessionManager.loadSession();
 
+         this.mainMenuScreen.setDisplayString("Conectando con el servidor");
+
          // Connect to real-time server.
          this.connection.connect(this.sessionManager.getSessionId());
+
+         this.mainMenuScreen.setDisplayString("Conectado correctamente al servidor.");
+
+         if(this.sessionManager.getSessionId() == null || this.connection.getCurrentUser() == null)
+         {
+            new LoginScreen();
+         }
       } else
       {
-         this.testScreen.dispatchEvent(new WindowEvent(this.testScreen, WindowEvent.WINDOW_CLOSING));
+         this.mainMenuScreen.displayFailure("No se pudo conectar con el servidor");
       }
    }
 
