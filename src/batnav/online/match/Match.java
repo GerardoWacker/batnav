@@ -12,7 +12,7 @@ public class Match
    private final User opponent;
 
    private final List<Bomb> playerBombs, opponentBombs;
-   private final List<Ship> playerShips;
+   private List<Ship> playerShips;
 
    private boolean hasReceivedOpponentShips = false;
 
@@ -72,14 +72,9 @@ public class Match
       );
    }
 
-   public void addPlayerShip(final Ship ship)
+   public void setPlayerShips(final List<Ship> shipList)
    {
-      this.getPlayerShips().add(ship);
-   }
-
-   public void addPlayerShips(final List<Ship> shipList)
-   {
-      // TODO: Player ships implementation.
+      this.playerShips = shipList;
    }
 
    /**
