@@ -1,5 +1,7 @@
 package batnav.utils;
 
+import batnav.notifications.Notification;
+import batnav.notifications.NotificationManager;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import org.apache.http.HttpEntity;
@@ -19,16 +21,19 @@ public class RestUtils
 
    private final String REST_ENDPOINT;
    private final Sambayon sambayon;
+   private final NotificationManager notificationManager;
 
    /**
     * Helps handle requests to the static server more efficiently.
     *
-    * @param sambayon Sambayón geolocation manager.
+    * @param sambayon            Sambayón geolocation manager.
+    * @param notificationManager Notification Manager.
     */
-   public RestUtils(final Sambayon sambayon)
+   public RestUtils(final Sambayon sambayon, NotificationManager notificationManager)
    {
       this.sambayon = sambayon;
       this.REST_ENDPOINT = sambayon.getServer("damas") + "/";
+      this.notificationManager = notificationManager;
    }
 
    /**
@@ -58,6 +63,15 @@ public class RestUtils
          }
       } catch (Exception e)
       {
+         this.notificationManager.addNotification(
+              new Notification(
+                   Notification.Priority.CRITICAL,
+                   "Ha ocurrido un error",
+                   e.getLocalizedMessage(),
+                   a -> {}
+              )
+         );
+         Logger.err("Ha ocurrido un error en la solicitud a " + endpoint);
          e.printStackTrace();
       }
    }
@@ -89,6 +103,15 @@ public class RestUtils
          }
       } catch (Exception e)
       {
+         this.notificationManager.addNotification(
+              new Notification(
+                   Notification.Priority.CRITICAL,
+                   "Ha ocurrido un error",
+                   e.getLocalizedMessage(),
+                   a -> {}
+              )
+         );
+         Logger.err("Ha ocurrido un error en la solicitud a " + endpoint);
          e.printStackTrace();
       }
    }
@@ -120,6 +143,15 @@ public class RestUtils
          }
       } catch (Exception e)
       {
+         this.notificationManager.addNotification(
+              new Notification(
+                   Notification.Priority.CRITICAL,
+                   "Ha ocurrido un error",
+                   e.getLocalizedMessage(),
+                   a -> {}
+              )
+         );
+         Logger.err("Ha ocurrido un error en la solicitud a " + endpoint);
          e.printStackTrace();
       }
    }
