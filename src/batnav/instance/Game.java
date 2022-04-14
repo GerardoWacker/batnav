@@ -22,6 +22,8 @@ public class Game
    private Connection connection;
    private MatchManager matchManager;
 
+   private static Game instance;
+
    private TestScreen testScreen;
 
    /**
@@ -95,5 +97,15 @@ public class Game
    public MatchManager getMatchManager()
    {
       return matchManager;
+   }
+
+   public NotificationManager getNotificationManager()
+   {
+      return notificationManager;
+   }
+
+   public static Game getInstance()
+   {
+      return instance == null ? instance = new Game() : instance;
    }
 }
