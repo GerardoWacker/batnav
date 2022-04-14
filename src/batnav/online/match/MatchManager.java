@@ -4,6 +4,7 @@ import batnav.online.session.SessionManager;
 import batnav.online.socket.Connection;
 import batnav.online.socket.JSONPacket;
 import batnav.online.socket.Packet;
+import com.google.common.collect.Lists;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -73,10 +74,18 @@ public class MatchManager
 
       for (Ship ship : shipList)
       {
-         shipArray.put(new JSONArray().put(new int[]{ship.getX(), ship.getY()}));
+         final JSONArray coordinatesArray = new JSONArray();
+
+         for (int[] coordinates : ship.getAsRawData())
+         {
+            coordinatesArray.put(coordinates);
+         }
+
+         shipArray.put(coordinatesArray);
       }
 
       connection.sendPacket(new Packet("match-set-ships", shipArray.toString()));
+      this.getCurrentMatch().setPlayerShips(shipList);
    }
 
    /**
