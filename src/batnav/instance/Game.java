@@ -54,7 +54,7 @@ public class Game
          this.matchManager = new MatchManager(this.sessionManager);
          this.restUtils = new RestUtils(this.sambayon, this.notificationManager);
          this.sessionManager = new SessionManager(this.restUtils, this.configManager, this.notificationManager);
-         this.connection = new Connection(this.sambayon, this.sessionManager, notificationManager);
+         this.connection = new Connection(this.sambayon, this.sessionManager, this.matchManager, this.notificationManager);
 
          // Load session.
          this.sessionManager.loadSession();
