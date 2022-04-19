@@ -1,6 +1,7 @@
 package batnav.ui;
 
 import batnav.online.match.Ship;
+import batnav.utils.Colour;
 import com.google.common.collect.Lists;
 
 import javax.imageio.ImageIO;
@@ -37,33 +38,42 @@ public class ShipSelectionScreen extends JFrame implements ActionListener {
       this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       this.setResizable(false);
 
-      this.setSize(667, 625 );
-      this.setLayout(new BorderLayout(10, 10));
+      this.setSize(580, 490);
+      this.setLayout(new BorderLayout(0, 40));
       JPanel panelEast = new JPanel();
       JPanel panelSouth = new JPanel();
+      
+      JButton okButton = new JButton();
+      okButton.setText("OK");
+      okButton.setPreferredSize(new Dimension( 100, 30));
 
-      panelEast.setBackground(Color.blue);
-      panelSouth.setBackground(Color.cyan);
+      JButton rotateButton = new JButton();
+      rotateButton.setSize(new Dimension( 100, 10));
+      rotateButton.setText("Rotar");
 
-      shipSelectionBoard.setPreferredSize(new Dimension (500, 500) );
-      panelEast.setPreferredSize(new Dimension (167, 625));
-      panelSouth.setPreferredSize(new Dimension (667, 125));
+      shipSelectionBoard.setPreferredSize(new Dimension (380, 300) );
+      panelEast.setPreferredSize(new Dimension (150, 300));
+      panelSouth.setSize(new Dimension (600, 65));
 
       this.shipSelectionBoard.addActionListener(this);
 
       this.add(shipSelectionBoard, BorderLayout.CENTER);
       this.add(panelSouth, BorderLayout.SOUTH);
 
-      panelEast.setLayout(new GridLayout(8, 1));
-      final JScrollPane scrollPane = new JScrollPane(panelEast);
+      panelEast.setLayout(new GridLayout(9, 1));
+      panelSouth.setLayout(new BorderLayout());
+
       for (int i = 0; i < ships.size(); i++)
       {
          ShipLabel jLabel = new ShipLabel(i, ships.get(i));
          panelEast.add(jLabel);
          jLabel.addMouseListener(new MouseEvent());
       }
-      this.add(scrollPane, BorderLayout.EAST);
 
+      panelEast.add(rotateButton);
+      this.add(panelEast, BorderLayout.EAST);
+      panelSouth.add(okButton, BorderLayout.EAST);
+      
 
       this.setVisible(true);
    }
@@ -73,8 +83,12 @@ public class ShipSelectionScreen extends JFrame implements ActionListener {
       private final int id;
 
       private ShipLabel(int id, Ship ship) throws IOException {
+
          final BufferedImage icon = ImageIO.read(new File("assets/ships/barco" + ship.getSize() + ".png"));
-         super.setIcon(new ImageIcon(icon));
+         final int height = (150 / (icon.getWidth() / icon.getHeight()));
+
+         super.setIcon(new ImageIcon(new ImageIcon(icon).getImage().getScaledInstance(150, height, Image.SCALE_DEFAULT)));
+         super.getIcon();
          this.id = id;
       }
 
