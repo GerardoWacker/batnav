@@ -43,7 +43,7 @@ public class Game
    /**
     * Launches the game.
     */
-   public void launch() throws Exception
+   public void launch()
    {
       this.testScreen = new TestScreen();
 
