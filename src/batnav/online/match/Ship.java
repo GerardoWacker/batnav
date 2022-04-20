@@ -30,8 +30,21 @@ public class Ship
     */
    public void setPosition(final int x, final int y)
    {
-      this.x = x;
-      this.y = y;
+      if (this.vertical)
+      {
+         if (y <= 9 - this.size + 1)
+         {
+            this.x = x;
+            this.y = y;
+         }
+      } else
+      {
+         if (x <= 9 - this.size + 1)
+         {
+            this.x = x;
+            this.y = y;
+         }
+      }
    }
 
    /**
