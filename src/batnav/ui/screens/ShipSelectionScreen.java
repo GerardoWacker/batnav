@@ -9,7 +9,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-public class ShipSelectionScreen extends JFrame implements ActionListener {
+public class ShipSelectionScreen extends JFrame {
    protected List<Ship> ships;
    private Ship selectedShip;
    private final ShipSelectionBoard shipSelectionBoard;
@@ -56,7 +56,7 @@ public class ShipSelectionScreen extends JFrame implements ActionListener {
       panelEast.setPreferredSize(new Dimension (150, 300));
       panelSouth.setSize(new Dimension (600, 65));
 
-      this.shipSelectionBoard.addActionListener(this);
+      this.shipSelectionBoard.addMouseListener(new BoardMouseEvent());
 
       this.add(shipSelectionBoard, BorderLayout.CENTER);
       this.add(panelSouth, BorderLayout.SOUTH);
@@ -85,11 +85,10 @@ public class ShipSelectionScreen extends JFrame implements ActionListener {
 
       private ShipLabel(int id, Ship ship) throws IOException {
 
-         final BufferedImage icon = ImageIO.read(new File("assets/ships/barco" + ship.getSize() + ".png"));
+         final BufferedImage icon = ImageIO.read(new File("assets/ships/ship" + ship.getSize() + ".png"));
          final int height = (150 / (icon.getWidth() / icon.getHeight()));
 
          super.setIcon(new ImageIcon(new ImageIcon(icon).getImage().getScaledInstance(150, height, Image.SCALE_DEFAULT)));
-         super.getIcon();
          this.id = id;
       }
 
@@ -129,19 +128,14 @@ public class ShipSelectionScreen extends JFrame implements ActionListener {
       }
    }
 
-   // When a ship is selected in the East JPanel, this::selectedShip should be set with its value.
-   // For every ship added into this::ships, draw an Image into the East JPanel for selection.
-   // When it has been clicked, set the selected ship as ships.get(JLabel Id.).
-   // Handle rotation and clicking on board is yet to be implemented, however, it's just a button.
-
-   @Override
-   public void actionPerformed(ActionEvent e)
+   public class BoardMouseEvent implements MouseListener
    {
-      // Get the new mouse coordinates and handle the click.
-      Point point = ShipSelectionScreen.this.getMousePosition();
-
-      if (point != null)
+      @Override
+      public void mouseClicked(java.awt.event.MouseEvent e)
       {
+         // Get the new mouse coordinates and handle the click.
+         Point point = e.getPoint();
+
          // Get coordinates based on clicked point.
          int[] coordinates = shipSelectionBoard.handleClick(point);
 
@@ -149,10 +143,34 @@ public class ShipSelectionScreen extends JFrame implements ActionListener {
          if (coordinates != null)
          {
             System.out.println(Arrays.toString(coordinates));
-            this.selectedShip.setPosition(coordinates[0], coordinates[1]);
+            selectedShip.setPosition(coordinates[0], coordinates[1]);
          }
 
-         this.shipSelectionBoard.update();
+         shipSelectionBoard.update();
+      }
+
+      @Override
+      public void mousePressed(java.awt.event.MouseEvent e)
+      {
+
+      }
+
+      @Override
+      public void mouseReleased(java.awt.event.MouseEvent e)
+      {
+
+      }
+
+      @Override
+      public void mouseEntered(java.awt.event.MouseEvent e)
+      {
+
+      }
+
+      @Override
+      public void mouseExited(java.awt.event.MouseEvent e)
+      {
+
       }
    }
 
