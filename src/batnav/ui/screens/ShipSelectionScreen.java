@@ -9,6 +9,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
@@ -17,12 +18,14 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-public class ShipSelectionScreen extends JFrame {
+public class ShipSelectionScreen extends JFrame implements ActionListener
+{
    protected List<Ship> ships;
    private Ship selectedShip;
    private final ShipSelectionBoard shipSelectionBoard;
 
-   public ShipSelectionScreen() throws IOException {
+   public ShipSelectionScreen() throws IOException
+   {
       this.ships = Lists.newArrayList();
       this.shipSelectionBoard = new ShipSelectionBoard(this);
 
@@ -43,18 +46,22 @@ public class ShipSelectionScreen extends JFrame {
       this.setLayout(new BorderLayout(0, 40));
       JPanel panelEast = new JPanel();
       JPanel panelSouth = new JPanel();
-      
+
       JButton okButton = new JButton();
-      okButton.setText("OK");
-      okButton.setPreferredSize(new Dimension( 100, 30));
+      okButton.setText("Aceptar");
+      okButton.setPreferredSize(new Dimension(100, 30));
+      okButton.addActionListener(this);
+      okButton.setActionCommand("setShips");
 
       JButton rotateButton = new JButton();
-      rotateButton.setSize(new Dimension( 100, 10));
+      rotateButton.setSize(new Dimension(100, 10));
       rotateButton.setText("Rotar");
+      rotateButton.addActionListener(this);
+      rotateButton.setActionCommand("rotateShip");
 
-      shipSelectionBoard.setPreferredSize(new Dimension (380, 300) );
-      panelEast.setPreferredSize(new Dimension (150, 300));
-      panelSouth.setSize(new Dimension (600, 65));
+      shipSelectionBoard.setPreferredSize(new Dimension(380, 300));
+      panelEast.setPreferredSize(new Dimension(150, 300));
+      panelSouth.setSize(new Dimension(600, 65));
 
       this.shipSelectionBoard.addMouseListener(new BoardMouseEvent());
 
@@ -74,16 +81,43 @@ public class ShipSelectionScreen extends JFrame {
       panelEast.add(rotateButton);
       this.add(panelEast, BorderLayout.EAST);
       panelSouth.add(okButton, BorderLayout.EAST);
-      
+
 
       this.setVisible(true);
+   }
+
+   @Override
+   public void actionPerformed(ActionEvent e)
+   {
+      final String action = e.getActionCommand();
+      switch (action)
+      {
+         case "rotateShip":
+            if (this.selectedShip.isVertical())
+            {
+               if (this.selectedShip.getX() >= 10 - this.selectedShip.getSize())
+               {
+                  this.selectedShip.setPosition(10 - this.selectedShip.getSize(), this.selectedShip.getY());
+               }
+               this.selectedShip.setVertical(false);
+            } else
+            {
+               if (this.selectedShip.getY() >= 10 - this.selectedShip.getSize())
+               {
+                  this.selectedShip.setPosition(this.selectedShip.getX(), 10 - this.selectedShip.getSize());
+               }
+               this.selectedShip.setVertical(true);
+            }
+            this.shipSelectionBoard.update();
+      }
    }
 
    private class ShipLabel extends JLabel
    {
       private final int id;
 
-      private ShipLabel(int id, Ship ship) throws IOException {
+      private ShipLabel(int id, Ship ship) throws IOException
+      {
 
          final BufferedImage icon = ImageIO.read(new File("assets/ships/ship" + ship.getSize() + ".png"));
          final int height = (150 / (icon.getWidth() / icon.getHeight()));
@@ -92,7 +126,8 @@ public class ShipSelectionScreen extends JFrame {
          this.id = id;
       }
 
-      public int getId() {
+      public int getId()
+      {
          return id;
       }
    }
@@ -101,29 +136,34 @@ public class ShipSelectionScreen extends JFrame {
    {
 
       @Override
-      public void mouseClicked(java.awt.event.MouseEvent mouseEvent) {
-         int id = ((ShipLabel)mouseEvent.getSource()).getId();
+      public void mouseClicked(java.awt.event.MouseEvent mouseEvent)
+      {
+         int id = ((ShipLabel) mouseEvent.getSource()).getId();
          ShipSelectionScreen.this.setSelectedShip(ships.get(id));
          System.out.println("Se ha seleccionado el barco " + id);
       }
 
       @Override
-      public void mousePressed(java.awt.event.MouseEvent mouseEvent) {
+      public void mousePressed(java.awt.event.MouseEvent mouseEvent)
+      {
 
       }
 
       @Override
-      public void mouseReleased(java.awt.event.MouseEvent mouseEvent) {
+      public void mouseReleased(java.awt.event.MouseEvent mouseEvent)
+      {
 
       }
 
       @Override
-      public void mouseEntered(java.awt.event.MouseEvent mouseEvent) {
+      public void mouseEntered(java.awt.event.MouseEvent mouseEvent)
+      {
 
       }
 
       @Override
-      public void mouseExited(java.awt.event.MouseEvent mouseEvent) {
+      public void mouseExited(java.awt.event.MouseEvent mouseEvent)
+      {
 
       }
    }
@@ -184,14 +224,18 @@ public class ShipSelectionScreen extends JFrame {
       return selectedShip;
    }
 
-   public void setSelectedShip(Ship selectedShip) {
+   public void setSelectedShip(Ship selectedShip)
+   {
       this.selectedShip = selectedShip;
    }
 
-   public static void main(String args[]){
-      try {
+   public static void main(String args[])
+   {
+      try
+      {
          new ShipSelectionScreen();
-      } catch (IOException e) {
+      } catch (IOException e)
+      {
          e.printStackTrace();
       }
    }
