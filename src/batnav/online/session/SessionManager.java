@@ -1,5 +1,6 @@
 package batnav.online.session;
 
+import batnav.instance.Game;
 import batnav.notifications.Notification;
 import batnav.notifications.NotificationManager;
 import com.google.gson.JsonObject;
@@ -24,11 +25,11 @@ public class SessionManager
     * @param restUtils Rest utils.
     * @author Gerardo Wacker
     */
-   public SessionManager(final RestUtils restUtils, final ConfigManager configManager, final NotificationManager notificationManager)
+   public SessionManager(final RestUtils restUtils, final ConfigManager configManager)
    {
       this.restUtils = restUtils;
       this.configManager = configManager;
-      this.notificationManager = notificationManager;
+      this.notificationManager = Game.getInstance().getNotificationManager();
    }
 
    /**

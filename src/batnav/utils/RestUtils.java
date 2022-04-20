@@ -1,5 +1,6 @@
 package batnav.utils;
 
+import batnav.instance.Game;
 import batnav.notifications.Notification;
 import batnav.notifications.NotificationManager;
 import com.google.gson.Gson;
@@ -26,14 +27,13 @@ public class RestUtils
    /**
     * Helps handle requests to the static server more efficiently.
     *
-    * @param sambayon            Sambayón geolocation manager.
-    * @param notificationManager Notification Manager.
+    * @param sambayon Sambayón geolocation manager.
     */
-   public RestUtils(final Sambayon sambayon, NotificationManager notificationManager)
+   public RestUtils(final Sambayon sambayon)
    {
       this.sambayon = sambayon;
       this.REST_ENDPOINT = sambayon.getServer("damas") + "/";
-      this.notificationManager = notificationManager;
+      this.notificationManager = Game.getInstance().getNotificationManager();
    }
 
    /**
@@ -68,7 +68,8 @@ public class RestUtils
                    Notification.Priority.CRITICAL,
                    "Ha ocurrido un error",
                    e.getLocalizedMessage(),
-                   a -> {}
+                   a -> {
+                   }
               )
          );
          Logger.err("Ha ocurrido un error en la solicitud a " + endpoint);
@@ -108,7 +109,8 @@ public class RestUtils
                    Notification.Priority.CRITICAL,
                    "Ha ocurrido un error",
                    e.getLocalizedMessage(),
-                   a -> {}
+                   a -> {
+                   }
               )
          );
          Logger.err("Ha ocurrido un error en la solicitud a " + endpoint);
@@ -148,7 +150,8 @@ public class RestUtils
                    Notification.Priority.CRITICAL,
                    "Ha ocurrido un error",
                    e.getLocalizedMessage(),
-                   a -> {}
+                   a -> {
+                   }
               )
          );
          Logger.err("Ha ocurrido un error en la solicitud a " + endpoint);

@@ -1,5 +1,6 @@
 package batnav.utils;
 
+import batnav.instance.Game;
 import batnav.notifications.Notification;
 import batnav.notifications.NotificationManager;
 import com.google.common.collect.Maps;
@@ -22,18 +23,6 @@ public class Sambayon
 {
    private final String SAMBAYON_ENDPOINT = "https://sb.rar.vg/";
    private final Map<String, String> serverPool = Maps.newHashMap();
-
-   private final NotificationManager notificationManager;
-
-   /**
-    * Sambayón geolocation manager
-    *
-    * @param notificationManager Notification manager.
-    */
-   public Sambayon(final NotificationManager notificationManager)
-   {
-      this.notificationManager = notificationManager;
-   }
 
    /**
     * Get a server's URL based on location.
@@ -76,12 +65,13 @@ public class Sambayon
             }
          } catch (Exception e)
          {
-            this.notificationManager.addNotification(
+            Game.getInstance().getNotificationManager().addNotification(
                  new Notification(
                       Notification.Priority.CRITICAL,
                       "Ha ocurrido un error",
                       "Hubo un error en la conexión con Sambayón",
-                      a -> {}
+                      a -> {
+                      }
                  )
             );
             Logger.err("Hubo un error en la conexión con Sambayón.");

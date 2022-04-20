@@ -37,7 +37,7 @@ public class Game
    public Game()
    {
       this.notificationManager = new NotificationManager();
-      this.sambayon = new Sambayon(this.notificationManager);
+      this.sambayon = new Sambayon();
       this.configManager = new ConfigManager();
    }
 
@@ -58,9 +58,9 @@ public class Game
 
          // Create handlers.
          this.matchManager = new MatchManager(this.sessionManager);
-         this.restUtils = new RestUtils(this.sambayon, this.notificationManager);
-         this.sessionManager = new SessionManager(this.restUtils, this.configManager, this.notificationManager);
-         this.connection = new Connection(this.sambayon, this.sessionManager, this.matchManager, this.notificationManager);
+         this.restUtils = new RestUtils(this.sambayon);
+         this.sessionManager = new SessionManager(this.restUtils, this.configManager);
+         this.connection = new Connection(this.sambayon, this.sessionManager, this.matchManager);
 
          this.mainMenuScreen.setDisplayString("Cargando sesión");
 
