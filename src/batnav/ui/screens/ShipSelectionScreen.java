@@ -173,6 +173,14 @@ public class ShipSelectionScreen extends JFrame implements ActionListener
       @Override
       public void mouseClicked(java.awt.event.MouseEvent e)
       {
+         // Check if a ship has already been selected.
+         if (ShipSelectionScreen.this.selectedShip == null)
+         {
+            JOptionPane.showMessageDialog(null, "¡Tenés que seleccionar un barco!",
+                 "Advertencia", JOptionPane.INFORMATION_MESSAGE);
+            return;
+         }
+
          // Get the new mouse coordinates and handle the click.
          Point point = e.getPoint();
 
