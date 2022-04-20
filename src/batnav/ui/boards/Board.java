@@ -1,11 +1,18 @@
 package batnav.ui.boards;
 
+import batnav.instance.Game;
+import batnav.notifications.Notification;
 import batnav.online.match.Bomb;
 import batnav.online.match.Ship;
 import batnav.utils.Colour;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class Board extends JButton
 {
@@ -64,18 +71,41 @@ public class Board extends JButton
 
    public void drawShip(Graphics g, final Ship ship)
    {
+      final Graphics2D g2d = (Graphics2D) g;
+
       final int paddingX = (this.getWidth() - boardSize) / 2;
       final int paddingY = (this.getHeight() - boardSize) / 2;
 
       final int x = paddingX + ship.getX() * tileSize;
       final int y = paddingY + ship.getY() * tileSize;
-      final int width = ship.getSize() * tileSize;
 
-      g.setColor(Colour.Teal);
-      if(ship.isVertical())
-         g.fillRect(x, y, tileSize, width);
-      else
-         g.fillRect(x, y, width, tileSize);
+      try
+      {
+         final BufferedImage image = ImageIO.read(new File("assets/ships/ship" + ship.getSize() + ".png"));
+
+         final AffineTransform affineTransform = new AffineTransform();
+         affineTransform.translate(x + (ship.isVertical() ? tileSize : 0), y);
+         affineTransform.scale(0.38, 0.38);
+
+         if (ship.isVertical())
+         {
+            affineTransform.rotate(1.5708); // π / 2 rad = 90 deg
+         }
+
+         g2d.drawImage(image, affineTransform, null);
+
+      } catch (IOException e)
+      {
+         Game.getInstance().getNotificationManager().addNotification(
+              new Notification(
+                   Notification.Priority.CRITICAL,
+                   "Ha ocurrido un error",
+                   "Hubo un error leyendo las texturas para los barcos",
+                   a -> {
+                   }
+              )
+         );
+      }
    }
 
    public int[] handleClick(final Point point)
@@ -89,8 +119,7 @@ public class Board extends JButton
       {
          // Perform calculations to get coordinates and return the values in an array.
          return new int[]{(point.x - paddingX) / tileSize, (point.y - paddingY) / tileSize};
-      }
-      else
+      } else
          return null;
    }
 }

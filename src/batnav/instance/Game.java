@@ -24,8 +24,8 @@ public class Game
    private SessionManager sessionManager;
    private Connection connection;
    private MatchManager matchManager;
-
    private MainMenuScreen mainMenuScreen;
+   private static Game instance;
 
    /**
     * batnav, a naval battle simulator.
@@ -112,5 +112,15 @@ public class Game
    public MatchManager getMatchManager()
    {
       return matchManager;
+   }
+
+   public NotificationManager getNotificationManager()
+   {
+      return notificationManager;
+   }
+
+   public static Game getInstance()
+   {
+      return instance == null ? instance = new Game() : instance;
    }
 }
