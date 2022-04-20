@@ -22,7 +22,6 @@ public class Connection
    private final String endpoint;
    private final SessionManager sessionManager;
    private final MatchManager matchManager;
-   private final NotificationManager notificationManager;
 
    private User currentUser;
 
@@ -38,7 +37,6 @@ public class Connection
       this.sessionManager = sessionManager;
       this.endpoint = sambayon.getServer("damas_sock");
       this.matchManager = matchManager;
-      this.notificationManager = Game.getInstance().getNotificationManager();
    }
 
    /**
@@ -104,7 +102,7 @@ public class Connection
             Logger.log("Enviado paquete de ready");
          } else
          {
-            this.notificationManager.addNotification(
+            Game.getInstance().getNotificationManager().addNotification(
                  new Notification(
                       Notification.Priority.CRITICAL,
                       "Ha ocurrido un error",
@@ -121,7 +119,7 @@ public class Connection
 
       } catch (JSONException e)
       {
-         this.notificationManager.addNotification(
+         Game.getInstance().getNotificationManager().addNotification(
               new Notification(
                    Notification.Priority.CRITICAL,
                    "Ha ocurrido un error",
