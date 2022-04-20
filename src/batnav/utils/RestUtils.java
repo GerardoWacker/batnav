@@ -22,7 +22,6 @@ public class RestUtils
 
    private final String REST_ENDPOINT;
    private final Sambayon sambayon;
-   private final NotificationManager notificationManager;
 
    /**
     * Helps handle requests to the static server more efficiently.
@@ -33,7 +32,6 @@ public class RestUtils
    {
       this.sambayon = sambayon;
       this.REST_ENDPOINT = sambayon.getServer("damas") + "/";
-      this.notificationManager = Game.getInstance().getNotificationManager();
    }
 
    /**
@@ -63,7 +61,7 @@ public class RestUtils
          }
       } catch (Exception e)
       {
-         this.notificationManager.addNotification(
+         Game.getInstance().getNotificationManager().addNotification(
               new Notification(
                    Notification.Priority.CRITICAL,
                    "Ha ocurrido un error",
@@ -104,7 +102,7 @@ public class RestUtils
          }
       } catch (Exception e)
       {
-         this.notificationManager.addNotification(
+         Game.getInstance().getNotificationManager().addNotification(
               new Notification(
                    Notification.Priority.CRITICAL,
                    "Ha ocurrido un error",
@@ -145,7 +143,7 @@ public class RestUtils
          }
       } catch (Exception e)
       {
-         this.notificationManager.addNotification(
+         Game.getInstance().getNotificationManager().addNotification(
               new Notification(
                    Notification.Priority.CRITICAL,
                    "Ha ocurrido un error",
