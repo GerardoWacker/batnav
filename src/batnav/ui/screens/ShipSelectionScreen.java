@@ -2,7 +2,6 @@ package batnav.ui.screens;
 
 import batnav.online.match.Ship;
 import batnav.ui.boards.ShipSelectionBoard;
-import batnav.utils.Colour;
 import com.google.common.collect.Lists;
 
 import javax.imageio.ImageIO;
@@ -10,7 +9,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -44,33 +42,36 @@ public class ShipSelectionScreen extends JFrame implements ActionListener
 
       this.setSize(580, 490);
       this.setLayout(new BorderLayout(0, 40));
-      JPanel panelEast = new JPanel();
-      JPanel panelSouth = new JPanel();
 
-      JButton okButton = new JButton();
+      final JPanel panelEast = new JPanel(), panelSouth = new JPanel();
+
+      // Create a submit button.
+      final JButton okButton = new JButton();
       okButton.setText("Aceptar");
       okButton.setPreferredSize(new Dimension(100, 30));
       okButton.addActionListener(this);
       okButton.setActionCommand("setShips");
 
-      JButton rotateButton = new JButton();
+      // Create the button that will be responsible for rotating the current selectedShip.
+      final JButton rotateButton = new JButton();
       rotateButton.setSize(new Dimension(100, 10));
       rotateButton.setText("Rotar");
       rotateButton.addActionListener(this);
       rotateButton.setActionCommand("rotateShip");
 
+      // Position components.
       shipSelectionBoard.setPreferredSize(new Dimension(380, 300));
       panelEast.setPreferredSize(new Dimension(150, 300));
       panelSouth.setSize(new Dimension(600, 65));
 
+      // Add the correspondent Board MouseEvents.
       this.shipSelectionBoard.addMouseListener(new BoardMouseEvent());
 
-      this.add(shipSelectionBoard, BorderLayout.CENTER);
-      this.add(panelSouth, BorderLayout.SOUTH);
-
+      // Set layouts for the other components.
       panelEast.setLayout(new GridLayout(9, 1));
       panelSouth.setLayout(new BorderLayout());
 
+      // Add ship labels into the east panel.
       for (int i = 0; i < ships.size(); i++)
       {
          ShipLabel jLabel = new ShipLabel(i, ships.get(i));
@@ -78,11 +79,16 @@ public class ShipSelectionScreen extends JFrame implements ActionListener
          jLabel.addMouseListener(new MouseEvent());
       }
 
+      // Add the buttons into the east panel.
       panelEast.add(rotateButton);
-      this.add(panelEast, BorderLayout.EAST);
       panelSouth.add(okButton, BorderLayout.EAST);
 
+      // Add every panel to its correspondent location using the BorderLayout positioning methods.
+      this.add(this.shipSelectionBoard, BorderLayout.CENTER);
+      this.add(panelSouth, BorderLayout.SOUTH);
+      this.add(panelEast, BorderLayout.EAST);
 
+      // Finally, show the actual window.
       this.setVisible(true);
    }
 
@@ -112,10 +118,17 @@ public class ShipSelectionScreen extends JFrame implements ActionListener
       }
    }
 
-   private class ShipLabel extends JLabel
+
+   private static class ShipLabel extends JLabel
    {
       private final int id;
 
+      /**
+       * A label containing an Id. Intended for ship drawing use only.
+       *
+       * @param id   Ship Id. Should be the same as the list's Id.
+       * @param ship Ship object.
+       */
       private ShipLabel(int id, Ship ship) throws IOException
       {
 
@@ -134,11 +147,15 @@ public class ShipSelectionScreen extends JFrame implements ActionListener
 
    public class MouseEvent implements MouseListener
    {
-
       @Override
       public void mouseClicked(java.awt.event.MouseEvent mouseEvent)
       {
+         // Note: It's expected that ONLY ShipLabels trigger this event.
+         // If the mouseEvent was not triggered by a ShipLabel, then something is waaaay off.
+
+         // Get the Id. from the ShipLabel.
          int id = ((ShipLabel) mouseEvent.getSource()).getId();
+         // Set the selected ship.
          ShipSelectionScreen.this.setSelectedShip(ships.get(id));
          System.out.println("Se ha seleccionado el barco " + id);
       }
@@ -194,6 +211,7 @@ public class ShipSelectionScreen extends JFrame implements ActionListener
             selectedShip.setPosition(coordinates[0], coordinates[1]);
          }
 
+         // Finally, update the board's content.
          shipSelectionBoard.update();
       }
 
