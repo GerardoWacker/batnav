@@ -1,5 +1,6 @@
 package batnav.online.socket;
 
+import batnav.instance.Game;
 import batnav.online.match.Match;
 import batnav.online.match.MatchManager;
 import batnav.notifications.Notification;
@@ -21,7 +22,6 @@ public class Connection
    private final String endpoint;
    private final SessionManager sessionManager;
    private final MatchManager matchManager;
-   private final NotificationManager notificationManager;
 
    private User currentUser;
 
@@ -31,14 +31,12 @@ public class Connection
     * @param sambayon       Sambayon geolocation server.
     * @param sessionManager Session manager.
     * @param matchManager   Match manager.
-    * @param notificationManager
     */
-   public Connection(final Sambayon sambayon, final SessionManager sessionManager, final MatchManager matchManager, final NotificationManager notificationManager)
+   public Connection(final Sambayon sambayon, final SessionManager sessionManager, final MatchManager matchManager)
    {
       this.sessionManager = sessionManager;
       this.endpoint = sambayon.getServer("damas_sock");
       this.matchManager = matchManager;
-      this.notificationManager = notificationManager;
    }
 
    /**
@@ -64,7 +62,8 @@ public class Connection
             this.socket.on("match", this::match);
             this.socket.on("match-bomb-thrown", this.matchManager::hasThrownBomb);
             this.socket.on("match-bomb-receive", this.matchManager::receiveBomb);
-            this.socket.on("match-ships-set", data -> {}); // TODO: Update match
+            this.socket.on("match-ships-set", data -> {
+            }); // TODO: Update match
             this.socket.on("match-ships-receive", this.matchManager::receiveShips);
 
          });
@@ -103,12 +102,13 @@ public class Connection
             Logger.log("Enviado paquete de ready");
          } else
          {
-            this.notificationManager.addNotification(
+            Game.getInstance().getNotificationManager().addNotification(
                  new Notification(
                       Notification.Priority.CRITICAL,
                       "Ha ocurrido un error",
                       "Error de sesión" + response.getString("content"),
-                      a -> {}
+                      a -> {
+                      }
                  )
             );
             Logger.warn("Ha surgido un error iniciando sesión.");
@@ -119,12 +119,13 @@ public class Connection
 
       } catch (JSONException e)
       {
-         this.notificationManager.addNotification(
+         Game.getInstance().getNotificationManager().addNotification(
               new Notification(
                    Notification.Priority.CRITICAL,
                    "Ha ocurrido un error",
                    e.getLocalizedMessage(),
-                   a -> {}
+                   a -> {
+                   }
               )
          );
          e.printStackTrace();

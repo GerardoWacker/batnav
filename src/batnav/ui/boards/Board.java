@@ -84,12 +84,12 @@ public class Board extends JButton
          final BufferedImage image = ImageIO.read(new File("assets/ships/ship" + ship.getSize() + ".png"));
 
          final AffineTransform affineTransform = new AffineTransform();
-         affineTransform.translate(x, y);
+         affineTransform.translate(x + (ship.isVertical() ? tileSize : 0), y);
          affineTransform.scale(0.38, 0.38);
 
          if (ship.isVertical())
          {
-            affineTransform.rotate(1.5708);
+            affineTransform.rotate(1.5708); // π / 2 rad = 90 deg
          }
 
          g2d.drawImage(image, affineTransform, null);

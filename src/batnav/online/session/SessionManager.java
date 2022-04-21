@@ -1,5 +1,6 @@
 package batnav.online.session;
 
+import batnav.instance.Game;
 import batnav.notifications.Notification;
 import batnav.notifications.NotificationManager;
 import com.google.gson.JsonObject;
@@ -16,7 +17,6 @@ public class SessionManager
    private String sessionId;
    private final RestUtils restUtils;
    private final ConfigManager configManager;
-   private final NotificationManager notificationManager;
 
    /**
     * Manager used for sessions and authentication purposes.
@@ -24,11 +24,10 @@ public class SessionManager
     * @param restUtils Rest utils.
     * @author Gerardo Wacker
     */
-   public SessionManager(final RestUtils restUtils, final ConfigManager configManager, final NotificationManager notificationManager)
+   public SessionManager(final RestUtils restUtils, final ConfigManager configManager)
    {
       this.restUtils = restUtils;
       this.configManager = configManager;
-      this.notificationManager = notificationManager;
    }
 
    /**
@@ -52,7 +51,7 @@ public class SessionManager
          }
       } catch (Exception e)
       {
-         this.notificationManager.addNotification(
+         Game.getInstance().getNotificationManager().addNotification(
               new Notification(
                    Notification.Priority.CRITICAL,
                    "Ha ocurrido un error",
@@ -111,7 +110,7 @@ public class SessionManager
          this.configManager.saveJson("ses.json", sessionStore);
       } catch (IOException e)
       {
-         this.notificationManager.addNotification(
+         Game.getInstance().getNotificationManager().addNotification(
               new Notification(
                    Notification.Priority.CRITICAL,
                    "Ha ocurrido un error",
