@@ -23,16 +23,37 @@ public class Ship
    }
 
    /**
-    * Sets the ship position;
+    * Sets the ship position.
     *
-    * @param x        Position in the X axis.
-    * @param y        Position in the Y axis.
+    * @param x Position in the X axis.
+    * @param y Position in the Y axis.
+    */
+   public void setPosition(final int x, final int y)
+   {
+      if (this.vertical)
+      {
+         if (y <= 9 - this.size + 1)
+         {
+            this.x = x;
+            this.y = y;
+         }
+      } else
+      {
+         if (x <= 9 - this.size + 1)
+         {
+            this.x = x;
+            this.y = y;
+         }
+      }
+   }
+
+   /**
+    * Sets the ship orientation.
+    *
     * @param vertical Is the ship vertically positioned
     */
-   public void setPosition(final int x, final int y, final boolean vertical)
+   public void setVertical(final boolean vertical)
    {
-      this.x = x;
-      this.y = y;
       this.vertical = vertical;
    }
 

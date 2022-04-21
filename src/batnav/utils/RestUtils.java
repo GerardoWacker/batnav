@@ -1,5 +1,6 @@
 package batnav.utils;
 
+import batnav.instance.Game;
 import batnav.notifications.Notification;
 import batnav.notifications.NotificationManager;
 import com.google.gson.Gson;
@@ -21,19 +22,16 @@ public class RestUtils
 
    private final String REST_ENDPOINT;
    private final Sambayon sambayon;
-   private final NotificationManager notificationManager;
 
    /**
     * Helps handle requests to the static server more efficiently.
     *
-    * @param sambayon            Sambayón geolocation manager.
-    * @param notificationManager Notification Manager.
+    * @param sambayon Sambayón geolocation manager.
     */
-   public RestUtils(final Sambayon sambayon, NotificationManager notificationManager)
+   public RestUtils(final Sambayon sambayon)
    {
       this.sambayon = sambayon;
       this.REST_ENDPOINT = sambayon.getServer("damas") + "/";
-      this.notificationManager = notificationManager;
    }
 
    /**
@@ -63,12 +61,13 @@ public class RestUtils
          }
       } catch (Exception e)
       {
-         this.notificationManager.addNotification(
+         Game.getInstance().getNotificationManager().addNotification(
               new Notification(
                    Notification.Priority.CRITICAL,
                    "Ha ocurrido un error",
                    e.getLocalizedMessage(),
-                   a -> {}
+                   a -> {
+                   }
               )
          );
          Logger.err("Ha ocurrido un error en la solicitud a " + endpoint);
@@ -103,12 +102,13 @@ public class RestUtils
          }
       } catch (Exception e)
       {
-         this.notificationManager.addNotification(
+         Game.getInstance().getNotificationManager().addNotification(
               new Notification(
                    Notification.Priority.CRITICAL,
                    "Ha ocurrido un error",
                    e.getLocalizedMessage(),
-                   a -> {}
+                   a -> {
+                   }
               )
          );
          Logger.err("Ha ocurrido un error en la solicitud a " + endpoint);
@@ -143,12 +143,13 @@ public class RestUtils
          }
       } catch (Exception e)
       {
-         this.notificationManager.addNotification(
+         Game.getInstance().getNotificationManager().addNotification(
               new Notification(
                    Notification.Priority.CRITICAL,
                    "Ha ocurrido un error",
                    e.getLocalizedMessage(),
-                   a -> {}
+                   a -> {
+                   }
               )
          );
          Logger.err("Ha ocurrido un error en la solicitud a " + endpoint);
