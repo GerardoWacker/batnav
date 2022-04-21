@@ -7,7 +7,7 @@ import java.util.List;
 public class Ship
 {
    private final int size;
-   private int x, y;
+   private Integer x = null, y = null;
    private boolean vertical;
    private Status status;
 
@@ -96,12 +96,12 @@ public class Ship
       return size;
    }
 
-   public int getX()
+   public Integer getX()
    {
       return x;
    }
 
-   public int getY()
+   public Integer getY()
    {
       return y;
    }
