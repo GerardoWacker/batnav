@@ -253,4 +253,12 @@ public class ShipSelectionScreen extends JFrame implements ActionListener
    {
       this.selectedShip = selectedShip;
    }
+
+   public static void main(String[] args) {
+      try {
+         new ShipSelectionScreen();
+      } catch (IOException e) {
+         e.printStackTrace();
+      }
+   }
 }
