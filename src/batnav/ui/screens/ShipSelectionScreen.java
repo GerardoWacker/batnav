@@ -157,7 +157,6 @@ public class ShipSelectionScreen extends JFrame implements ActionListener
          int id = ((ShipLabel) mouseEvent.getSource()).getId();
          // Set the selected ship.
          ShipSelectionScreen.this.setSelectedShip(ships.get(id));
-         System.out.println("Se ha seleccionado el barco " + id);
       }
 
       @Override
