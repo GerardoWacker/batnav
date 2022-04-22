@@ -193,7 +193,7 @@ public class ShipSelectionScreen extends JFrame implements ActionListener
          if (ShipSelectionScreen.this.selectedShip == null)
          {
             JOptionPane.showMessageDialog(null, "¡Tenés que seleccionar un barco!",
-                 "Advertencia", JOptionPane.INFORMATION_MESSAGE);
+                 "Advertencia", JOptionPane.WARNING_MESSAGE);
             return;
          }
 
@@ -206,8 +206,15 @@ public class ShipSelectionScreen extends JFrame implements ActionListener
          // Add a null check before setting positions.
          if (coordinates != null)
          {
-            System.out.println(Arrays.toString(coordinates));
-            selectedShip.setPosition(coordinates[0], coordinates[1]);
+            if (!coordinatesHasShip(coordinates, selectedShip.getSize(), selectedShip.isVertical()))
+               selectedShip.setPosition(coordinates[0], coordinates[1]);
+            else
+            {
+               JOptionPane.showMessageDialog(null, "¡Ya hay un barco ocupando esa posición!",
+                    "Advertencia", JOptionPane.WARNING_MESSAGE);
+               return;
+            }
+
          }
 
          // Finally, update the board's content.
@@ -239,6 +246,41 @@ public class ShipSelectionScreen extends JFrame implements ActionListener
       }
    }
 
+   public boolean coordinatesHasShip(int[] coordinates, int size, boolean vertical)
+   {
+      if (vertical)
+      {
+         for (Ship ship : this.getShips())
+         {
+            for (int i = 0; i < size; i++)
+            {
+               int y = coordinates[1] + i;
+               boolean has = Arrays.stream(ship.getAsRawData()).anyMatch(c -> c != null && c[0] == coordinates[0] && c[1] == y);
+               if (has)
+               {
+                  return true;
+               }
+            }
+         }
+      } else
+      {
+         for (Ship ship : this.getShips())
+         {
+            for (int i = 0; i < size; i++)
+            {
+               int x = coordinates[0] + i;
+               boolean has = Arrays.stream(ship.getAsRawData()).anyMatch(c -> c != null && c[0] == x && c[1] == coordinates[1]);
+               if (has)
+               {
+                  return true;
+               }
+            }
+         }
+      }
+
+      return false;
+   }
+
    public List<Ship> getShips()
    {
       return ships;
@@ -252,5 +294,16 @@ public class ShipSelectionScreen extends JFrame implements ActionListener
    public void setSelectedShip(Ship selectedShip)
    {
       this.selectedShip = selectedShip;
+   }
+
+   public static void main(String args[])
+   {
+      try
+      {
+         new ShipSelectionScreen();
+      } catch (IOException e)
+      {
+         e.printStackTrace();
+      }
    }
 }
