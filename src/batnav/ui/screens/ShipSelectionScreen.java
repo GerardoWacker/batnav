@@ -206,7 +206,7 @@ public class ShipSelectionScreen extends JFrame implements ActionListener
          // Add a null check before setting positions.
          if (coordinates != null)
          {
-            if (!coordinatesHasShip(coordinates, selectedShip.getSize(), selectedShip.isVertical(), selectedShip))
+            if (!coordinatesHasShip(coordinates, selectedShip))
                selectedShip.setPosition(coordinates[0], coordinates[1]);
             else
             {
