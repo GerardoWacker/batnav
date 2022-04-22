@@ -246,15 +246,21 @@ public class ShipSelectionScreen extends JFrame implements ActionListener
       }
    }
 
-   public boolean coordinatesHasShip(int[] coordinates, int size, boolean vertical, Ship currentShip)
+   /**
+    * Checks if the ship is being set on top of another ship.
+    *
+    * @param coordinates New set of coordinates.
+    * @param currentShip Ship to be checked.
+    */
+   public boolean coordinatesHasShip(int[] coordinates, Ship currentShip)
    {
-      if (vertical)
+      if (currentShip.isVertical())
       {
          for (Ship ship : this.getShips())
          {
             if (ship != currentShip)
             {
-               for (int i = 0; i < size; i++)
+               for (int i = 0; i < currentShip.getSize(); i++)
                {
                   int y = coordinates[1] + i;
                   boolean has = Arrays.stream(ship.getAsRawData()).anyMatch(c -> c != null && c[0] == coordinates[0] && c[1] == y);
@@ -271,7 +277,7 @@ public class ShipSelectionScreen extends JFrame implements ActionListener
          {
             if (ship != currentShip)
             {
-               for (int i = 0; i < size; i++)
+               for (int i = 0; i < currentShip.getSize(); i++)
                {
                   int x = coordinates[0] + i;
                   boolean has = Arrays.stream(ship.getAsRawData()).anyMatch(c -> c != null && c[0] == x && c[1] == coordinates[1]);
