@@ -2,6 +2,7 @@ package batnav.online.match;
 
 import com.google.common.collect.Lists;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class Ship
@@ -62,24 +63,28 @@ public class Ship
     *
     * @return A list of several coordinates.
     */
-   public List<int[]> getAsRawData()
+   public int[][] getAsRawData()
    {
-      final List<int[]> rawData = Lists.newArrayList();
+      final int[][] rawData = new int[this.size][];
 
-      // Populates `rawData` accordingly.
-      if (this.vertical)
+      if (this.x != null && this.y != null)
       {
-         for (int i = 0; i < this.size; i++)
+         // Populates `rawData` accordingly.
+         if (this.vertical)
          {
-            rawData.add(new int[]{this.x, this.y + i});
-         }
-      } else
-      {
-         for (int i = 0; i < this.size; i++)
+            for (int i = 0; i < this.size; i++)
+            {
+               rawData[i] = (new int[]{this.x, this.y + i});
+            }
+         } else
          {
-            rawData.add(new int[]{this.x + i, this.y});
+            for (int i = 0; i < this.size; i++)
+            {
+               rawData[i] = (new int[]{this.x + i, this.y});
+            }
          }
       }
+
       return rawData;
    }
 
