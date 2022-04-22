@@ -206,7 +206,7 @@ public class ShipSelectionScreen extends JFrame implements ActionListener
          // Add a null check before setting positions.
          if (coordinates != null)
          {
-            if (!coordinatesHasShip(coordinates, selectedShip))
+            if (!coordinatesHasShip(coordinates, selectedShip.isVertical(), selectedShip))
                selectedShip.setPosition(coordinates[0], coordinates[1]);
             else
             {
@@ -248,13 +248,13 @@ public class ShipSelectionScreen extends JFrame implements ActionListener
 
    /**
     * Checks if the ship is being set on top of another ship.
-    *
     * @param coordinates New set of coordinates.
-    * @param currentShip Ship to be checked.
+    * @param vertical New rotation.
+    * @param currentShip Current ship object to be moved.
     */
-   public boolean coordinatesHasShip(int[] coordinates, Ship currentShip)
+   public boolean coordinatesHasShip(int[] coordinates, boolean vertical, Ship currentShip)
    {
-      if (currentShip.isVertical())
+      if (vertical)
       {
          for (Ship ship : this.getShips())
          {
