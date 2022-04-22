@@ -206,7 +206,7 @@ public class ShipSelectionScreen extends JFrame implements ActionListener
          // Add a null check before setting positions.
          if (coordinates != null)
          {
-            if (!coordinatesHasShip(coordinates, selectedShip.getSize(), selectedShip.isVertical()))
+            if (!coordinatesHasShip(coordinates, selectedShip.getSize(), selectedShip.isVertical(), selectedShip))
                selectedShip.setPosition(coordinates[0], coordinates[1]);
             else
             {
@@ -246,19 +246,22 @@ public class ShipSelectionScreen extends JFrame implements ActionListener
       }
    }
 
-   public boolean coordinatesHasShip(int[] coordinates, int size, boolean vertical)
+   public boolean coordinatesHasShip(int[] coordinates, int size, boolean vertical, Ship currentShip)
    {
       if (vertical)
       {
          for (Ship ship : this.getShips())
          {
-            for (int i = 0; i < size; i++)
+            if (ship != currentShip)
             {
-               int y = coordinates[1] + i;
-               boolean has = Arrays.stream(ship.getAsRawData()).anyMatch(c -> c != null && c[0] == coordinates[0] && c[1] == y);
-               if (has)
+               for (int i = 0; i < size; i++)
                {
-                  return true;
+                  int y = coordinates[1] + i;
+                  boolean has = Arrays.stream(ship.getAsRawData()).anyMatch(c -> c != null && c[0] == coordinates[0] && c[1] == y);
+                  if (has)
+                  {
+                     return true;
+                  }
                }
             }
          }
@@ -266,13 +269,16 @@ public class ShipSelectionScreen extends JFrame implements ActionListener
       {
          for (Ship ship : this.getShips())
          {
-            for (int i = 0; i < size; i++)
+            if (ship != currentShip)
             {
-               int x = coordinates[0] + i;
-               boolean has = Arrays.stream(ship.getAsRawData()).anyMatch(c -> c != null && c[0] == x && c[1] == coordinates[1]);
-               if (has)
+               for (int i = 0; i < size; i++)
                {
-                  return true;
+                  int x = coordinates[0] + i;
+                  boolean has = Arrays.stream(ship.getAsRawData()).anyMatch(c -> c != null && c[0] == x && c[1] == coordinates[1]);
+                  if (has)
+                  {
+                     return true;
+                  }
                }
             }
          }
