@@ -73,41 +73,44 @@ public class Board extends JButton
 
    public void drawShip(Graphics g, final Ship ship)
    {
-      final Graphics2D g2d = (Graphics2D) g;
-
-      final int paddingX = (this.getWidth() - boardSize) / 2;
-      final int paddingY = (this.getHeight() - boardSize) / 2;
-
-      final int x = paddingX + ship.getX() * tileSize;
-      final int y = paddingY + ship.getY() * tileSize;
-
-      try
+      if (ship.getX() != null && ship.getY() != null)
       {
-         final BufferedImage image = ImageIO.read(new File("assets/ships/ship" + ship.getSize() + ".png"));
+         final Graphics2D g2d = (Graphics2D) g;
+
+         final int paddingX = (this.getWidth() - boardSize) / 2;
+         final int paddingY = (this.getHeight() - boardSize) / 2;
+
+         final int x = paddingX + ship.getX() * tileSize;
+         final int y = paddingY + ship.getY() * tileSize;
+
+         try
+         {
+            final BufferedImage image = ImageIO.read(new File("assets/ships/ship" + ship.getSize() + ".png"));
 
          final AffineTransform affineTransform = new AffineTransform();
          affineTransform.translate(x + (ship.isVertical() ? tileSize : 0), y);
          final int scale = this.tileSize / 100;
          affineTransform.scale(scale, scale);
 
-         if (ship.isVertical())
+            if (ship.isVertical())
+            {
+               affineTransform.rotate(1.5708); // π / 2 rad = 90 deg
+            }
+
+            g2d.drawImage(image, affineTransform, null);
+
+         } catch (IOException e)
          {
-            affineTransform.rotate(1.5708); // π / 2 rad = 90 deg
+            Game.getInstance().getNotificationManager().addNotification(
+                 new Notification(
+                      Notification.Priority.CRITICAL,
+                      "Ha ocurrido un error",
+                      "Hubo un error leyendo las texturas para los barcos",
+                      a -> {
+                      }
+                 )
+            );
          }
-
-         g2d.drawImage(image, affineTransform, null);
-
-      } catch (IOException e)
-      {
-         Game.getInstance().getNotificationManager().addNotification(
-              new Notification(
-                   Notification.Priority.CRITICAL,
-                   "Ha ocurrido un error",
-                   "Hubo un error leyendo las texturas para los barcos",
-                   a -> {
-                   }
-              )
-         );
       }
    }
 
