@@ -12,6 +12,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.IOException;
 
 public class MatchScreen extends JFrame implements ActionListener
@@ -77,5 +79,44 @@ public class MatchScreen extends JFrame implements ActionListener
    {
       this.shipSelectionScreen.setVisible(false);
       this.repaint();
+   }
+
+   public class BoardMouseEvent implements MouseListener{
+
+      @Override
+      public void mouseClicked(MouseEvent e) {
+         // Get the new mouse coordinates and handle the click.
+         Point point = e.getPoint();
+
+         // Get coordinates based on clicked point.
+         int[] coordinates = opponentBoard.handleClick(point);
+         if(coordinates != null){
+            Game.getInstance().getMatchManager().throwBomb(
+                    Game.getInstance().getConnection(),
+                    coordinates[0],
+                    coordinates[1]
+            );
+         }
+      }
+
+      @Override
+      public void mousePressed(MouseEvent e) {
+
+      }
+
+      @Override
+      public void mouseReleased(MouseEvent e) {
+
+      }
+
+      @Override
+      public void mouseEntered(MouseEvent e) {
+
+      }
+
+      @Override
+      public void mouseExited(MouseEvent e) {
+
+      }
    }
 }

@@ -165,7 +165,7 @@ public class MatchManager
                  x, y, false, hasHit
             ));
 
-            // TODO: Update Game UI
+            this.getCurrentMatch().getMatchScreen().repaint();
          }
       } catch (JSONException e)
       {
