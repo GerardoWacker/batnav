@@ -65,7 +65,7 @@ public class Board extends JButton
       final int x = paddingX + bomb.getX() * tileSize;
       final int y = paddingY + bomb.getY() * tileSize;
 
-      g.setColor(Colour.DarkGray);
+      g.setColor(bomb.isHasHit() ? Colour.DarkRed : Colour.DarkGray);
       final int bombSize = 15;
       final int padding = (tileSize - bombSize) / 2;
       g.fillOval(x + padding, y + padding, bombSize, bombSize);
