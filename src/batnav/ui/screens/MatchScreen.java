@@ -43,6 +43,8 @@ public class MatchScreen extends JFrame implements ActionListener
       divisionPanel.setSize(new Dimension(400, 20));
       divisionPanel.setBackground(Colour.Gray);
 
+      this.opponentBoard.addMouseListener(new BoardMouseEvent());
+
       this.add(opponentBoard, BorderLayout.NORTH);
       this.add(divisionPanel, BorderLayout.CENTER);
       this.add(playerBoard, BorderLayout.SOUTH);
@@ -96,6 +98,7 @@ public class MatchScreen extends JFrame implements ActionListener
                     coordinates[0],
                     coordinates[1]
             );
+            System.out.println("Tirada bomba en " + coordinates);
          }
       }
 
