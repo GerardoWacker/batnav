@@ -1,5 +1,6 @@
 package batnav.online.match;
 
+import batnav.ui.screens.MatchScreen;
 import com.google.common.collect.Lists;
 import batnav.online.session.User;
 import org.json.JSONArray;
@@ -13,6 +14,8 @@ public class Match
 
    private final List<Bomb> playerBombs, opponentBombs;
    private List<Ship> playerShips;
+
+   private MatchScreen matchScreen;
 
    private boolean hasReceivedOpponentShips = false;
 
@@ -98,6 +101,16 @@ public class Match
    public void setReceivedShips()
    {
       this.hasReceivedOpponentShips = true;
+   }
+
+   public void setMatchScreen(MatchScreen matchScreen)
+   {
+      this.matchScreen = matchScreen;
+   }
+
+   public MatchScreen getMatchScreen()
+   {
+      return matchScreen;
    }
 
    public boolean hasReceivedOpponentShips()
