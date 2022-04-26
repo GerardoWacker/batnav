@@ -67,4 +67,15 @@ public class MatchScreen extends JFrame implements ActionListener
    {
 
    }
+
+   public void setOpponentReady()
+   {
+      System.out.println("El oponente está listo");
+   }
+
+   public void setPlayerReady()
+   {
+      this.shipSelectionScreen.setVisible(false);
+      this.repaint();
+   }
 }
