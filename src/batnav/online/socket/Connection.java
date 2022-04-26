@@ -63,9 +63,8 @@ public class Connection
             this.socket.on("match", this::match);
             this.socket.on("match-bomb-thrown", this.matchManager::hasThrownBomb);
             this.socket.on("match-bomb-receive", this.matchManager::receiveBomb);
-            this.socket.on("match-ships-set", data -> {
-               this.matchManager.getCurrentMatch().getMatchScreen().repaint();
-            });
+            this.socket.on("match-ships-set", data -> this.matchManager
+                 .getCurrentMatch().getMatchScreen().setPlayerReady());
             this.socket.on("match-ships-receive", this.matchManager::receiveShips);
 
          });
