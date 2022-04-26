@@ -41,9 +41,9 @@ public class MatchScreen extends JFrame implements ActionListener
       divisionPanel.setSize(new Dimension(400, 20));
       divisionPanel.setBackground(Colour.Gray);
 
-      this.add(opponentBoard, BorderLayout.SOUTH);
+      this.add(opponentBoard, BorderLayout.NORTH);
       this.add(divisionPanel, BorderLayout.CENTER);
-      this.add(playerBoard, BorderLayout.NORTH);
+      this.add(playerBoard, BorderLayout.SOUTH);
 
       try
       {
