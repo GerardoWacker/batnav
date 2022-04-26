@@ -1,5 +1,7 @@
 package batnav.online.match;
 
+import batnav.instance.Game;
+import batnav.notifications.Notification;
 import batnav.online.session.SessionManager;
 import batnav.online.socket.Connection;
 import batnav.online.socket.JSONPacket;
@@ -70,22 +72,42 @@ public class MatchManager
     */
    public void setShips(final Connection connection, List<Ship> shipList)
    {
-      final JSONArray shipArray = new JSONArray();
-
-      for (Ship ship : shipList)
+      try
       {
-         final JSONArray coordinatesArray = new JSONArray();
+         final JSONArray shipArray = new JSONArray();
 
-         for (int[] coordinates : ship.getAsRawData())
+         for (Ship ship : shipList)
          {
-            coordinatesArray.put(coordinates);
+            final JSONArray coordinatesArray = new JSONArray();
+
+            for (int[] coordinates : ship.getAsRawData())
+            {
+               coordinatesArray.put(coordinates);
+            }
+
+            shipArray.put(coordinatesArray);
          }
 
-         shipArray.put(coordinatesArray);
-      }
+         final JSONObject object = new JSONObject();
 
-      connection.sendPacket(new Packet("match-set-ships", shipArray.toString()));
-      this.getCurrentMatch().setPlayerShips(shipList);
+         object.put("matchId", this.getCurrentMatch().getId());
+         object.put("playerId", this.sessionManager.getSessionId());
+         object.put("coordinates", shipArray);
+
+         connection.sendPacket(new Packet("match-set-ships", shipArray.toString()));
+         this.getCurrentMatch().setPlayerShips(shipList);
+
+      } catch(JSONException e)
+      {
+         Game.getInstance().getNotificationManager().addNotification(
+              new Notification(
+                   Notification.Priority.CRITICAL,
+                   "Ha ocurrido un error",
+                   e.getLocalizedMessage(),
+                   a -> {}
+              )
+         );
+      }
    }
 
    /**
