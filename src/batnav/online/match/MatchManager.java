@@ -94,7 +94,7 @@ public class MatchManager
          object.put("playerId", this.sessionManager.getSessionId());
          object.put("coordinates", shipArray);
 
-         connection.sendPacket(new Packet("match-set-ships", shipArray.toString()));
+         connection.sendPacket(new Packet("match-set-ships", object.toString()));
          this.getCurrentMatch().setPlayerShips(shipList);
 
       } catch(JSONException e)
@@ -165,6 +165,7 @@ public class MatchManager
                  x, y, false, hasHit
             ));
 
+            System.out.println("Un exito " + hasHit);
             this.getCurrentMatch().getMatchScreen().repaint();
          }
       } catch (JSONException e)
