@@ -89,7 +89,7 @@ public class Board extends JButton
 
          final AffineTransform affineTransform = new AffineTransform();
          affineTransform.translate(x + (ship.isVertical() ? tileSize : 0), y);
-         final int scale = this.tileSize / 100;
+         final float scale = this.tileSize / 100;
          affineTransform.scale(scale, scale);
 
             if (ship.isVertical())
