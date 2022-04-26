@@ -115,6 +115,7 @@ public class Match
 
    public boolean hasReceivedOpponentShips()
    {
+      this.getMatchScreen().setOpponentReady();
       return hasReceivedOpponentShips;
    }
 
