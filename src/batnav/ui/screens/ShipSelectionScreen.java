@@ -103,16 +103,62 @@ public class ShipSelectionScreen extends JFrame implements ActionListener
             {
                if (this.selectedShip.getX() >= 10 - this.selectedShip.getSize())
                {
-                  this.selectedShip.setPosition(10 - this.selectedShip.getSize(), this.selectedShip.getY());
+                  if (!coordinatesHasShip(
+                       new int[]{10 - this.selectedShip.getSize(), this.selectedShip.getY()},
+                       false, this.selectedShip))
+                  {
+                     this.selectedShip.setPosition(10 - this.selectedShip.getSize(), this.selectedShip.getY());
+                     this.selectedShip.setVertical(false);
+                  } else
+                  {
+                     JOptionPane.showMessageDialog(null,
+                          "No se puede rotar a esa posición: ¡ya hay un barco!",
+                          "Advertencia", JOptionPane.WARNING_MESSAGE);
+                  }
+               } else
+               {
+                  if (!coordinatesHasShip(
+                       new int[]{this.selectedShip.getX(), this.selectedShip.getY()},
+                       false, this.selectedShip))
+                  {
+                     this.selectedShip.setVertical(false);
+                  } else
+                  {
+                     JOptionPane.showMessageDialog(null,
+                          "No se puede rotar a esa posición: ¡ya hay un barco!",
+                          "Advertencia", JOptionPane.WARNING_MESSAGE);
+                  }
                }
-               this.selectedShip.setVertical(false);
             } else
             {
                if (this.selectedShip.getY() >= 10 - this.selectedShip.getSize())
                {
-                  this.selectedShip.setPosition(this.selectedShip.getX(), 10 - this.selectedShip.getSize());
+                  if (!coordinatesHasShip(
+                       new int[]{this.selectedShip.getX(), 10 - this.selectedShip.getSize()},
+                       true, this.selectedShip))
+                  {
+                     this.selectedShip.setPosition(this.selectedShip.getX(), 10 - this.selectedShip.getSize());
+                     this.selectedShip.setVertical(true);
+                  } else
+                  {
+                     JOptionPane.showMessageDialog(null,
+                          "No se puede rotar a esa posición: ¡ya hay un barco!",
+                          "Advertencia", JOptionPane.WARNING_MESSAGE);
+                  }
+               } else
+               {
+                  if (!coordinatesHasShip(
+                       new int[]{this.selectedShip.getX(), this.selectedShip.getY()},
+                       true, this.selectedShip))
+                  {
+                     this.selectedShip.setVertical(true);
+                  } else
+                  {
+                     JOptionPane.showMessageDialog(null,
+                          "No se puede rotar a esa posición: ¡ya hay un barco!",
+                          "Advertencia", JOptionPane.WARNING_MESSAGE);
+                  }
                }
-               this.selectedShip.setVertical(true);
             }
             this.shipSelectionBoard.update();
       }
@@ -193,7 +239,7 @@ public class ShipSelectionScreen extends JFrame implements ActionListener
          if (ShipSelectionScreen.this.selectedShip == null)
          {
             JOptionPane.showMessageDialog(null, "¡Tenés que seleccionar un barco!",
-                 "Advertencia", JOptionPane.INFORMATION_MESSAGE);
+                 "Advertencia", JOptionPane.WARNING_MESSAGE);
             return;
          }
 
@@ -206,8 +252,15 @@ public class ShipSelectionScreen extends JFrame implements ActionListener
          // Add a null check before setting positions.
          if (coordinates != null)
          {
-            System.out.println(Arrays.toString(coordinates));
-            selectedShip.setPosition(coordinates[0], coordinates[1]);
+            if (!coordinatesHasShip(coordinates, selectedShip.isVertical(), selectedShip))
+               selectedShip.setPosition(coordinates[0], coordinates[1]);
+            else
+            {
+               JOptionPane.showMessageDialog(null, "¡Ya hay un barco ocupando esa posición!",
+                    "Advertencia", JOptionPane.WARNING_MESSAGE);
+               return;
+            }
+
          }
 
          // Finally, update the board's content.
@@ -239,6 +292,54 @@ public class ShipSelectionScreen extends JFrame implements ActionListener
       }
    }
 
+   /**
+    * Checks if the ship is being set on top of another ship.
+    *
+    * @param coordinates New set of coordinates.
+    * @param vertical    New rotation.
+    * @param currentShip Current ship object to be moved.
+    */
+   public boolean coordinatesHasShip(int[] coordinates, boolean vertical, Ship currentShip)
+   {
+      if (vertical)
+      {
+         for (Ship ship : this.getShips())
+         {
+            if (ship != currentShip)
+            {
+               for (int i = 0; i < currentShip.getSize(); i++)
+               {
+                  int y = coordinates[1] + i;
+                  boolean has = Arrays.stream(ship.getAsRawData()).anyMatch(c -> c != null && c[0] == coordinates[0] && c[1] == y);
+                  if (has)
+                  {
+                     return true;
+                  }
+               }
+            }
+         }
+      } else
+      {
+         for (Ship ship : this.getShips())
+         {
+            if (ship != currentShip)
+            {
+               for (int i = 0; i < currentShip.getSize(); i++)
+               {
+                  int x = coordinates[0] + i;
+                  boolean has = Arrays.stream(ship.getAsRawData()).anyMatch(c -> c != null && c[0] == x && c[1] == coordinates[1]);
+                  if (has)
+                  {
+                     return true;
+                  }
+               }
+            }
+         }
+      }
+
+      return false;
+   }
+
    public List<Ship> getShips()
    {
       return ships;
@@ -254,10 +355,13 @@ public class ShipSelectionScreen extends JFrame implements ActionListener
       this.selectedShip = selectedShip;
    }
 
-   public static void main(String[] args) {
-      try {
+   public static void main(String args[])
+   {
+      try
+      {
          new ShipSelectionScreen();
-      } catch (IOException e) {
+      } catch (IOException e)
+      {
          e.printStackTrace();
       }
    }
