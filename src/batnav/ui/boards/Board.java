@@ -2,8 +2,8 @@ package batnav.ui.boards;
 
 import batnav.instance.Game;
 import batnav.notifications.Notification;
-import batnav.online.match.Bomb;
-import batnav.online.match.Ship;
+import batnav.online.model.Bomb;
+import batnav.online.model.Ship;
 import batnav.utils.Colour;
 
 import javax.imageio.ImageIO;

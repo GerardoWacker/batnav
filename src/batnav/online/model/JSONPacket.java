@@ -1,5 +1,6 @@
-package batnav.online.socket;
+package batnav.online.model;
 
+import batnav.online.model.Packet;
 import org.json.JSONObject;
 
 public class JSONPacket extends Packet

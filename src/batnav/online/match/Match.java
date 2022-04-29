@@ -1,8 +1,9 @@
 package batnav.online.match;
 
+import batnav.online.model.Bomb;
+import batnav.online.model.Ship;
 import com.google.common.collect.Lists;
-import batnav.online.session.User;
-import org.json.JSONArray;
+import batnav.online.model.User;
 
 import java.util.List;
 
