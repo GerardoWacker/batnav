@@ -1,2 +1,4 @@
-package batnav.ui.screens;public class MainMenuScreen {
+package batnav.ui.screens;
+
+public class MainMenuScreen {
 }
