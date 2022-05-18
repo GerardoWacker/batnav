@@ -65,6 +65,7 @@ public class Connection
             this.socket.on("match-ships-set", data -> {
             }); // TODO: Update match
             this.socket.on("match-ships-receive", this.matchManager::receiveShips);
+            this.socket.on("match-turn", this.matchManager::turn);
 
          });
 
