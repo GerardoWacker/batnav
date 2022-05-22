@@ -6,11 +6,11 @@ import java.awt.image.BufferedImage;
 
 public class RotatingImageLabel extends AnimatedLabel
 {
-   private final BufferedImage image;
+   private final Image image;
    private int angle;
    private final int rotation;
 
-   public RotatingImageLabel(BufferedImage image, int rotation)
+   public RotatingImageLabel(Image image, int rotation)
    {
       super(60);
       this.rotation = rotation;
@@ -25,9 +25,9 @@ public class RotatingImageLabel extends AnimatedLabel
       Graphics2D g2d = (Graphics2D) g;
       final AffineTransform affineTransform = new AffineTransform();
 
-      affineTransform.translate((image.getWidth() * .5), (image.getHeight() * .5));
+      affineTransform.translate((image.getWidth(null) * .5), (image.getHeight(null) * .5));
       affineTransform.rotate(Math.toRadians(angle));
-      affineTransform.translate(-(image.getWidth() * .5), -(image.getHeight() * .5));
+      affineTransform.translate(-(image.getWidth(null) * .5), -(image.getHeight(null) * .5));
 
       g2d.drawImage(image, affineTransform, null);
    }
