@@ -5,16 +5,11 @@ import batnav.online.match.MatchManager;
 import batnav.notifications.NotificationManager;
 import batnav.online.session.SessionManager;
 import batnav.online.socket.Connection;
-import batnav.ui.screens.LoginScreen;
 import batnav.ui.screens.MainMenuScreen;
-import batnav.ui.screens.MatchScreen;
-import batnav.ui.screens.TestScreen;
+import batnav.ui.screens.SplashScreen;
 import batnav.utils.Logger;
 import batnav.utils.RestUtils;
 import batnav.utils.Sambayon;
-import com.sun.tools.javac.Main;
-
-import java.awt.event.WindowEvent;
 
 public class Game
 {
@@ -25,7 +20,7 @@ public class Game
    private SessionManager sessionManager;
    private Connection connection;
    private MatchManager matchManager;
-   private MainMenuScreen mainMenuScreen;
+   private SplashScreen mainMenuScreen;
    private static Game instance;
 
    /**
@@ -47,7 +42,7 @@ public class Game
     */
    public void launch()
    {
-      this.mainMenuScreen = new MainMenuScreen();
+      this.mainMenuScreen = new SplashScreen();
       this.mainMenuScreen.setDisplayString("Conectando con Sambayón");
 
       // Verify if server is accesible

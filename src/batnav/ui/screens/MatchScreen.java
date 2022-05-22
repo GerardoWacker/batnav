@@ -1,9 +1,8 @@
 package batnav.ui.screens;
 
 import batnav.instance.Game;
-import batnav.online.match.Bomb;
 import batnav.online.match.Match;
-import batnav.online.session.User;
+import batnav.online.model.User;
 import batnav.ui.boards.OpponentBoard;
 import batnav.ui.boards.PlayerBoard;
 import batnav.utils.Colour;
