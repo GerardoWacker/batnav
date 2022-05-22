@@ -1,7 +1,7 @@
 package batnav.ui.screens;
 
 import batnav.instance.Game;
-import batnav.online.match.Ship;
+import batnav.online.model.Ship;
 import batnav.ui.boards.ShipSelectionBoard;
 import com.google.common.collect.Lists;
 
