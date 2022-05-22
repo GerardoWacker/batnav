@@ -6,6 +6,7 @@ import batnav.online.match.MatchManager;
 import batnav.notifications.Notification;
 import batnav.online.model.Packet;
 import batnav.online.session.SessionManager;
+import batnav.ui.screens.MatchScreen;
 import batnav.online.model.User;
 import batnav.utils.Logger;
 import batnav.utils.Sambayon;
@@ -62,8 +63,8 @@ public class Connection
             this.socket.on("match", this::match);
             this.socket.on("match-bomb-thrown", this.matchManager::hasThrownBomb);
             this.socket.on("match-bomb-receive", this.matchManager::receiveBomb);
-            this.socket.on("match-ships-set", data -> {
-            }); // TODO: Update match
+            this.socket.on("match-ships-set", data -> this.matchManager
+                 .getCurrentMatch().getMatchScreen().setPlayerReady());
             this.socket.on("match-ships-receive", this.matchManager::receiveShips);
 
          });
@@ -164,6 +165,7 @@ public class Connection
                  )
             );
 
+            this.matchManager.getCurrentMatch().setMatchScreen(new MatchScreen(this.matchManager.getCurrentMatch()));
             // TODO: Display match interface
          } else
          {
