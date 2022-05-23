@@ -1,6 +1,7 @@
 package batnav.ui.screens;
 
-import batnav.online.match.Ship;
+import batnav.instance.Game;
+import batnav.online.model.Ship;
 import batnav.ui.boards.ShipSelectionBoard;
 import com.google.common.collect.Lists;
 
@@ -161,6 +162,23 @@ public class ShipSelectionScreen extends JFrame implements ActionListener
                }
             }
             this.shipSelectionBoard.update();
+            break;
+         case "setShips":
+            for (Ship ship : this.ships)
+            {
+               if (ship.getX() == null || ship.getY() == null)
+               {
+                  JOptionPane.showMessageDialog(null,
+                       "¡Todos los barcos deben tener posición!",
+                       "Advertencia", JOptionPane.WARNING_MESSAGE);
+                  return;
+               }
+            }
+
+            Game.getInstance().getMatchManager().setShips(
+                 Game.getInstance().getConnection(),
+                 this.ships
+            );
       }
    }
 

@@ -1,6 +1,6 @@
 package batnav.ui.boards;
 
-import batnav.online.match.Bomb;
+import batnav.online.model.Bomb;
 import batnav.online.match.Match;
 
 import java.awt.*;

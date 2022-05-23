@@ -1,4 +1,4 @@
-package batnav.online.session;
+package batnav.online.model;
 
 public class User
 {

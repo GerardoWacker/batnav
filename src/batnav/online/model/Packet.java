@@ -1,4 +1,4 @@
-package batnav.online.socket;
+package batnav.online.model;
 
 public class Packet
 {

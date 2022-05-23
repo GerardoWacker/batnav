@@ -1,4 +1,4 @@
-package batnav.online.match;
+package batnav.online.model;
 
 public class Bomb
 {

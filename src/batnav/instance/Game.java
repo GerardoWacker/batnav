@@ -5,15 +5,11 @@ import batnav.online.match.MatchManager;
 import batnav.notifications.NotificationManager;
 import batnav.online.session.SessionManager;
 import batnav.online.socket.Connection;
-import batnav.ui.screens.LoginScreen;
 import batnav.ui.screens.MainMenuScreen;
-import batnav.ui.screens.TestScreen;
+import batnav.ui.screens.SplashScreen;
 import batnav.utils.Logger;
 import batnav.utils.RestUtils;
 import batnav.utils.Sambayon;
-import com.sun.tools.javac.Main;
-
-import java.awt.event.WindowEvent;
 
 public class Game
 {
@@ -24,7 +20,7 @@ public class Game
    private SessionManager sessionManager;
    private Connection connection;
    private MatchManager matchManager;
-   private MainMenuScreen mainMenuScreen;
+   private SplashScreen mainMenuScreen;
    private static Game instance;
 
    /**
@@ -46,7 +42,7 @@ public class Game
     */
    public void launch()
    {
-      this.mainMenuScreen = new MainMenuScreen();
+      this.mainMenuScreen = new SplashScreen();
       this.mainMenuScreen.setDisplayString("Conectando con Sambayón");
 
       // Verify if server is accesible
@@ -57,9 +53,9 @@ public class Game
          this.mainMenuScreen.setDisplayString("Creando managers");
 
          // Create handlers.
-         this.matchManager = new MatchManager(this.sessionManager);
          this.restUtils = new RestUtils(this.sambayon);
          this.sessionManager = new SessionManager(this.restUtils, this.configManager);
+         this.matchManager = new MatchManager(this.sessionManager);
          this.connection = new Connection(this.sambayon, this.sessionManager, this.matchManager);
 
          this.mainMenuScreen.setDisplayString("Cargando sesión");
@@ -73,11 +69,6 @@ public class Game
          this.connection.connect(this.sessionManager.getSessionId());
 
          this.mainMenuScreen.setDisplayString("Conectado correctamente al servidor.");
-
-         if(this.sessionManager.getSessionId() == null || this.connection.getCurrentUser() == null)
-         {
-            new LoginScreen();
-         }
       } else
       {
          this.mainMenuScreen.displayFailure("No se pudo conectar con el servidor");

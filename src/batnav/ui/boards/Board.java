@@ -2,8 +2,8 @@ package batnav.ui.boards;
 
 import batnav.instance.Game;
 import batnav.notifications.Notification;
-import batnav.online.match.Bomb;
-import batnav.online.match.Ship;
+import batnav.online.model.Bomb;
+import batnav.online.model.Ship;
 import batnav.utils.Colour;
 
 import javax.imageio.ImageIO;
@@ -16,7 +16,7 @@ import java.io.IOException;
 
 public class Board extends JButton
 {
-   private final int tileSize = 38;
+   private final int tileSize = 35;
    private final int boardSize = tileSize * 10;
 
    public Board()
@@ -65,8 +65,10 @@ public class Board extends JButton
       final int x = paddingX + bomb.getX() * tileSize;
       final int y = paddingY + bomb.getY() * tileSize;
 
-      g.setColor(Colour.DarkGray);
-      g.fillOval(x + 9, y + 9, 20, 20);
+      g.setColor(bomb.isHasHit() ? Colour.DarkRed : Colour.DarkGray);
+      final int bombSize = 15;
+      final int padding = (tileSize - bombSize) / 2;
+      g.fillOval(x + padding, y + padding, bombSize, bombSize);
    }
 
    public void drawShip(Graphics g, final Ship ship)
@@ -85,9 +87,10 @@ public class Board extends JButton
          {
             final BufferedImage image = ImageIO.read(new File("assets/ships/ship" + ship.getSize() + ".png"));
 
-            final AffineTransform affineTransform = new AffineTransform();
-            affineTransform.translate(x + (ship.isVertical() ? tileSize : 0), y);
-            affineTransform.scale(0.38, 0.38);
+         final AffineTransform affineTransform = new AffineTransform();
+         affineTransform.translate(x + (ship.isVertical() ? tileSize : 0), y);
+         final double scale = tileSize * 0.01;
+         affineTransform.scale(scale, scale);
 
             if (ship.isVertical())
             {

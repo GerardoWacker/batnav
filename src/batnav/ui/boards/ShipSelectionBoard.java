@@ -1,6 +1,6 @@
 package batnav.ui.boards;
 
-import batnav.online.match.Ship;
+import batnav.online.model.Ship;
 import batnav.ui.screens.ShipSelectionScreen;
 
 import java.awt.*;
