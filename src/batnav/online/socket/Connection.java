@@ -6,6 +6,7 @@ import batnav.online.match.MatchManager;
 import batnav.notifications.Notification;
 import batnav.online.model.Packet;
 import batnav.online.session.SessionManager;
+import batnav.ui.screens.LoginScreen;
 import batnav.ui.screens.MatchScreen;
 import batnav.online.model.User;
 import batnav.utils.Logger;
@@ -116,6 +117,8 @@ public class Connection
             Logger.warn(response.getString("content"));
 
             this.sessionManager.setAndSaveSessionId(null);
+
+            new LoginScreen();
          }
 
       } catch (JSONException e)
