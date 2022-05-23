@@ -5,6 +5,7 @@ import batnav.online.match.MatchManager;
 import batnav.notifications.NotificationManager;
 import batnav.online.session.SessionManager;
 import batnav.online.socket.Connection;
+import batnav.ui.screens.LoginScreen;
 import batnav.ui.screens.MainMenuScreen;
 import batnav.ui.screens.SplashScreen;
 import batnav.utils.Logger;
@@ -61,14 +62,17 @@ public class Game
          this.mainMenuScreen.setDisplayString("Cargando sesión");
 
          // Load session.
-         this.sessionManager.loadSession();
+         if(this.sessionManager.loadSession())
+         {
+            this.mainMenuScreen.setDisplayString("Conectando con el servidor");
 
-         this.mainMenuScreen.setDisplayString("Conectando con el servidor");
-
-         // Connect to real-time server.
-         this.connection.connect(this.sessionManager.getSessionId());
-
-         this.mainMenuScreen.setDisplayString("Conectado correctamente al servidor.");
+            // Connect to real-time server.
+            this.connection.connect(this.sessionManager.getSessionId());
+            this.mainMenuScreen.setDisplayString("Conectado correctamente al servidor.");
+         }
+         else {
+            new LoginScreen();
+         }
       } else
       {
          this.mainMenuScreen.displayFailure("No se pudo conectar con el servidor");
