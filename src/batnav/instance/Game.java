@@ -46,33 +46,33 @@ public class Game
       this.mainMenuScreen.setDisplayString("Conectando con Sambayón");
 
       // Verify if server is accesible
-      if (this.sambayon.isAccesible())
+      if (!this.sambayon.isAccesible())
       {
-         Logger.log("Se pudo establecer una conexión con Sambayón.");
-
-         this.mainMenuScreen.setDisplayString("Creando managers");
-
-         // Create handlers.
-         this.restUtils = new RestUtils(this.sambayon);
-         this.sessionManager = new SessionManager(this.restUtils, this.configManager);
-         this.matchManager = new MatchManager(this.sessionManager);
-         this.connection = new Connection(this.sambayon, this.sessionManager, this.matchManager);
-
-         this.mainMenuScreen.setDisplayString("Cargando sesión");
-
-         // Load session.
-         this.sessionManager.loadSession();
-
-         this.mainMenuScreen.setDisplayString("Conectando con el servidor");
-
-         // Connect to real-time server.
-         this.connection.connect(this.sessionManager.getSessionId());
-
-         this.mainMenuScreen.setDisplayString("Conectado correctamente al servidor.");
-      } else
-      {
-         this.mainMenuScreen.displayFailure("No se pudo conectar con el servidor");
+         // Activate backup server instance.
+         this.sambayon.setFallbackMode(true);
       }
+
+      Logger.log("Se pudo establecer una conexión con Sambayón.");
+
+      this.mainMenuScreen.setDisplayString("Creando managers");
+
+      // Create handlers.
+      this.restUtils = new RestUtils(this.sambayon);
+      this.sessionManager = new SessionManager(this.restUtils, this.configManager);
+      this.matchManager = new MatchManager(this.sessionManager);
+      this.connection = new Connection(this.sambayon, this.sessionManager, this.matchManager);
+
+      this.mainMenuScreen.setDisplayString("Cargando sesión");
+
+      // Load session.
+      this.sessionManager.loadSession();
+
+      this.mainMenuScreen.setDisplayString("Cargada sesión correctamente.");
+
+      // Connect to real-time server.
+      this.connection.connect(this.sessionManager.getSessionId());
+
+      this.mainMenuScreen.setDisplayString("Conectado correctamente al servidor.");
    }
 
    public Sambayon getSambayon()
