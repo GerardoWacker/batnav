@@ -22,7 +22,9 @@ import java.util.Map;
 public class Sambayon
 {
    private final String SAMBAYON_ENDPOINT = "https://sb.rar.vg/";
+   private final String FALLBACK_SERVER = "https://batnav.glitch.me/";
    private final Map<String, String> serverPool = Maps.newHashMap();
+   private boolean fallbackMode = false;
 
    /**
     * Get a server's URL based on location.
@@ -32,6 +34,13 @@ public class Sambayon
     */
    public String getServer(final String serverName)
    {
+      // Check for fallback mode.
+      if (fallbackMode)
+      {
+         if (serverName.equals("damas") || serverName.equals("damas_sock"))
+            return this.FALLBACK_SERVER;
+      }
+
       if (this.serverPool.containsKey(serverName))
       {
          Logger.log("Accedido a " + serverName + " desde los servidores en caché.");
@@ -80,6 +89,17 @@ public class Sambayon
 
          return null;
       }
+   }
+
+   /**
+    * Sets the fallback mode on Sambayon, using a hardcoded backup server allocated that will be available most of the
+    * time.
+    *
+    * @param fallbackMode Is fallback.
+    */
+   public void setFallbackMode(boolean fallbackMode)
+   {
+      this.fallbackMode = fallbackMode;
    }
 
    /**
