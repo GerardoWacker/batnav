@@ -35,9 +35,8 @@ public class RotatingImageLabel extends AnimatedLabel
       // Center label.
       if (this.centered)
       {
-         float x = this.getWidth() * .5f;
-         float y = this.getHeight() * .5f;
-         affineTransform.translate(x - (image.getWidth(null) * .5), y - (image.getHeight(null) * .5));
+         affineTransform.translate((this.getWidth() * .5) - (image.getWidth(null) * .5),
+              (this.getHeight() * .5) - (image.getHeight(null) * .5));
       }
       affineTransform.translate((image.getWidth(null) * .5), (image.getHeight(null) * .5));
       affineTransform.rotate(Math.toRadians(angle));
