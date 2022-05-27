@@ -45,10 +45,10 @@ public class SplashScreen extends JFrame implements ActionListener
       {
          BufferedImage logo = ImageIO.read(new File("assets/ships/ship2.png"));
          Image logoScaled = logo.getScaledInstance(120, 60, Image.SCALE_SMOOTH);
-         RotatingImageLabel loaderLabel = new RotatingImageLabel(logoScaled, 2);
+         RotatingImageLabel loaderLabel = new RotatingImageLabel(logoScaled, 2, true);
          loaderLabel.setHorizontalAlignment(JLabel.CENTER);
          this.add(loaderLabel, BorderLayout.CENTER);
-         
+
          // Start the rotating animation.
          loaderLabel.start();
       } catch (IOException e)
