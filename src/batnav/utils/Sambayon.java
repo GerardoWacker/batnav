@@ -37,8 +37,23 @@ public class Sambayon
       // Check for fallback mode.
       if (fallbackMode)
       {
-         if (serverName.equals("damas") || serverName.equals("damas_sock"))
-            return this.FALLBACK_SERVER;
+         try
+         {
+            if (serverName.equals("damas") || serverName.equals("damas_sock"))
+            {
+               Logger.log("Accedido a " + serverName + " usando los registros fallback.");
+               return this.FALLBACK_SERVER;
+            } else throw new SambayonException("No fue posible conectarse a Sambayón.");
+         } catch (Exception e)
+         {
+            Game.getInstance().getNotificationManager().addNotification(
+                 new Notification(Notification.Priority.CRITICAL,
+                      "Ha ocurrido un error", "Hubo un error al conectarse con Sambayón.", a -> {
+                 }
+                 )
+            );
+            Logger.err(e.getLocalizedMessage());
+         }
       }
 
       if (this.serverPool.containsKey(serverName))
