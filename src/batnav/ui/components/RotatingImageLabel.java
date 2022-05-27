@@ -9,12 +9,19 @@ public class RotatingImageLabel extends AnimatedLabel
    private final Image image;
    private int angle;
    private final int rotation;
+   private boolean centered;
 
    public RotatingImageLabel(Image image, int rotation)
+   {
+      this(image, rotation, false);
+   }
+
+   public RotatingImageLabel(Image image, int rotation, boolean centered)
    {
       super(60);
       this.rotation = rotation;
       this.image = image;
+      this.centered = centered;
    }
 
    @Override
@@ -25,6 +32,13 @@ public class RotatingImageLabel extends AnimatedLabel
       Graphics2D g2d = (Graphics2D) g;
       final AffineTransform affineTransform = new AffineTransform();
 
+      // Center label.
+      if (this.centered)
+      {
+         float x = this.getWidth() * .5f;
+         float y = this.getHeight() * .5f;
+         affineTransform.translate(x - (image.getWidth(null) * .5), y - (image.getHeight(null) * .5));
+      }
       affineTransform.translate((image.getWidth(null) * .5), (image.getHeight(null) * .5));
       affineTransform.rotate(Math.toRadians(angle));
       affineTransform.translate(-(image.getWidth(null) * .5), -(image.getHeight(null) * .5));
