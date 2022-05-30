@@ -48,7 +48,7 @@ public class LoginScreen extends JFrame implements ActionListener
       this.userPassword = new JPasswordField(20);
       userPassword.setBounds(50, 230, 165, 25);
 
-      this.loginButton = new JButton("Login");
+      this.loginButton = new JButton("Iniciar sesión");
       loginButton.setBounds(50, 300, 165, 25);
       loginButton.addActionListener(this);
       loginButton.setActionCommand("login");
@@ -59,13 +59,13 @@ public class LoginScreen extends JFrame implements ActionListener
       alert.setBackground(Color.red);
       alert.setBounds(50, 350, 80, 25);
 
-      this.loadingText = new JLabel("Iniciando sesion");
+      this.loadingText = new JLabel("Iniciando sesión");
       loadingText.setBounds(100, 120, 200, 80);
 
-      this.tempButton = new JButton("Back");
+      this.tempButton = new JButton("Volver");
       tempButton.setBounds(50, 300, 165, 25);
       tempButton.addActionListener(this);
-      tempButton.setActionCommand("Back");
+      tempButton.setActionCommand("Volver");
 
       this.counterLabel = new JLabel();
       counterLabel.setBounds(50, 400, 165, 25);
@@ -126,15 +126,12 @@ public class LoginScreen extends JFrame implements ActionListener
       this.contentPanel.add(counterLabel);
       this.revalidate();
       this.repaint();
-
    }
 
 
    @Override
    public void actionPerformed(ActionEvent e)
    {
-
-
       final String action = e.getActionCommand();
       switch (action)
       {
