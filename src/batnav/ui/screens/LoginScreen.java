@@ -62,10 +62,10 @@ public class LoginScreen extends JFrame implements ActionListener
       this.loadingText = new JLabel("Iniciando sesión");
       loadingText.setBounds(100, 120, 200, 80);
 
-      this.tempButton = new JButton("Volver");
+      this.tempButton = new JButton("Cancelar");
       tempButton.setBounds(50, 300, 165, 25);
       tempButton.addActionListener(this);
-      tempButton.setActionCommand("Volver");
+      tempButton.setActionCommand("cancel");
 
       this.counterLabel = new JLabel();
       counterLabel.setBounds(50, 400, 165, 25);
@@ -93,7 +93,7 @@ public class LoginScreen extends JFrame implements ActionListener
             timer.stop();
          }
 
-         counterLabel.setText(":" + ddSecond);
+         counterLabel.setText("00:" + ddSecond);
 
       });
    }
@@ -152,7 +152,7 @@ public class LoginScreen extends JFrame implements ActionListener
                ex.printStackTrace();
             }
          }
-         case "Back" -> this.paintScreen();
+         case "cancel" -> this.paintScreen();
       }
    }
 }
