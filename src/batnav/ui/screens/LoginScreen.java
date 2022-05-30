@@ -1,13 +1,15 @@
 package batnav.ui.screens;
 
 import batnav.instance.Game;
-import org.apache.commons.logging.Log;
+import jdk.swing.interop.SwingInterOpUtils;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 
+//https://www.ryisnow.online/2021/04/java-beginner-code-sample-create-timer.html
 public class LoginScreen extends JFrame implements ActionListener {
     private JTextField userName;
     private JTextField userPassword;
@@ -15,10 +17,15 @@ public class LoginScreen extends JFrame implements ActionListener {
     private JLabel logoContainerLabel;
     private JLabel PasswordLabel;
     private JButton loginButton;
-    private JLabel altert;
+    private JLabel alert;
     private JPanel contentPanel;
     private JLabel loadingText;
     private JButton tempButton;
+    private JLabel counterLabel;
+    private Timer timer;
+    private int second;
+    private DecimalFormat dFormat = new DecimalFormat("00");
+    String ddSecond;
 
     public LoginScreen() {
         this.setSize(300, 500);
@@ -53,11 +60,11 @@ public class LoginScreen extends JFrame implements ActionListener {
         loginButton.addActionListener(this);
         loginButton.setActionCommand("login");
 
-        this.altert = new JLabel("Contraseña");
-        altert.setOpaque(true);
-        altert.setForeground(Color.white);
-        altert.setBackground(Color.red);
-        altert.setBounds(50, 350, 80, 25);
+        this.alert = new JLabel("Contraseña");
+        alert.setOpaque(true);
+        alert.setForeground(Color.white);
+        alert.setBackground(Color.red);
+        alert.setBounds(50, 350, 80, 25);
 
         this.loadingText = new JLabel("Iniciando sesion");
         loadingText.setBounds(100, 120, 200, 80);
@@ -67,6 +74,14 @@ public class LoginScreen extends JFrame implements ActionListener {
         tempButton.addActionListener(this);
         tempButton.setActionCommand("Back");
 
+        this.counterLabel = new JLabel();
+        counterLabel.setBounds(50, 400, 165, 25);
+
+        this.second = 0;
+        iniciarTimer();
+        timer.start();
+
+
 
         this.setResizable(false);
         this.setAlwaysOnTop(true);
@@ -74,7 +89,22 @@ public class LoginScreen extends JFrame implements ActionListener {
 
         this.paintScreen();
 
+    }
 
+    private void iniciarTimer() {
+        timer = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                second++;
+                ddSecond = dFormat.format(30 - second);
+                if(second == 0 ){
+                    timer.stop();
+                }
+
+                counterLabel.setText(":" + ddSecond);
+
+            }
+        });
     }
 
     private void showLoadingScreen() {
@@ -98,7 +128,8 @@ public class LoginScreen extends JFrame implements ActionListener {
         this.contentPanel.add(this.userLabel);
         this.contentPanel.add(this.PasswordLabel);
         this.contentPanel.add(this.loginButton);
-        this.contentPanel.add(this.altert);
+        this.contentPanel.add(this.alert);
+        this.contentPanel.add(counterLabel);
         this.revalidate();
         this.repaint();
 
@@ -107,6 +138,8 @@ public class LoginScreen extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+
+
         final String action = e.getActionCommand();
         switch (action) {
             case "login":
