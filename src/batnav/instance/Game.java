@@ -5,6 +5,7 @@ import batnav.online.match.MatchManager;
 import batnav.notifications.NotificationManager;
 import batnav.online.session.SessionManager;
 import batnav.online.socket.Connection;
+import batnav.ui.screens.LoginScreen;
 import batnav.ui.screens.MainMenuScreen;
 import batnav.ui.screens.SplashScreen;
 import batnav.utils.Logger;

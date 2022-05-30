@@ -33,7 +33,7 @@ public class SessionManager
    /**
     * Checks if a session file exists, and reads its value to login into the Socket Server.
     */
-   public void loadSession()
+   public boolean loadSession()
    {
       try
       {
@@ -45,9 +45,11 @@ public class SessionManager
          {
             // Save session id. into the global variable.
             this.setSessionId(sessionObject.getString("session"));
+            return true;
          } else
          {
             Logger.log("El sistema no encontró un archivo de sesión.");
+            return false;
          }
       } catch (Exception e)
       {
@@ -61,6 +63,7 @@ public class SessionManager
          );
          e.printStackTrace();
       }
+      return false;
    }
 
    /**
