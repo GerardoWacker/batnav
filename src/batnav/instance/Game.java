@@ -5,8 +5,6 @@ import batnav.online.match.MatchManager;
 import batnav.notifications.NotificationManager;
 import batnav.online.session.SessionManager;
 import batnav.online.socket.Connection;
-import batnav.ui.screens.LoginScreen;
-import batnav.ui.screens.MainMenuScreen;
 import batnav.ui.screens.SplashScreen;
 import batnav.utils.Logger;
 import batnav.utils.RestUtils;
@@ -21,7 +19,7 @@ public class Game
    private SessionManager sessionManager;
    private Connection connection;
    private MatchManager matchManager;
-   private SplashScreen mainMenuScreen;
+   private SplashScreen splashScreen;
    private static Game instance;
 
    /**
@@ -43,8 +41,8 @@ public class Game
     */
    public void launch()
    {
-      this.mainMenuScreen = new SplashScreen();
-      this.mainMenuScreen.setDisplayString("Conectando con Sambayón");
+      this.splashScreen = new SplashScreen();
+      this.splashScreen.setDisplayString("Conectando con Sambayón");
 
       // Verify if server is accesible
       if (!this.sambayon.isAccesible())
@@ -55,7 +53,7 @@ public class Game
 
       Logger.log("Se pudo establecer una conexión con Sambayón.");
 
-      this.mainMenuScreen.setDisplayString("Creando managers");
+      this.splashScreen.setDisplayString("Creando managers");
 
       // Create handlers.
       this.restUtils = new RestUtils(this.sambayon);
@@ -63,17 +61,19 @@ public class Game
       this.matchManager = new MatchManager(this.sessionManager);
       this.connection = new Connection(this.sambayon, this.sessionManager, this.matchManager);
 
-      this.mainMenuScreen.setDisplayString("Cargando sesión");
+      this.splashScreen.setDisplayString("Cargando sesión");
 
       // Load session.
       this.sessionManager.loadSession();
 
-      this.mainMenuScreen.setDisplayString("Cargada sesión correctamente.");
+      this.splashScreen.setDisplayString("Cargada sesión correctamente.");
 
       // Connect to real-time server.
       this.connection.connect(this.sessionManager.getSessionId());
 
-      this.mainMenuScreen.setDisplayString("Conectado correctamente al servidor.");
+      this.splashScreen.setDisplayString("Conectado correctamente al servidor.");
+
+      this.splashScreen.setVisible(false);
    }
 
    public Sambayon getSambayon()
