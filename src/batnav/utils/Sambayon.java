@@ -122,6 +122,8 @@ public class Sambayon
     */
    public boolean isAccesible()
    {
-      return this.getServer("ping") != null;
+      // This would work if Sambayón actually wasn't turned off. Temporarily disabling until server is back up.
+      //return this.getServer("ping") != null;
+      return false;
    }
 }
