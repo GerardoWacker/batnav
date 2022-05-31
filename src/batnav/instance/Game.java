@@ -72,8 +72,6 @@ public class Game
       this.connection.connect(this.sessionManager.getSessionId());
 
       this.splashScreen.setDisplayString("Conectado correctamente al servidor.");
-
-      this.splashScreen.setVisible(false);
    }
 
    public Sambayon getSambayon()
@@ -94,6 +92,11 @@ public class Game
    public SessionManager getSessionManager()
    {
       return sessionManager;
+   }
+
+   public SplashScreen getSplashScreen()
+   {
+      return splashScreen;
    }
 
    public Connection getConnection()
