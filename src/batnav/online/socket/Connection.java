@@ -100,8 +100,6 @@ public class Connection
                  userObject.getBoolean("developer")
             ));
             Logger.log("Iniciada sesión como " + this.getCurrentUser().getUsername());
-            this.socket.emit("ready", this.sessionManager.getSessionId());
-            Logger.log("Enviado paquete de ready");
          } else
          {
             Game.getInstance().getNotificationManager().addNotification(
