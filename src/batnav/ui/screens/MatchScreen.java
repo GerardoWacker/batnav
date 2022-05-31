@@ -82,42 +82,49 @@ public class MatchScreen extends JFrame implements ActionListener
       this.repaint();
    }
 
-   public class BoardMouseEvent implements MouseListener{
+   public class BoardMouseEvent implements MouseListener
+   {
 
       @Override
-      public void mouseClicked(MouseEvent e) {
+      public void mouseClicked(MouseEvent e)
+      {
          // Get the new mouse coordinates and handle the click.
          Point point = e.getPoint();
 
          // Get coordinates based on clicked point.
          int[] coordinates = opponentBoard.handleClick(point);
-         if(coordinates != null){
+         if (coordinates != null)
+         {
             Game.getInstance().getMatchManager().throwBomb(
-                    Game.getInstance().getConnection(),
-                    coordinates[0],
-                    coordinates[1]
+                 Game.getInstance().getConnection(),
+                 coordinates[0],
+                 coordinates[1]
             );
             System.out.println("Tirada bomba en " + coordinates);
          }
       }
 
       @Override
-      public void mousePressed(MouseEvent e) {
+      public void mousePressed(MouseEvent e)
+      {
 
       }
 
       @Override
-      public void mouseReleased(MouseEvent e) {
+      public void mouseReleased(MouseEvent e)
+      {
 
       }
 
       @Override
-      public void mouseEntered(MouseEvent e) {
+      public void mouseEntered(MouseEvent e)
+      {
 
       }
 
       @Override
-      public void mouseExited(MouseEvent e) {
+      public void mouseExited(MouseEvent e)
+      {
 
       }
    }
