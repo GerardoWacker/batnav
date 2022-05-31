@@ -16,7 +16,7 @@ import java.io.IOException;
 
 public class Board extends JButton
 {
-   private final int tileSize = 35;
+   private final int tileSize = 26;
    private final int boardSize = tileSize * 10;
 
    public Board()

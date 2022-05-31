@@ -20,12 +20,7 @@ public class LoginScreen extends JFrame implements ActionListener {
     private JPanel loadingPanel;
     private JLabel loadingText;
     private JButton tempButton;
-    private JLabel counterLabel;
-    private Timer timer;
-    private int second;
     private JPanel mainPanel;
-    private DecimalFormat dFormat = new DecimalFormat("00");
-    private String ddSecond;
     private CardLayout cl;
 
 
@@ -85,12 +80,9 @@ public class LoginScreen extends JFrame implements ActionListener {
         tempButton.addActionListener(this);
         tempButton.setActionCommand("Back");
 
-        this.counterLabel = new JLabel();
-        counterLabel.setBounds(50, 400, 165, 25);
 
-        this.second = 0;
-        iniciarTimer();
-        timer.start();
+
+
 
         this.loginPanel.add(this.userName);
         this.loginPanel.add(this.logoContainerLabel);
@@ -99,7 +91,7 @@ public class LoginScreen extends JFrame implements ActionListener {
         this.loginPanel.add(this.PasswordLabel);
         this.loginPanel.add(this.loginButton);
         this.loginPanel.add(this.alert);
-        this.loginPanel.add(counterLabel);
+
 
         this.loadingPanel.add(loadingText);
         this.loadingPanel.add(tempButton);
@@ -111,21 +103,6 @@ public class LoginScreen extends JFrame implements ActionListener {
 
     }
 
-    private void iniciarTimer() {
-        timer = new Timer(1000, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                second++;
-                ddSecond = dFormat.format(30 - second);
-                if(second == 0 ){
-                    timer.stop();
-                }
-
-                counterLabel.setText(":" + ddSecond);
-
-            }
-        });
-    }
 
     @Override
     public void actionPerformed(ActionEvent e) {

@@ -14,6 +14,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
+import java.text.DecimalFormat;
 
 public class MatchScreen extends JFrame implements ActionListener
 {
@@ -23,31 +24,66 @@ public class MatchScreen extends JFrame implements ActionListener
 
    private OpponentBoard opponentBoard;
    private PlayerBoard playerBoard;
+   private JPanel opponentInfo;
+   private JPanel playerInfo;
+   private JPanel middlePanel;
+   private Icon opponentIcon;
+   private Icon playerIcon;
+   private JLabel opponentName;
+   private JLabel playerName;
+   private int second;
+   private Timer timer;
+   private DecimalFormat dFormat = new DecimalFormat("00");
+   private String ddSecond;
+   private JLabel counterLabel;
 
    public MatchScreen(final Match match)
    {
+      this.second = 0;
       this.match = match;
-
       this.opponentBoard = new OpponentBoard(this.match);
       this.playerBoard = new PlayerBoard(this.match);
+      this.opponentInfo = new JPanel();
+      this.playerInfo = new JPanel();
+      this.middlePanel = new JPanel();
+      this.opponentName = new JLabel(match.getOpponent().getUsername());
+      this.playerName = new JLabel("Yo");
+      this.opponentIcon = new ImageIcon("assets/textures/red_icon.png");
+      this.playerIcon = new ImageIcon("assets/textures/green_icon.png");
 
       this.opponentBoard.setPreferredSize(new Dimension(380, 390));
       this.playerBoard.setPreferredSize(new Dimension(380, 390));
 
-      this.setSize(400, 820);
+      this.setSize(350, 720);
       this.setLayout(new BorderLayout());
       this.setResizable(false);
+      this.setVisible(true);
 
-      JPanel divisionPanel = new JPanel();
-      divisionPanel.setSize(new Dimension(400, 20));
-      divisionPanel.setBackground(Colour.Gray);
+      iniciarTimer();
+      timer.start();
+      this.counterLabel = new JLabel();
+      this.playerInfo.add(counterLabel, BorderLayout.EAST);
+      //this.opponentInfo.setBackground(Color.red);
+      //this.playerInfo.setBackground(Color.green);
+      this.opponentInfo.setPreferredSize(new Dimension(350,50));
+      this.playerInfo.setPreferredSize(new Dimension(350,50));
 
       this.opponentBoard.addMouseListener(new BoardMouseEvent());
+      middlePanel.setLayout(new GridLayout(2,1));
+      middlePanel.add(opponentBoard);
+      middlePanel.add(playerBoard);
 
-      this.add(opponentBoard, BorderLayout.NORTH);
-      this.add(divisionPanel, BorderLayout.CENTER);
-      this.add(playerBoard, BorderLayout.SOUTH);
+      this.opponentName.setIcon(opponentIcon);
+      this.opponentInfo.setLayout(new BorderLayout());
+      this.opponentInfo.add(opponentName, BorderLayout.WEST);
 
+      this.playerName.setIcon(playerIcon);
+      this.playerInfo.setLayout(new BorderLayout());
+      this.playerInfo.add(playerName, BorderLayout.WEST);
+
+      this.add(opponentInfo, BorderLayout.NORTH);
+      this.add(playerInfo, BorderLayout.SOUTH);
+      this.add(middlePanel, BorderLayout.CENTER);
       try
       {
          if (this.match.getPlayerShips().size() <= 0)
@@ -58,6 +94,20 @@ public class MatchScreen extends JFrame implements ActionListener
       }
 
       this.setVisible(true);
+   }
+
+   private void iniciarTimer() {
+      timer = new Timer(1000, new ActionListener() {
+         @Override
+         public void actionPerformed(ActionEvent e) {
+            second++;
+            ddSecond = dFormat.format(30 - second);
+            if(second == 0 ){
+               timer.stop();
+            }
+            counterLabel.setText(":" + ddSecond);
+         }
+      });
    }
 
    public static void main(String[] args)
