@@ -7,6 +7,7 @@ import batnav.notifications.Notification;
 import batnav.online.model.Packet;
 import batnav.online.session.SessionManager;
 import batnav.ui.screens.LoginScreen;
+import batnav.ui.screens.MainMenuScreen;
 import batnav.ui.screens.MatchScreen;
 import batnav.online.model.User;
 import batnav.utils.Logger;
@@ -100,6 +101,9 @@ public class Connection
                  userObject.getBoolean("developer")
             ));
             Logger.log("Iniciada sesión como " + this.getCurrentUser().getUsername());
+
+            Game.getInstance().getSplashScreen().setVisible(false);
+            new MainMenuScreen();
          } else
          {
             Game.getInstance().getNotificationManager().addNotification(
@@ -116,6 +120,7 @@ public class Connection
 
             this.sessionManager.setAndSaveSessionId(null);
 
+            Game.getInstance().getSplashScreen().setVisible(false);
             new LoginScreen();
          }
 
