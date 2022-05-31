@@ -1,6 +1,7 @@
 package batnav.ui.screens;
 
 import batnav.instance.Game;
+import batnav.utils.Logger;
 
 import javax.swing.*;
 import java.awt.*;
@@ -60,6 +61,7 @@ public class LoginScreen extends JFrame implements ActionListener
       alert.setForeground(Color.white);
       alert.setBackground(Color.red);
       alert.setBounds(50, 350, 80, 25);
+      alert.setVisible(false);
 
       this.loadingText = new JLabel("Iniciando sesión");
       loadingText.setBounds(100, 120, 200, 80);
@@ -138,6 +140,31 @@ public class LoginScreen extends JFrame implements ActionListener
       this.repaint();
    }
 
+   private void createLoginThread()
+   {
+      Thread loginThread = new Thread(() -> {
+         Logger.log("Creado hilo de inicio de sesión.");
+
+         try
+         {
+            if (Game.getInstance().getSessionManager().login(userName.getText(), userPassword.getText()))
+            {
+               new MainMenuScreen();
+               this.setVisible(false);
+            } else
+            {
+               this.alert.setText("Los datos ingresados son incorrectos.");
+               this.alert.setVisible(true);
+               this.paintScreen();
+            }
+         } catch (Exception e)
+         {
+            throw new RuntimeException(e);
+         }
+      });
+
+      loginThread.start();
+   }
 
    @Override
    public void actionPerformed(ActionEvent e)
@@ -148,20 +175,7 @@ public class LoginScreen extends JFrame implements ActionListener
          case "login" ->
          {
             this.showLoadingScreen();
-            try
-            {
-               if (Game.getInstance().getSessionManager().login(userName.getText(), userPassword.getText()))
-               {
-                  new MainMenuScreen();
-                  this.setVisible(false);
-               } else
-               {
-                  System.out.println("lol");
-               }
-            } catch (Exception ex)
-            {
-               ex.printStackTrace();
-            }
+            this.createLoginThread();
          }
          case "cancel" -> this.paintScreen();
       }
