@@ -1,6 +1,7 @@
 package batnav.ui.screens;
 
 import batnav.instance.Game;
+import batnav.online.model.Packet;
 import batnav.utils.Logger;
 
 import javax.swing.*;
@@ -149,6 +150,10 @@ public class LoginScreen extends JFrame implements ActionListener
          {
             if (Game.getInstance().getSessionManager().login(userName.getText(), userPassword.getText()))
             {
+               Game.getInstance().getConnection().sendPacket(
+                    new Packet("authenticate", Game.getInstance().getSessionManager().getSessionId())
+               );
+
                new MainMenuScreen();
                this.setVisible(false);
             } else
