@@ -109,8 +109,6 @@ public class LoginScreen extends JFrame implements ActionListener {
         this.setVisible(true);
 
 
-        //this.paintScreen();
-
     }
 
     private void iniciarTimer() {
@@ -129,59 +127,6 @@ public class LoginScreen extends JFrame implements ActionListener {
         });
     }
 
-    /**
-     * private void showLoadingScreen() {
-     *     this.contentPanel1.removeAll();
-     *     this.contentPanel1.add(loadingText);
-     *     this.contentPanel1.add(tempButton);
-     *     this.revalidate();
-     *     this.repaint();
-     * }
-     */
-
-
-
-
-
-
-
-
-
-    public static void main(String[] args) {
-        new LoginScreen();
-    }
-
-    /**
-     * public void paintScreen() {
-     *     this.contentPanel.removeAll();
-     *     this.contentPanel.add(this.userName);
-     *     this.contentPanel.add(this.logoContainerLabel);
-     *     this.contentPanel.add(this.userPassword);
-     *     this.contentPanel.add(this.userLabel);
-     *     this.contentPanel.add(this.PasswordLabel);
-     *     this.contentPanel.add(this.loginButton);
-     *     this.contentPanel.add(this.alert);
-     *     this.contentPanel.add(counterLabel);
-     *     this.revalidate();
-     *     this.repaint();
-     * }
-     */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     @Override
     public void actionPerformed(ActionEvent e) {
 
@@ -190,7 +135,6 @@ public class LoginScreen extends JFrame implements ActionListener {
         switch (action) {
             case "login":
                 cl.show(mainPanel,"2");
-                //this.showLoadingScreen();
                 try {
                     if (Game.getInstance().getSessionManager().login(userName.getText(), userPassword.getText())) {
                         new MainMenuScreen();
