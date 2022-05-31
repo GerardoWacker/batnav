@@ -23,6 +23,7 @@ public class LoginScreen extends JFrame implements ActionListener
    {
       this.setSize(300, 500);
       this.setLocationRelativeTo(null);
+
       this.contentPanel = new JPanel();
       this.add(contentPanel);
       contentPanel.setLayout(null);
@@ -98,6 +99,14 @@ public class LoginScreen extends JFrame implements ActionListener
       });
    }
 
+   private void resetTimer()
+   {
+      this.ddSecond = "30";
+      counterLabel.setText("00:" + ddSecond);
+      this.second = 0;
+      timer.restart();
+   }
+
    private void showLoadingScreen()
    {
       this.contentPanel.removeAll();
@@ -143,6 +152,7 @@ public class LoginScreen extends JFrame implements ActionListener
                if (Game.getInstance().getSessionManager().login(userName.getText(), userPassword.getText()))
                {
                   new MainMenuScreen();
+                  this.setVisible(false);
                } else
                {
                   System.out.println("lol");
