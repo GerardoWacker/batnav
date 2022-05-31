@@ -60,7 +60,7 @@ public class LoginScreen extends JFrame implements ActionListener
       alert.setOpaque(true);
       alert.setForeground(Color.white);
       alert.setBackground(Color.red);
-      alert.setBounds(50, 350, 80, 25);
+      alert.setBounds(50, 350, 200, 25);
       alert.setVisible(false);
 
       this.loadingText = new JLabel("Iniciando sesión");
