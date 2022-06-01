@@ -14,6 +14,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
+import java.sql.PseudoColumnUsage;
 import java.text.DecimalFormat;
 
 public class MatchScreen extends JFrame implements ActionListener
@@ -31,15 +32,14 @@ public class MatchScreen extends JFrame implements ActionListener
    private Icon playerIcon;
    private JLabel opponentName;
    private JLabel playerName;
-   private int second;
-   private Timer timer;
-   private DecimalFormat dFormat = new DecimalFormat("00");
-   private String ddSecond;
    private JLabel counterLabel;
+   private Timer timer;
+   private int second;
+   private DecimalFormat dFormat;
+   private String ddSecond;
 
    public MatchScreen(final Match match)
    {
-      this.second = 0;
       this.match = match;
       this.opponentBoard = new OpponentBoard(this.match);
       this.playerBoard = new PlayerBoard(this.match);
@@ -50,6 +50,8 @@ public class MatchScreen extends JFrame implements ActionListener
       this.playerName = new JLabel("Yo");
       this.opponentIcon = new ImageIcon("assets/textures/red_icon.png");
       this.playerIcon = new ImageIcon("assets/textures/green_icon.png");
+      this.counterLabel = new JLabel();
+      this.dFormat = new DecimalFormat("00");
 
       this.opponentBoard.setPreferredSize(new Dimension(380, 390));
       this.playerBoard.setPreferredSize(new Dimension(380, 390));
@@ -59,12 +61,11 @@ public class MatchScreen extends JFrame implements ActionListener
       this.setResizable(false);
       this.setVisible(true);
 
-      iniciarTimer();
-      timer.start();
-      this.counterLabel = new JLabel("");
-      this.playerInfo.add(counterLabel, BorderLayout.EAST);
-      //this.opponentInfo.setBackground(Color.red);
-      //this.playerInfo.setBackground(Color.green);
+
+
+
+
+
       this.opponentInfo.setPreferredSize(new Dimension(350,50));
       this.playerInfo.setPreferredSize(new Dimension(350,50));
 
@@ -80,6 +81,9 @@ public class MatchScreen extends JFrame implements ActionListener
       this.playerName.setIcon(playerIcon);
       this.playerInfo.setLayout(new BorderLayout());
       this.playerInfo.add(playerName, BorderLayout.WEST);
+      this.playerInfo.add(counterLabel, BorderLayout.EAST);
+      this.startTimer();
+      this.timer.start();
 
       this.add(opponentInfo, BorderLayout.NORTH);
       this.add(playerInfo, BorderLayout.SOUTH);
@@ -96,19 +100,20 @@ public class MatchScreen extends JFrame implements ActionListener
       this.setVisible(true);
    }
 
-   private void iniciarTimer() {
+   private void startTimer() {
       timer = new Timer(1000, new ActionListener() {
          @Override
          public void actionPerformed(ActionEvent e) {
             second++;
             ddSecond = dFormat.format(30 - second);
-            if(second == 0 ){
+            counterLabel.setText("00:" + ddSecond+"   ");
+            if(second == 30){
                timer.stop();
             }
-            counterLabel.setText(":" + ddSecond);
          }
       });
    }
+
 
    public static void main(String[] args)
    {
