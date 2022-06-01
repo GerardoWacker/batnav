@@ -61,7 +61,7 @@ public class MatchScreen extends JFrame implements ActionListener
 
       iniciarTimer();
       timer.start();
-      this.counterLabel = new JLabel();
+      this.counterLabel = new JLabel("");
       this.playerInfo.add(counterLabel, BorderLayout.EAST);
       //this.opponentInfo.setBackground(Color.red);
       //this.playerInfo.setBackground(Color.green);
