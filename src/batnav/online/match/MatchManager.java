@@ -167,7 +167,6 @@ public class MatchManager
                  x, y, false, hasHit
             ));
 
-            System.out.println("Un exito " + hasHit);
             this.getCurrentMatch().getMatchScreen().repaint();
          }
       } catch (JSONException e)
