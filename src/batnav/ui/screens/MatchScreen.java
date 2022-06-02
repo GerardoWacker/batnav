@@ -72,8 +72,6 @@ public class MatchScreen extends JFrame implements ActionListener
       this.playerInfo.setLayout(new BorderLayout());
       this.playerInfo.add(playerName, BorderLayout.WEST);
       this.playerInfo.add(counterLabel, BorderLayout.EAST);
-      this.startTimer();
-      this.timer.start();
 
       this.add(opponentInfo, BorderLayout.NORTH);
       this.add(playerInfo, BorderLayout.SOUTH);
@@ -90,9 +88,17 @@ public class MatchScreen extends JFrame implements ActionListener
       this.setVisible(true);
    }
 
+   public void resetTimer()
+   {
+      this.ddSecond = "30";
+      counterLabel.setText("00:" + ddSecond);
+      this.second = 0;
+      timer.restart();
+   }
+
    private void startTimer()
    {
-      timer = new Timer(1000, e -> {
+      this.timer = new Timer(1000, e -> {
          second++;
          ddSecond = dFormat.format(30 - second);
          counterLabel.setText("00:" + ddSecond + "   ");
@@ -101,6 +107,7 @@ public class MatchScreen extends JFrame implements ActionListener
             timer.stop();
          }
       });
+      this.timer.start();
    }
 
 
