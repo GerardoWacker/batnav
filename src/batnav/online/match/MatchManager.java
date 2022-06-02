@@ -98,14 +98,15 @@ public class MatchManager
          connection.sendPacket(new Packet("match-set-ships", object.toString()));
          this.getCurrentMatch().setPlayerShips(shipList);
 
-      } catch(JSONException e)
+      } catch (JSONException e)
       {
          Game.getInstance().getNotificationManager().addNotification(
               new Notification(
                    Notification.Priority.CRITICAL,
                    "Ha ocurrido un error",
                    e.getLocalizedMessage(),
-                   a -> {}
+                   a -> {
+                   }
               )
          );
       }
@@ -125,7 +126,7 @@ public class MatchManager
 
          this.getCurrentMatch().addOpponentBomb(new int[]{coordinates.getInt(0), coordinates.getInt(1)});
 
-         // TODO: Update game interface
+         this.currentMatch.getMatchScreen().repaint();
       } catch (JSONException e)
       {
          e.printStackTrace();
