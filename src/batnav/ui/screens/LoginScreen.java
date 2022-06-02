@@ -18,10 +18,8 @@ public class LoginScreen extends JFrame implements ActionListener
    private JPanel mainPanel;
    private CardLayout cl;
 
-
    public LoginScreen()
    {
-
       this.cl = new CardLayout();
       this.setSize(300, 500);
       this.setLocationRelativeTo(null);
@@ -132,7 +130,7 @@ public class LoginScreen extends JFrame implements ActionListener
    public void actionPerformed(ActionEvent e)
    {
       final String action = e.getActionCommand();
-      
+
       switch (action)
       {
          case "login" ->
