@@ -42,7 +42,7 @@ public class MatchScreen extends JFrame implements ActionListener
       this.playerInfo = new JPanel();
       this.middlePanel = new JPanel();
       this.opponentName = new JLabel(match.getOpponent().getUsername());
-      this.playerName = new JLabel("Yo");
+      this.playerName = new JLabel(Game.getInstance().getConnection().getCurrentUser().getUsername());
       this.opponentIcon = new ImageIcon("assets/textures/red_icon.png");
       this.playerIcon = new ImageIcon("assets/textures/green_icon.png");
       this.counterLabel = new JLabel();
