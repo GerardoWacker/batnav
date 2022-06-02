@@ -93,8 +93,6 @@ public class LoginScreen extends JFrame implements ActionListener {
       this.setResizable(false);
       this.setAlwaysOnTop(true);
       this.setVisible(true);
-
-
    }
 
    private void createLoginThread()
@@ -107,8 +105,9 @@ public class LoginScreen extends JFrame implements ActionListener {
             if (Game.getInstance().getSessionManager().login(userName.getText(), userPassword.getText()))
             {
                Game.getInstance().getConnection().sendPacket(
-                       new Packet("authenticate", Game.getInstance().getSessionManager().getSessionId())
+                    new Packet("authenticate", Game.getInstance().getSessionManager().getSessionId())
                );
+
                new MainMenuScreen();
                this.setVisible(false);
             } else
