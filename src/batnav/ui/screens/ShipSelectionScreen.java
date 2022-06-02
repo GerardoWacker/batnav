@@ -99,7 +99,8 @@ public class ShipSelectionScreen extends JFrame implements ActionListener
       final String action = e.getActionCommand();
       switch (action)
       {
-         case "rotateShip":
+         case "rotateShip" ->
+         {
             if (this.selectedShip.isVertical())
             {
                if (this.selectedShip.getX() >= 10 - this.selectedShip.getSize())
@@ -162,8 +163,9 @@ public class ShipSelectionScreen extends JFrame implements ActionListener
                }
             }
             this.shipSelectionBoard.update();
-            break;
-         case "setShips":
+         }
+         case "setShips" ->
+         {
             for (Ship ship : this.ships)
             {
                if (ship.getX() == null || ship.getY() == null)
@@ -174,11 +176,11 @@ public class ShipSelectionScreen extends JFrame implements ActionListener
                   return;
                }
             }
-
             Game.getInstance().getMatchManager().setShips(
                  Game.getInstance().getConnection(),
                  this.ships
             );
+         }
       }
    }
 
