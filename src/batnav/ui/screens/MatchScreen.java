@@ -25,14 +25,9 @@ public class MatchScreen extends JFrame implements ActionListener
 
    private OpponentBoard opponentBoard;
    private PlayerBoard playerBoard;
-   private JPanel opponentInfo;
-   private JPanel playerInfo;
-   private JPanel middlePanel;
-   private Icon opponentIcon;
-   private Icon playerIcon;
-   private JLabel opponentName;
-   private JLabel playerName;
-   private JLabel counterLabel;
+   private JPanel opponentInfo, playerInfo, middlePanel;
+   private Icon playerIcon, opponentIcon;
+   private JLabel playerName, opponentName, counterLabel;
    private Timer timer;
    private int second;
    private DecimalFormat dFormat;
@@ -61,16 +56,11 @@ public class MatchScreen extends JFrame implements ActionListener
       this.setResizable(false);
       this.setVisible(true);
 
-
-
-
-
-
-      this.opponentInfo.setPreferredSize(new Dimension(350,50));
-      this.playerInfo.setPreferredSize(new Dimension(350,50));
+      this.opponentInfo.setPreferredSize(new Dimension(350, 50));
+      this.playerInfo.setPreferredSize(new Dimension(350, 50));
 
       this.opponentBoard.addMouseListener(new BoardMouseEvent());
-      middlePanel.setLayout(new GridLayout(2,1));
+      middlePanel.setLayout(new GridLayout(2, 1));
       middlePanel.add(opponentBoard);
       middlePanel.add(playerBoard);
 
@@ -100,16 +90,15 @@ public class MatchScreen extends JFrame implements ActionListener
       this.setVisible(true);
    }
 
-   private void startTimer() {
-      timer = new Timer(1000, new ActionListener() {
-         @Override
-         public void actionPerformed(ActionEvent e) {
-            second++;
-            ddSecond = dFormat.format(30 - second);
-            counterLabel.setText("00:" + ddSecond+"   ");
-            if(second == 30){
-               timer.stop();
-            }
+   private void startTimer()
+   {
+      timer = new Timer(1000, e -> {
+         second++;
+         ddSecond = dFormat.format(30 - second);
+         counterLabel.setText("00:" + ddSecond + "   ");
+         if (second == 30)
+         {
+            timer.stop();
          }
       });
    }
@@ -155,7 +144,6 @@ public class MatchScreen extends JFrame implements ActionListener
                  coordinates[0],
                  coordinates[1]
             );
-            System.out.println("Tirada bomba en " + coordinates);
          }
       }
 
