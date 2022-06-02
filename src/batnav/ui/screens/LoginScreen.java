@@ -9,7 +9,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class LoginScreen extends JFrame implements ActionListener {
+public class LoginScreen extends JFrame implements ActionListener
+{
    private final JTextField userName, userPassword;
    private final JLabel userLabel, logoContainerLabel, passwordLabel, alert, loadingText;
    private JPanel loginPanel, loadingPanel;
@@ -18,7 +19,8 @@ public class LoginScreen extends JFrame implements ActionListener {
    private CardLayout cl;
 
 
-   public LoginScreen() {
+   public LoginScreen()
+   {
 
       this.cl = new CardLayout();
       this.setSize(300, 500);
@@ -127,28 +129,29 @@ public class LoginScreen extends JFrame implements ActionListener {
 
 
    @Override
-   public void actionPerformed(ActionEvent e) {
-
-
+   public void actionPerformed(ActionEvent e)
+   {
       final String action = e.getActionCommand();
-      switch (action) {
-         case "login":
+      
+      switch (action)
+      {
+         case "login" ->
+         {
             cl.show(mainPanel, "2");
-            try {
+            try
+            {
                this.createLoginThread();
-            } catch (Exception ex) {
+            } catch (Exception ex)
+            {
                ex.printStackTrace();
             }
-            break;
-         case "cancel":
-            cl.show(mainPanel, "1");
-            break;
-
-
+         }
+         case "cancel" -> cl.show(mainPanel, "1");
       }
    }
 
-   public static void main(String[] args) {
+   public static void main(String[] args)
+   {
       new LoginScreen();
    }
 }
