@@ -12,6 +12,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import javax.swing.*;
 import java.util.List;
 
 public class MatchManager
@@ -162,6 +163,14 @@ public class MatchManager
                  y = content.getJSONArray("coordinates").getInt(1);
 
             final boolean hasHit = content.getBoolean("hasHit");
+            final boolean hasSunk = content.getBoolean("hasSunk");
+
+            if (hasSunk)
+            {
+               JOptionPane.showMessageDialog(null,
+                    "¡Hundiste un barco!",
+                    "Notificación", JOptionPane.INFORMATION_MESSAGE);
+            }
 
             this.getCurrentMatch().addPlayerBomb(new Bomb(
                  x, y, false, hasHit
