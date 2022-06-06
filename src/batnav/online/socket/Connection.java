@@ -6,6 +6,9 @@ import batnav.online.match.MatchManager;
 import batnav.notifications.Notification;
 import batnav.online.model.Packet;
 import batnav.online.session.SessionManager;
+import batnav.ui.screens.LoginScreen;
+import batnav.ui.screens.MainMenuScreen;
+import batnav.ui.screens.MatchScreen;
 import batnav.online.model.User;
 import batnav.utils.Logger;
 import batnav.utils.Sambayon;
@@ -62,8 +65,8 @@ public class Connection
             this.socket.on("match", this::match);
             this.socket.on("match-bomb-thrown", this.matchManager::hasThrownBomb);
             this.socket.on("match-bomb-receive", this.matchManager::receiveBomb);
-            this.socket.on("match-ships-set", data -> {
-            }); // TODO: Update match
+            this.socket.on("match-ships-set", data -> this.matchManager
+                 .getCurrentMatch().getMatchScreen().setPlayerReady());
             this.socket.on("match-ships-receive", this.matchManager::receiveShips);
             this.socket.on("match-turn", this.matchManager::turn);
 
@@ -99,8 +102,9 @@ public class Connection
                  userObject.getBoolean("developer")
             ));
             Logger.log("Iniciada sesión como " + this.getCurrentUser().getUsername());
-            this.socket.emit("ready", this.sessionManager.getSessionId());
-            Logger.log("Enviado paquete de ready");
+
+            Game.getInstance().getSplashScreen().setVisible(false);
+            new MainMenuScreen();
          } else
          {
             Game.getInstance().getNotificationManager().addNotification(
@@ -116,6 +120,9 @@ public class Connection
             Logger.warn(response.getString("content"));
 
             this.sessionManager.setAndSaveSessionId(null);
+
+            Game.getInstance().getSplashScreen().setVisible(false);
+            new LoginScreen();
          }
 
       } catch (JSONException e)
@@ -165,6 +172,7 @@ public class Connection
                  )
             );
 
+            this.matchManager.getCurrentMatch().setMatchScreen(new MatchScreen(this.matchManager.getCurrentMatch()));
             // TODO: Display match interface
          } else
          {

@@ -26,7 +26,7 @@ public class ConfigManager
    {
       final AppDirs appDirs = AppDirsFactory.getInstance();
       this.gson = new GsonBuilder().create();
-      this.dataDir = new File(appDirs.getUserDataDir(".batnav", "latest", "gw_jiv"));
+      this.dataDir = new File(appDirs.getUserDataDir(".batnav", "latest", "batnav"));
 
       if (this.dataDir.mkdirs())
       {

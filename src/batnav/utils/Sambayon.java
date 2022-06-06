@@ -22,7 +22,9 @@ import java.util.Map;
 public class Sambayon
 {
    private final String SAMBAYON_ENDPOINT = "https://sb.rar.vg/";
+   private final String FALLBACK_SERVER = "https://batnav.glitch.me/";
    private final Map<String, String> serverPool = Maps.newHashMap();
+   private boolean fallbackMode = false;
 
    /**
     * Get a server's URL based on location.
@@ -32,6 +34,28 @@ public class Sambayon
     */
    public String getServer(final String serverName)
    {
+      // Check for fallback mode.
+      if (fallbackMode)
+      {
+         try
+         {
+            if (serverName.equals("damas") || serverName.equals("damas_sock"))
+            {
+               Logger.log("Accedido a " + serverName + " usando los registros fallback.");
+               return this.FALLBACK_SERVER;
+            } else throw new SambayonException("No fue posible conectarse a Sambayón.");
+         } catch (Exception e)
+         {
+            Game.getInstance().getNotificationManager().addNotification(
+                 new Notification(Notification.Priority.CRITICAL,
+                      "Ha ocurrido un error", "Hubo un error al conectarse con Sambayón.", a -> {
+                 }
+                 )
+            );
+            Logger.err(e.getLocalizedMessage());
+         }
+      }
+
       if (this.serverPool.containsKey(serverName))
       {
          Logger.log("Accedido a " + serverName + " desde los servidores en caché.");
@@ -83,10 +107,23 @@ public class Sambayon
    }
 
    /**
+    * Sets the fallback mode on Sambayon, using a hardcoded backup server allocated that will be available most of the
+    * time.
+    *
+    * @param fallbackMode Is fallback.
+    */
+   public void setFallbackMode(boolean fallbackMode)
+   {
+      this.fallbackMode = fallbackMode;
+   }
+
+   /**
     * Checks if Sambayón is accessible by sending a ping packet.
     */
    public boolean isAccesible()
    {
-      return this.getServer("ping") != null;
+      // This would work if Sambayón actually wasn't turned off. Temporarily disabling until server is back up.
+      //return this.getServer("ping") != null;
+      return false;
    }
 }

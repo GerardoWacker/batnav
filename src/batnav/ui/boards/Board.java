@@ -16,8 +16,10 @@ import java.io.IOException;
 
 public class Board extends JButton
 {
-   private final int tileSize = 38;
+   private final int tileSize = 26;
    private final int boardSize = tileSize * 10;
+
+   private boolean disabled;
 
    public Board()
    {
@@ -44,11 +46,17 @@ public class Board extends JButton
       g.fillRect(paddingX, paddingY, boardSize, boardSize);
 
       // Draw each line.
-      g.setColor(Colour.Black);
+      g.setColor(disabled ? Colour.DarkSlateGray : Colour.Black);
       for (int i = 0; i < 11; i++)
       {
          g.drawLine(paddingX + i * tileSize, paddingY, paddingX + i * tileSize, paddingY + boardSize);
          g.drawLine(paddingX, paddingY + i * tileSize, paddingX + boardSize, paddingY + i * tileSize);
+      }
+
+      if (disabled)
+      {
+         g.setColor(Colour.Gray.alpha(90));
+         g.fillRect(paddingX, paddingY, boardSize, boardSize);
       }
    }
 
@@ -65,8 +73,10 @@ public class Board extends JButton
       final int x = paddingX + bomb.getX() * tileSize;
       final int y = paddingY + bomb.getY() * tileSize;
 
-      g.setColor(Colour.DarkGray);
-      g.fillOval(x + 9, y + 9, 20, 20);
+      g.setColor(bomb.isHasHit() ? Colour.DarkRed : Colour.DarkGray);
+      final int bombSize = 15;
+      final int padding = (tileSize - bombSize) / 2;
+      g.fillOval(x + padding, y + padding, bombSize, bombSize);
    }
 
    public void drawShip(Graphics g, final Ship ship)
@@ -85,9 +95,10 @@ public class Board extends JButton
          {
             final BufferedImage image = ImageIO.read(new File("assets/ships/ship" + ship.getSize() + ".png"));
 
-            final AffineTransform affineTransform = new AffineTransform();
-            affineTransform.translate(x + (ship.isVertical() ? tileSize : 0), y);
-            affineTransform.scale(0.38, 0.38);
+         final AffineTransform affineTransform = new AffineTransform();
+         affineTransform.translate(x + (ship.isVertical() ? tileSize : 0), y);
+         final double scale = tileSize * 0.01;
+         affineTransform.scale(scale, scale);
 
             if (ship.isVertical())
             {
@@ -124,5 +135,16 @@ public class Board extends JButton
          return new int[]{(point.x - paddingX) / tileSize, (point.y - paddingY) / tileSize};
       } else
          return null;
+   }
+
+   public boolean isDisabled()
+   {
+      return disabled;
+   }
+
+   public void setDisabled(boolean disabled)
+   {
+      this.disabled = disabled;
+      this.repaint();
    }
 }
