@@ -127,10 +127,14 @@ public class MatchManager
          // If the "content" value for this packet is true, then it's the user's turn.
          if (json.getBoolean("content"))
          {
-            // TODO: Set user's turn
+            this.getCurrentMatch().getMatchScreen().startTimer();
+            this.getCurrentMatch().getMatchScreen().getPlayerBoard().setDisabled(false);
+            this.getCurrentMatch().getMatchScreen().getOpponentBoard().setDisabled(true);
          } else
          {
-            // TODO: Set opponent's turn
+            this.getCurrentMatch().getMatchScreen().startTimer();
+            this.getCurrentMatch().getMatchScreen().getPlayerBoard().setDisabled(true);
+            this.getCurrentMatch().getMatchScreen().getOpponentBoard().setDisabled(false);
          }
       } catch (JSONException e)
       {
