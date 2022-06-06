@@ -71,7 +71,7 @@ public class Game
       // Connect to real-time server.
       this.connection.connect(this.sessionManager.getSessionId());
 
-      this.splashScreen.setDisplayString("Conectado correctamente al servidor.");
+      this.splashScreen.setDisplayString("Iniciando...");
    }
 
    public Sambayon getSambayon()
