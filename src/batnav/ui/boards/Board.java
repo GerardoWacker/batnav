@@ -95,10 +95,10 @@ public class Board extends JButton
          {
             final BufferedImage image = ImageIO.read(new File("assets/ships/ship" + ship.getSize() + ".png"));
 
-         final AffineTransform affineTransform = new AffineTransform();
-         affineTransform.translate(x + (ship.isVertical() ? tileSize : 0), y);
-         final double scale = tileSize * 0.01;
-         affineTransform.scale(scale, scale);
+            final AffineTransform affineTransform = new AffineTransform();
+            affineTransform.translate(x + (ship.isVertical() ? tileSize : 0), y);
+            final double scale = tileSize * 0.01;
+            affineTransform.scale(scale, scale);
 
             if (ship.isVertical())
             {
@@ -124,15 +124,19 @@ public class Board extends JButton
 
    public int[] handleClick(final Point point)
    {
-      // Set board position and size.
-      final int paddingX = (this.getWidth() - boardSize) / 2 + this.getX();
-      final int paddingY = (this.getHeight() - boardSize) / 2 + this.getY();
-
-      // Check if the click was executed inside the board.
-      if (point.x > paddingX && point.y > paddingY && point.x < paddingX + boardSize && point.y < paddingY + boardSize)
+      if (!disabled)
       {
-         // Perform calculations to get coordinates and return the values in an array.
-         return new int[]{(point.x - paddingX) / tileSize, (point.y - paddingY) / tileSize};
+         // Set board position and size.
+         final int paddingX = (this.getWidth() - boardSize) / 2 + this.getX();
+         final int paddingY = (this.getHeight() - boardSize) / 2 + this.getY();
+
+         // Check if the click was executed inside the board.
+         if (point.x > paddingX && point.y > paddingY && point.x < paddingX + boardSize && point.y < paddingY + boardSize)
+         {
+            // Perform calculations to get coordinates and return the values in an array.
+            return new int[]{(point.x - paddingX) / tileSize, (point.y - paddingY) / tileSize};
+         } else
+            return null;
       } else
          return null;
    }
