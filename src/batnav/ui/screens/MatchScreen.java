@@ -33,6 +33,7 @@ public class MatchScreen extends JFrame implements ActionListener
    private DecimalFormat dFormat;
    private String ddSecond;
 
+
    public MatchScreen(final Match match)
    {
       this.match = match;
@@ -96,8 +97,11 @@ public class MatchScreen extends JFrame implements ActionListener
       timer.restart();
    }
 
-   private void startTimer()
+   public void startTimer()
    {
+      this.ddSecond = "30";
+      this.second = 0;
+
       this.timer = new Timer(1000, e -> {
          second++;
          ddSecond = dFormat.format(30 - second);
@@ -107,6 +111,7 @@ public class MatchScreen extends JFrame implements ActionListener
             timer.stop();
          }
       });
+
       this.timer.start();
    }
 
@@ -177,5 +182,15 @@ public class MatchScreen extends JFrame implements ActionListener
       {
 
       }
+   }
+
+   public OpponentBoard getOpponentBoard()
+   {
+      return opponentBoard;
+   }
+
+   public PlayerBoard getPlayerBoard()
+   {
+      return playerBoard;
    }
 }
