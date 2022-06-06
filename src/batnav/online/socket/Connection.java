@@ -68,6 +68,7 @@ public class Connection
             this.socket.on("match-ships-set", data -> this.matchManager
                  .getCurrentMatch().getMatchScreen().setPlayerReady());
             this.socket.on("match-ships-receive", this.matchManager::receiveShips);
+            this.socket.on("match-turn", this.matchManager::turn);
 
          });
 

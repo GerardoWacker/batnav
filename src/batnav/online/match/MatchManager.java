@@ -12,6 +12,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import javax.swing.*;
 import java.util.List;
 
 public class MatchManager
@@ -113,6 +114,36 @@ public class MatchManager
    }
 
    /**
+    * Handles turn setting for the players in a match.
+    *
+    * @param response Contains a boolean with the turn's value.
+    */
+   public void turn(final Object[] response)
+   {
+      try
+      {
+         final JSONObject json = Connection.decodePacket(response);
+
+         // If the "content" value for this packet is true, then it's the user's turn.
+         if (json.getBoolean("content"))
+         {
+            this.getCurrentMatch().getMatchScreen().startTimer();
+            this.getCurrentMatch().getMatchScreen().getPlayerBoard().setDisabled(true);
+            this.getCurrentMatch().getMatchScreen().getOpponentBoard().setDisabled(false);
+         } else
+         {
+            this.getCurrentMatch().getMatchScreen().startTimer();
+            this.getCurrentMatch().getMatchScreen().getPlayerBoard().setDisabled(false);
+            this.getCurrentMatch().getMatchScreen().getOpponentBoard().setDisabled(true);
+         }
+      } catch (JSONException e)
+      {
+         throw new RuntimeException(e);
+      }
+
+   }
+
+   /**
     * Method executed when a bomb packet has been received. It updates the current match and the game's interface.
     *
     * @param response Packet from server.
@@ -134,7 +165,7 @@ public class MatchManager
    }
 
    /**
-    * Method executed when a bomb packet has been received. It updates the current match and the game's interface.
+    * Method executed when the ships packet has been received. It updates the current match and the game's interface.
     *
     * @param response Packet from server.
     */
@@ -162,6 +193,14 @@ public class MatchManager
                  y = content.getJSONArray("coordinates").getInt(1);
 
             final boolean hasHit = content.getBoolean("hasHit");
+            final boolean hasSunk = content.getBoolean("hasSunk");
+
+            if (hasSunk)
+            {
+               JOptionPane.showMessageDialog(null,
+                    "¡Hundiste un barco!",
+                    "Notificación", JOptionPane.INFORMATION_MESSAGE);
+            }
 
             this.getCurrentMatch().addPlayerBomb(new Bomb(
                  x, y, false, hasHit
