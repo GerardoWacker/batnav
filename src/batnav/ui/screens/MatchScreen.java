@@ -80,13 +80,16 @@ public class MatchScreen extends JFrame implements ActionListener
       try
       {
          if (this.match.getPlayerShips().size() <= 0)
+         {
             this.shipSelectionScreen = new ShipSelectionScreen();
+         } else
+         {
+            this.setVisible(true);
+         }
       } catch (IOException e)
       {
          e.printStackTrace();
       }
-
-      this.setVisible(true);
    }
 
    public void resetTimer()
