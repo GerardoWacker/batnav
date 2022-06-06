@@ -101,7 +101,7 @@ public class Connection
                  userObject.getBoolean("developer")
             ));
             Logger.log("Iniciada sesión como " + this.getCurrentUser().getUsername());
-
+            //this.sendPacket(new Packet("join-ranked-queue", this.sessionManager.getSessionId()));
             Game.getInstance().getSplashScreen().setVisible(false);
             new MainMenuScreen();
          } else
