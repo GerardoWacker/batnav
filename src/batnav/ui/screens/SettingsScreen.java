@@ -1,5 +1,7 @@
 package batnav.ui.screens;
 
+import batnav.instance.Game;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -29,13 +31,9 @@ public class SettingsScreen extends JFrame implements ActionListener
       this.logoutButton = new JButton("Logout");
       logoutButton.setBounds(100, 350, 300, 50);
       logoutButton.setFont(new Font("San Francisco Display", Font.PLAIN, 18));
-      logoutButton.addActionListener(new ActionListener()
-      {
-         @Override
-         public void actionPerformed(ActionEvent e)
-         {
-            getDefaultCloseOperation();
-         }
+      logoutButton.addActionListener(e -> {
+         Game.getInstance().getSessionManager().setAndSaveSessionId(null);
+         Game.getInstance().getConnection().disconnect();
       });
 
       this.settingsPanel.add(this.logoutButton);
