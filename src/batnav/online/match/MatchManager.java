@@ -8,6 +8,8 @@ import batnav.online.session.SessionManager;
 import batnav.online.socket.Connection;
 import batnav.online.model.JSONPacket;
 import batnav.online.model.Packet;
+import batnav.ui.screens.ResultsScreen;
+import batnav.utils.Logger;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -209,6 +211,27 @@ public class MatchManager
             this.getCurrentMatch().getMatchScreen().repaint();
          }
       } catch (JSONException e)
+      {
+         e.printStackTrace();
+      }
+   }
+
+   /**
+    * Method used when the `match-end` packet is received.
+    *
+    * @param json Response String containing a JSON object. Structure: {win: boolean, elo: int, match: String}.
+    */
+   public void end(final Object[] json)
+   {
+      Logger.log("La partida ha finalizado.");
+
+      try
+      {
+         final JSONObject response = Connection.decodePacket(json);
+
+         this.getCurrentMatch().getMatchScreen().setVisible(false);
+         new ResultsScreen(response.getBoolean("win"), response.getInt("elo"), response.getString("match"));
+      } catch (Exception e)
       {
          e.printStackTrace();
       }

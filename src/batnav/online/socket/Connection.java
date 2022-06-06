@@ -197,27 +197,6 @@ public class Connection
    }
 
    /**
-    * Method used when the `match-end` packet is received.
-    *
-    * @param json Response String containing a JSON object. Structure: {win: boolean, elo: int, match: String}.
-    */
-   private void end(final Object[] json)
-   {
-      Logger.log("La partida ha finalizado.");
-
-      try
-      {
-         final JSONObject response = Connection.decodePacket(json);
-
-         this.matchManager.getCurrentMatch().getMatchScreen().setVisible(false);
-         new ResultsScreen(response.getBoolean("win"), response.getInt("elo"), response.getString("match"));
-      } catch (Exception e)
-      {
-         e.printStackTrace();
-      }
-   }
-
-   /**
     * Disconnects from the server.
     */
    public void disconnect()
