@@ -108,7 +108,7 @@ public class LoginScreen extends JFrame implements ActionListener
                     new Packet("authenticate", Game.getInstance().getSessionManager().getSessionId())
                );
 
-               new MainMenuScreen();
+               Game.getInstance().getMainMenuScreen().setVisible(true);
                this.setVisible(false);
             } else
             {
