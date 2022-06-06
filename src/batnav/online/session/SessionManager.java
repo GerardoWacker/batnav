@@ -10,6 +10,7 @@ import batnav.utils.RestUtils;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class SessionManager
@@ -138,13 +139,7 @@ public class SessionManager
    public void setAndSaveSessionId(String sessionId)
    {
       this.sessionId = sessionId;
-      if (sessionId == null)
-      {
-         this.saveSession("");
-      } else
-      {
-         this.saveSession(sessionId);
-      }
+      this.saveSession(Objects.requireNonNullElse(sessionId, ""));
    }
 
    /**
