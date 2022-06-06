@@ -173,8 +173,8 @@ public class Connection
                  )
             );
 
+            Game.getInstance().getMainMenuScreen().setVisible(false);
             this.matchManager.getCurrentMatch().setMatchScreen(new MatchScreen(this.matchManager.getCurrentMatch()));
-            // TODO: Display match interface
          } else
          {
             final JSONObject matchFailObject = response.getJSONObject("content");
