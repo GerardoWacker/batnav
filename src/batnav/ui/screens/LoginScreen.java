@@ -70,7 +70,7 @@ public class LoginScreen extends JFrame implements ActionListener, KeyListener
          }
       });
 
-      this.logoContainerLabel = new JLabel("Iniciar sesion", SwingConstants.CENTER);
+      this.logoContainerLabel = new JLabel("Iniciar sesión", SwingConstants.CENTER);
       logoContainerLabel.setFont(new Font("San Francisco Display", Font.BOLD, 25));
       logoContainerLabel.setHorizontalTextPosition(JLabel.CENTER);
       logoContainerLabel.setBounds(35, 10, 200, 80);
