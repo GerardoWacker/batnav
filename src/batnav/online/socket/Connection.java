@@ -196,7 +196,7 @@ public class Connection
       }
    }
 
-   private void end(final Object[] json)
+  private void end(final Object[] json)
    {
       Logger.log("La partida ha finalizado.");
 
@@ -210,6 +210,14 @@ public class Connection
       {
          e.printStackTrace();
       }
+   }
+
+   /**
+    * Disconnects from the server.
+    */
+   public void disconnect()
+   {
+      this.socket.disconnect();
    }
 
    /**
