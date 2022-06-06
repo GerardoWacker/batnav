@@ -114,6 +114,36 @@ public class MatchManager
    }
 
    /**
+    * Handles turn setting for the players in a match.
+    *
+    * @param response Contains a boolean with the turn's value.
+    */
+   public void turn(final Object[] response)
+   {
+      try
+      {
+         final JSONObject json = Connection.decodePacket(response);
+
+         // If the "content" value for this packet is true, then it's the user's turn.
+         if (json.getBoolean("content"))
+         {
+            this.getCurrentMatch().getMatchScreen().startTimer();
+            this.getCurrentMatch().getMatchScreen().getPlayerBoard().setDisabled(true);
+            this.getCurrentMatch().getMatchScreen().getOpponentBoard().setDisabled(false);
+         } else
+         {
+            this.getCurrentMatch().getMatchScreen().startTimer();
+            this.getCurrentMatch().getMatchScreen().getPlayerBoard().setDisabled(false);
+            this.getCurrentMatch().getMatchScreen().getOpponentBoard().setDisabled(true);
+         }
+      } catch (JSONException e)
+      {
+         throw new RuntimeException(e);
+      }
+
+   }
+
+   /**
     * Method executed when a bomb packet has been received. It updates the current match and the game's interface.
     *
     * @param response Packet from server.

@@ -33,6 +33,7 @@ public class MatchScreen extends JFrame implements ActionListener
    private DecimalFormat dFormat;
    private String ddSecond;
 
+
    public MatchScreen(final Match match)
    {
       this.match = match;
@@ -54,7 +55,6 @@ public class MatchScreen extends JFrame implements ActionListener
       this.setSize(350, 720);
       this.setLayout(new BorderLayout());
       this.setResizable(false);
-      this.setVisible(true);
 
       this.opponentInfo.setPreferredSize(new Dimension(350, 50));
       this.playerInfo.setPreferredSize(new Dimension(350, 50));
@@ -79,13 +79,16 @@ public class MatchScreen extends JFrame implements ActionListener
       try
       {
          if (this.match.getPlayerShips().size() <= 0)
+         {
             this.shipSelectionScreen = new ShipSelectionScreen();
+         } else
+         {
+            this.setVisible(true);
+         }
       } catch (IOException e)
       {
          e.printStackTrace();
       }
-
-      this.setVisible(true);
    }
 
    public void resetTimer()
@@ -96,17 +99,28 @@ public class MatchScreen extends JFrame implements ActionListener
       timer.restart();
    }
 
-   private void startTimer()
+   public void startTimer()
    {
+      this.ddSecond = "30";
+      this.second = 0;
+
+      if (this.timer != null)
+      {
+         counterLabel.setText("00:" + ddSecond);
+         this.timer.restart();
+         return;
+      }
+
       this.timer = new Timer(1000, e -> {
          second++;
          ddSecond = dFormat.format(30 - second);
-         counterLabel.setText("00:" + ddSecond + "   ");
+         counterLabel.setText("00:" + ddSecond);
          if (second == 30)
          {
             timer.stop();
          }
       });
+
       this.timer.start();
    }
 
@@ -177,5 +191,15 @@ public class MatchScreen extends JFrame implements ActionListener
       {
 
       }
+   }
+
+   public OpponentBoard getOpponentBoard()
+   {
+      return opponentBoard;
+   }
+
+   public PlayerBoard getPlayerBoard()
+   {
+      return playerBoard;
    }
 }
