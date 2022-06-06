@@ -135,7 +135,7 @@ public class MatchManager
    }
 
    /**
-    * Method executed when a bomb packet has been received. It updates the current match and the game's interface.
+    * Method executed when the ships packet has been received. It updates the current match and the game's interface.
     *
     * @param response Packet from server.
     */
