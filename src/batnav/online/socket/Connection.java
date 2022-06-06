@@ -196,7 +196,12 @@ public class Connection
       }
    }
 
-  private void end(final Object[] json)
+   /**
+    * Method used when the `match-end` packet is received.
+    *
+    * @param json Response String containing a JSON object. Structure: {win: boolean, elo: int, match: String}.
+    */
+   private void end(final Object[] json)
    {
       Logger.log("La partida ha finalizado.");
 
