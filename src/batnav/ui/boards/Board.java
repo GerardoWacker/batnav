@@ -19,6 +19,8 @@ public class Board extends JButton
    private final int tileSize = 26;
    private final int boardSize = tileSize * 10;
 
+   private boolean disabled;
+
    public Board()
    {
       // As the Board is a button, disabling the default values for styling is necessary.
@@ -44,11 +46,17 @@ public class Board extends JButton
       g.fillRect(paddingX, paddingY, boardSize, boardSize);
 
       // Draw each line.
-      g.setColor(Colour.Black);
+      g.setColor(disabled ? Colour.DarkSlateGray : Colour.Black);
       for (int i = 0; i < 11; i++)
       {
          g.drawLine(paddingX + i * tileSize, paddingY, paddingX + i * tileSize, paddingY + boardSize);
          g.drawLine(paddingX, paddingY + i * tileSize, paddingX + boardSize, paddingY + i * tileSize);
+      }
+
+      if (disabled)
+      {
+         g.setColor(Colour.Gray.alpha(90));
+         g.fillRect(paddingX, paddingY, boardSize, boardSize);
       }
    }
 
@@ -127,5 +135,16 @@ public class Board extends JButton
          return new int[]{(point.x - paddingX) / tileSize, (point.y - paddingY) / tileSize};
       } else
          return null;
+   }
+
+   public boolean isDisabled()
+   {
+      return disabled;
+   }
+
+   public void setDisabled(boolean disabled)
+   {
+      this.disabled = disabled;
+      this.repaint();
    }
 }
