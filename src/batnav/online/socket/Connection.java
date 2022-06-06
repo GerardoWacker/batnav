@@ -10,6 +10,7 @@ import batnav.ui.screens.LoginScreen;
 import batnav.ui.screens.MainMenuScreen;
 import batnav.ui.screens.MatchScreen;
 import batnav.online.model.User;
+import batnav.ui.screens.ResultsScreen;
 import batnav.utils.Logger;
 import batnav.utils.Sambayon;
 import io.socket.client.IO;
@@ -104,7 +105,7 @@ public class Connection
             Logger.log("Iniciada sesión como " + this.getCurrentUser().getUsername());
 
             Game.getInstance().getSplashScreen().setVisible(false);
-            new MainMenuScreen();
+            Game.getInstance().getMainMenuScreen().setVisible(true);
          } else
          {
             Game.getInstance().getNotificationManager().addNotification(
@@ -190,6 +191,22 @@ public class Connection
          }
 
       } catch (JSONException e)
+      {
+         e.printStackTrace();
+      }
+   }
+
+   private void end(final Object[] json)
+   {
+      Logger.log("La partida ha finalizado.");
+
+      try
+      {
+         final JSONObject response = Connection.decodePacket(json);
+
+         this.matchManager.getCurrentMatch().getMatchScreen().setVisible(false);
+         new ResultsScreen(response.getBoolean("win"), response.getInt("elo"), response.getString("match"));
+      } catch (Exception e)
       {
          e.printStackTrace();
       }
