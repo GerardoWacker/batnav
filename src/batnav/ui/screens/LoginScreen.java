@@ -2,17 +2,17 @@ package batnav.ui.screens;
 
 import batnav.instance.Game;
 import batnav.online.model.Packet;
+import batnav.utils.Colour;
 import batnav.utils.Logger;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 
-public class LoginScreen extends JFrame implements ActionListener
+public class LoginScreen extends JFrame implements ActionListener, KeyListener
 {
    private final JTextField userName, userPassword;
-   private final JLabel userLabel, logoContainerLabel, passwordLabel, alert, loadingText;
+   private final JLabel userLabel, logoContainerLabel, passwordLabel, alert, loadingText, jumpToRegisterScreen;
    private JPanel loginPanel, loadingPanel;
    private JButton tempButton, loginButton;
    private JPanel mainPanel;
@@ -36,10 +36,44 @@ public class LoginScreen extends JFrame implements ActionListener
 
       loginPanel.setLayout(null);
 
-      this.logoContainerLabel = new JLabel("batnav", SwingConstants.CENTER);
+      this.jumpToRegisterScreen = new JLabel("Registrarse");
+      this.jumpToRegisterScreen.setForeground(Colour.BLUE);
+      this.jumpToRegisterScreen.setBounds(50, 350, 80, 25);
+      this.loginPanel.add(jumpToRegisterScreen);
+      this.jumpToRegisterScreen.addMouseListener(new MouseListener() {
+         @Override
+         public void mouseClicked(MouseEvent e) {
+            if(e.getSource()==jumpToRegisterScreen){
+               new RegisterScreen();
+               setVisible(false);
+            }
+         }
+
+         @Override
+         public void mousePressed(MouseEvent e) {
+
+         }
+
+         @Override
+         public void mouseReleased(MouseEvent e) {
+
+         }
+
+         @Override
+         public void mouseEntered(MouseEvent e) {
+
+         }
+
+         @Override
+         public void mouseExited(MouseEvent e) {
+
+         }
+      });
+
+      this.logoContainerLabel = new JLabel("Iniciar sesion", SwingConstants.CENTER);
       logoContainerLabel.setFont(new Font("San Francisco Display", Font.BOLD, 25));
       logoContainerLabel.setHorizontalTextPosition(JLabel.CENTER);
-      logoContainerLabel.setBounds(50, 10, 200, 80);
+      logoContainerLabel.setBounds(35, 10, 200, 80);
 
 
       this.userLabel = new JLabel("Usuario");
@@ -61,6 +95,8 @@ public class LoginScreen extends JFrame implements ActionListener
       loginButton.setBounds(50, 300, 165, 25);
       loginButton.addActionListener(this);
       loginButton.setActionCommand("login");
+      this.addKeyListener(this);
+
 
       this.alert = new JLabel("Contraseña");
       alert.setOpaque(true);
@@ -151,5 +187,21 @@ public class LoginScreen extends JFrame implements ActionListener
    public static void main(String[] args)
    {
       new LoginScreen();
+   }
+
+   @Override
+   public void keyTyped(KeyEvent e) {
+
+   }
+
+   @Override
+   public void keyPressed(KeyEvent e) {
+      System.out.println("you pressed character " + e.getKeyCode());
+
+   }
+
+   @Override
+   public void keyReleased(KeyEvent e) {
+
    }
 }
