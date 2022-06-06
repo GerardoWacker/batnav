@@ -1,4 +1,7 @@
 package batnav.ui.screens;
 
-public class MainMenuScreen {
+import javax.swing.*;
+
+public class MainMenuScreen extends JFrame
+{
 }
