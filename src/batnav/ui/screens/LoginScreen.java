@@ -40,32 +40,39 @@ public class LoginScreen extends JFrame implements ActionListener, KeyListener
       this.jumpToRegisterScreen.setForeground(Colour.BLUE);
       this.jumpToRegisterScreen.setBounds(50, 350, 80, 25);
       this.loginPanel.add(jumpToRegisterScreen);
-      this.jumpToRegisterScreen.addMouseListener(new MouseListener() {
+      this.jumpToRegisterScreen.addMouseListener(new MouseListener()
+      {
          @Override
-         public void mouseClicked(MouseEvent e) {
-            if(e.getSource()==jumpToRegisterScreen){
+         public void mouseClicked(MouseEvent e)
+         {
+            if (e.getSource() == jumpToRegisterScreen)
+            {
                new RegisterScreen();
                setVisible(false);
             }
          }
 
          @Override
-         public void mousePressed(MouseEvent e) {
+         public void mousePressed(MouseEvent e)
+         {
 
          }
 
          @Override
-         public void mouseReleased(MouseEvent e) {
+         public void mouseReleased(MouseEvent e)
+         {
 
          }
 
          @Override
-         public void mouseEntered(MouseEvent e) {
+         public void mouseEntered(MouseEvent e)
+         {
 
          }
 
          @Override
-         public void mouseExited(MouseEvent e) {
+         public void mouseExited(MouseEvent e)
+         {
 
          }
       });
@@ -190,18 +197,21 @@ public class LoginScreen extends JFrame implements ActionListener, KeyListener
    }
 
    @Override
-   public void keyTyped(KeyEvent e) {
+   public void keyTyped(KeyEvent e)
+   {
 
    }
 
    @Override
-   public void keyPressed(KeyEvent e) {
+   public void keyPressed(KeyEvent e)
+   {
       System.out.println("you pressed character " + e.getKeyCode());
 
    }
 
    @Override
-   public void keyReleased(KeyEvent e) {
+   public void keyReleased(KeyEvent e)
+   {
 
    }
 }
