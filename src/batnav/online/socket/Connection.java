@@ -18,6 +18,7 @@ import io.socket.client.Socket;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import javax.swing.*;
 import java.util.Arrays;
 
 public class Connection
@@ -26,6 +27,8 @@ public class Connection
    private final String endpoint;
    private final SessionManager sessionManager;
    private final MatchManager matchManager;
+
+   private boolean disconnectionWasIssued = false;
 
    private User currentUser;
 
@@ -57,6 +60,9 @@ public class Connection
          this.socket = IO.socket(this.endpoint).connect();
          this.socket.on(Socket.EVENT_CONNECT, args -> {
             Logger.log("Conectado a servidor de juego.");
+
+            this.disconnectionWasIssued = false;
+
             this.socket.emit("authenticate", uuid);
 
             // Authentication.
@@ -71,6 +77,7 @@ public class Connection
             this.socket.on("match-ships-receive", this.matchManager::receiveShips);
             this.socket.on("match-turn", this.matchManager::turn);
             this.socket.on("match-end", this.matchManager::end);
+            this.socket.on("disconnect", this::onDisconnect);
 
          });
 
@@ -124,7 +131,7 @@ public class Connection
             this.sessionManager.setAndSaveSessionId(null);
 
             Game.getInstance().getSplashScreen().setVisible(false);
-            new LoginScreen();
+            Game.getInstance().getLoginScreen().setVisible(true);
          }
 
       } catch (JSONException e)
@@ -198,10 +205,35 @@ public class Connection
    }
 
    /**
+    * Method that executed once a disconnection has occurred.
+    *
+    * @param json Packet received.
+    */
+   private void onDisconnect(final Object[] json)
+   {
+      try
+      {
+         final JSONObject response = Connection.decodePacket(json);
+         Logger.log(response.toString());
+      } catch (JSONException e)
+      {
+         throw new RuntimeException(e);
+      }
+
+      if (!this.disconnectionWasIssued)
+      {
+         JOptionPane.showMessageDialog(null,
+              "Fuiste desconectado del servidor",
+              "Advertencia", JOptionPane.ERROR_MESSAGE);
+      }
+   }
+
+   /**
     * Disconnects from the server.
     */
    public void disconnect()
    {
+      this.disconnectionWasIssued = true;
       this.socket.disconnect();
    }
 
