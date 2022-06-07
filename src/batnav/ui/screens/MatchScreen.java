@@ -62,14 +62,23 @@ public class MatchScreen extends JFrame implements ActionListener
 
       this.middlePanel = new JPanel();
 
+      Font displayFont = Game.getInstance().getFontUtil().createFont("Roboto-Regular").deriveFont(Font.PLAIN, 14);
+
+      Font largeFont = new Font("Roboto", Font.PLAIN, 20);
+
       this.opponentName = new JLabel(match.getOpponent().getUsername() + " (" + match.getOpponent().getElo() + ")");
       this.playerName = new JLabel(isOffline ? "Yo (1000)" : (Game.getInstance().getConnection().getCurrentUser().getUsername() + " (" + Game.getInstance().getConnection().getCurrentUser().getElo() + ")"));
+
+      opponentName.setFont(displayFont);
+      playerName.setFont(displayFont);
 
       this.opponentIcon = new ImageIcon("assets/textures/red_icon.png");
       this.playerIcon = new ImageIcon("assets/textures/green_icon.png");
 
       this.counterLabel = new JLabel();
       this.dFormat = new DecimalFormat("00");
+
+      counterLabel.setFont(largeFont);
 
       this.opponentflagPlaceholder = new JLabel();
       this.playerFlagPlaceholder = new JLabel();
@@ -172,7 +181,7 @@ public class MatchScreen extends JFrame implements ActionListener
 
    public static void main(String[] args)
    {
-      MatchScreen matchScreen = new MatchScreen(new Match("asdfghjkl", new User("tu vieja", "AR", 0, 1000, false)));
+      MatchScreen matchScreen = new MatchScreen(new Match("asdfghjkl", new User("AAAAAAAAA", "AR", 0, 1000, false)));
       matchScreen.setVisible(true);
    }
 
