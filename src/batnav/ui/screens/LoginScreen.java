@@ -2,6 +2,8 @@ package batnav.ui.screens;
 
 import batnav.instance.Game;
 import batnav.online.model.Packet;
+import batnav.ui.components.RoundedPasswordField;
+import batnav.ui.components.RoundedTextField;
 import batnav.utils.Colour;
 import batnav.utils.Logger;
 
@@ -87,7 +89,7 @@ public class LoginScreen extends JFrame implements ActionListener, KeyListener
       userLabel.setBounds(50, 100, 80, 25);
 
 
-      this.userName = new JTextField(20);
+      this.userName = new RoundedTextField(7, 20);
       userName.setBounds(50, 130, 165, 25);
 
 
@@ -95,7 +97,7 @@ public class LoginScreen extends JFrame implements ActionListener, KeyListener
       passwordLabel.setBounds(50, 200, 80, 25);
 
 
-      this.userPassword = new JPasswordField(20);
+      this.userPassword = new RoundedPasswordField(7, 20);
       userPassword.setBounds(50, 230, 165, 25);
 
       this.loginButton = new JButton("Iniciar sesión");
