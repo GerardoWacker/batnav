@@ -21,12 +21,16 @@ public class Board extends JButton
 
    private boolean disabled;
 
+   private Color backgroundColour;
+
+   private boolean filled;
+
    public Board()
    {
       // As the Board is a button, disabling the default values for styling is necessary.
       super.setBorderPainted(false);
       super.setFocusPainted(false);
-      super.setContentAreaFilled(false);
+      super.setContentAreaFilled(this.filled);
 
       // Also, we set the same background as the board's.
       super.setBackground(Colour.AliceBlue);
@@ -36,6 +40,9 @@ public class Board extends JButton
    public void paint(Graphics g)
    {
       super.paint(g);
+
+      g.setColor(backgroundColour);
+      g.fillRect(getX(), getY(), getWidth(), getHeight());
 
       // Set board position and size.
       final int paddingX = (this.getWidth() - boardSize) / 2;
@@ -141,6 +148,13 @@ public class Board extends JButton
          return null;
    }
 
+   @Override
+   public void setBackground(Color bg)
+   {
+      this.backgroundColour = bg;
+      super.setBackground(bg);
+   }
+
    public boolean isDisabled()
    {
       return disabled;
@@ -150,5 +164,11 @@ public class Board extends JButton
    {
       this.disabled = disabled;
       this.repaint();
+   }
+
+   public void setFilled(boolean filled)
+   {
+      this.filled = filled;
+      this.setContentAreaFilled(filled);
    }
 }
