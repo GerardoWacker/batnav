@@ -5,6 +5,7 @@ import batnav.online.match.Match;
 import batnav.online.model.User;
 import batnav.ui.boards.OpponentBoard;
 import batnav.ui.boards.PlayerBoard;
+import batnav.utils.Colour;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -46,8 +47,18 @@ public class MatchScreen extends JFrame implements ActionListener
       this.opponentBoard = new OpponentBoard(this.match);
       this.playerBoard = new PlayerBoard(this.match);
 
+      this.playerBoard.setFilled(true);
+      this.opponentBoard.setFilled(true);
+
       this.opponentInfo = new JPanel();
       this.playerInfo = new JPanel();
+
+      Colour backgroundColour = new Colour(165, 189, 242);
+
+      opponentInfo.setBackground(backgroundColour);
+      playerInfo.setBackground(backgroundColour);
+      opponentBoard.setBackground(backgroundColour);
+      playerBoard.setBackground(backgroundColour);
 
       this.middlePanel = new JPanel();
 
@@ -109,6 +120,7 @@ public class MatchScreen extends JFrame implements ActionListener
       this.add(opponentInfo, BorderLayout.NORTH);
       this.add(playerInfo, BorderLayout.SOUTH);
       this.add(middlePanel, BorderLayout.CENTER);
+
       try
       {
          if (this.match.getPlayerShips().size() <= 0)
@@ -160,7 +172,8 @@ public class MatchScreen extends JFrame implements ActionListener
 
    public static void main(String[] args)
    {
-      new MatchScreen(new Match("asdfghjkl", new User("tu vieja", "AR", 0, 1000, false)));
+      MatchScreen matchScreen = new MatchScreen(new Match("asdfghjkl", new User("tu vieja", "AR", 0, 1000, false)));
+      matchScreen.setVisible(true);
    }
 
    @Override
