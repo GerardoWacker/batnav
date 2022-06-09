@@ -1,6 +1,7 @@
 package batnav.ui.screens;
 
 import batnav.instance.Game;
+import batnav.ui.components.GamePanel;
 import batnav.utils.Colour;
 
 import javax.imageio.ImageIO;
@@ -25,8 +26,12 @@ public class ResultsScreen extends JFrame implements ActionListener
       this.setLocationRelativeTo(null);
       this.setResizable(false);
 
+      final JPanel container = new GamePanel();
+
+      container.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
       this.setSize(350, 150);
-      this.setLayout(new GridLayout(4, 1));
+      container.setLayout(new GridLayout(4, 1));
 
       try
       {
@@ -57,14 +62,16 @@ public class ResultsScreen extends JFrame implements ActionListener
          returnButton.addActionListener(this);
          returnButton.setActionCommand("return");
 
-         this.add(iconLabel);
-         this.add(title);
-         this.add(difference);
-         this.add(returnButton);
+         container.add(iconLabel);
+         container.add(title);
+         container.add(difference);
+         container.add(returnButton);
       } catch (Exception e)
       {
          e.printStackTrace();
       }
+
+      this.add(container);
 
       this.setVisible(true);
    }
