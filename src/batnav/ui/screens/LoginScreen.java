@@ -103,6 +103,7 @@ public class LoginScreen extends JFrame implements ActionListener, KeyListener
 
       this.userName = new RoundedTextField(7, 20);
       userName.setBounds(50, 130, 200, 30);
+      userName.setFont(Fonts.displayRegular);
 
       this.passwordLabel = new JLabel("Contraseña");
       passwordLabel.setBounds(50, 200, 80, 25);
@@ -110,6 +111,7 @@ public class LoginScreen extends JFrame implements ActionListener, KeyListener
 
       this.userPassword = new RoundedPasswordField(7, 20);
       userPassword.setBounds(50, 230, 200, 30);
+      userPassword.setFont(Fonts.displayRegular);
 
       this.loginButton = new JButton("Iniciar sesión");
       loginButton.setBounds(50, 300, 200, 25);
