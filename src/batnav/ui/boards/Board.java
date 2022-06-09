@@ -28,28 +28,27 @@ public class Board extends JButton
    public Board()
    {
       // As the Board is a button, disabling the default values for styling is necessary.
-      super.setBorderPainted(false);
-      super.setFocusPainted(false);
-      super.setContentAreaFilled(this.filled);
+      this.setBorderPainted(false);
+      this.setFocusPainted(false);
+      this.setContentAreaFilled(this.filled);
 
-      // Also, we set the same background as the board's.
-      super.setBackground(Colour.AliceBlue);
+      this.setOpaque(this.filled);
    }
 
    @Override
    public void paint(Graphics g)
    {
-      super.paint(g);
-
-      g.setColor(backgroundColour);
-      g.fillRect(getX(), getY(), getWidth(), getHeight());
+      Graphics2D g2d = (Graphics2D) g;
 
       // Set board position and size.
       final int paddingX = (this.getWidth() - boardSize) / 2;
       final int paddingY = (this.getHeight() - boardSize) / 2;
 
       // Draw the main board background.
-      g.setColor(Colour.AliceBlue);
+      GradientPaint gp = new GradientPaint(0, 0,
+           new Colour(171, 202, 224), getWidth(), getHeight(), new Colour(240, 248, 255));
+
+      g2d.setPaint(gp);
       g.fillRect(paddingX, paddingY, boardSize, boardSize);
 
       // Draw each line.
