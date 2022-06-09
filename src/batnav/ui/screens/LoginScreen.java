@@ -2,9 +2,11 @@ package batnav.ui.screens;
 
 import batnav.instance.Game;
 import batnav.online.model.Packet;
+import batnav.ui.components.GamePanel;
 import batnav.ui.components.RoundedPasswordField;
 import batnav.ui.components.RoundedTextField;
 import batnav.utils.Colour;
+import batnav.utils.Fonts;
 import batnav.utils.Logger;
 
 import javax.swing.*;
@@ -17,29 +19,39 @@ public class LoginScreen extends JFrame implements ActionListener, KeyListener
    private final JLabel userLabel, logoContainerLabel, passwordLabel, alert, loadingText, jumpToRegisterScreen;
    private JPanel loginPanel, loadingPanel;
    private JButton tempButton, loginButton;
-   private JPanel mainPanel;
+   private GamePanel mainPanel;
    private CardLayout cl;
 
    public LoginScreen()
    {
       this.cl = new CardLayout();
-      this.setSize(300, 500);
+      this.setSize(300, 430);
       this.setLocationRelativeTo(null);
+      this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+
       this.loginPanel = new JPanel();
       this.loadingPanel = new JPanel();
-      this.mainPanel = new JPanel();
+
+      loginPanel.setBackground(Colour.Transparent);
+      loginPanel.setOpaque(false);
+      loadingPanel.setBackground(Colour.Transparent);
+      loadingPanel.setOpaque(false);
+
+      this.mainPanel = new GamePanel();
+      mainPanel.setAlternative(true);
       this.mainPanel.setLayout(cl);
-      this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-      this.add(mainPanel);
+
       mainPanel.add(loginPanel, "1");
       mainPanel.add(loadingPanel, "2");
 
+      this.add(mainPanel);
       cl.show(mainPanel, "1");
 
       loginPanel.setLayout(null);
 
       this.jumpToRegisterScreen = new JLabel("Registrarse");
       this.jumpToRegisterScreen.setForeground(Colour.BLUE);
+      jumpToRegisterScreen.setFont(Fonts.displayRegular);
       this.jumpToRegisterScreen.setBounds(50, 350, 80, 25);
       this.loginPanel.add(jumpToRegisterScreen);
       this.jumpToRegisterScreen.addMouseListener(new MouseListener()
@@ -80,28 +92,27 @@ public class LoginScreen extends JFrame implements ActionListener, KeyListener
       });
 
       this.logoContainerLabel = new JLabel("Iniciar sesión", SwingConstants.CENTER);
-      logoContainerLabel.setFont(new Font("San Francisco Display", Font.BOLD, 25));
+      logoContainerLabel.setFont(Fonts.displayTitle);
       logoContainerLabel.setHorizontalTextPosition(JLabel.CENTER);
-      logoContainerLabel.setBounds(35, 10, 200, 80);
-
+      logoContainerLabel.setBounds(50, 10, 200, 80);
+      logoContainerLabel.setBackground(Colour.Transparent);
 
       this.userLabel = new JLabel("Usuario");
       userLabel.setBounds(50, 100, 80, 25);
-
+      userLabel.setFont(Fonts.displayRegular);
 
       this.userName = new RoundedTextField(7, 20);
-      userName.setBounds(50, 130, 165, 25);
-
+      userName.setBounds(50, 130, 200, 30);
 
       this.passwordLabel = new JLabel("Contraseña");
       passwordLabel.setBounds(50, 200, 80, 25);
-
+      passwordLabel.setFont(Fonts.displayRegular);
 
       this.userPassword = new RoundedPasswordField(7, 20);
-      userPassword.setBounds(50, 230, 165, 25);
+      userPassword.setBounds(50, 230, 200, 30);
 
       this.loginButton = new JButton("Iniciar sesión");
-      loginButton.setBounds(50, 300, 165, 25);
+      loginButton.setBounds(50, 300, 200, 25);
       loginButton.addActionListener(this);
       loginButton.setActionCommand("login");
       this.addKeyListener(this);
@@ -122,7 +133,6 @@ public class LoginScreen extends JFrame implements ActionListener, KeyListener
       tempButton.addActionListener(this);
       tempButton.setActionCommand("cancel");
 
-
       this.loginPanel.add(this.userName);
       this.loginPanel.add(this.logoContainerLabel);
       this.loginPanel.add(this.userPassword);
@@ -130,7 +140,6 @@ public class LoginScreen extends JFrame implements ActionListener, KeyListener
       this.loginPanel.add(this.passwordLabel);
       this.loginPanel.add(this.loginButton);
       this.loginPanel.add(this.alert);
-
 
       this.loadingPanel.add(loadingText);
       this.loadingPanel.add(tempButton);
