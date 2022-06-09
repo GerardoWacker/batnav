@@ -1,8 +1,8 @@
 package batnav.ui.screens;
 
-import batnav.instance.Game;
 import batnav.ui.components.GamePanel;
 import batnav.utils.Colour;
+import batnav.utils.Fonts;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -26,7 +26,8 @@ public class ResultsScreen extends JFrame implements ActionListener
       this.setLocationRelativeTo(null);
       this.setResizable(false);
 
-      final JPanel container = new GamePanel();
+      final GamePanel container = new GamePanel();
+      container.setAlternative(true);
 
       container.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
@@ -43,12 +44,13 @@ public class ResultsScreen extends JFrame implements ActionListener
          iconLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
          final JLabel title = new JLabel(victory ? "¡Has ganado!" : "¡Has perdido!");
-         title.setFont(new Font("San Francisco Display", Font.BOLD, 25));
+         title.setFont(Fonts.displayTitle);
          title.setHorizontalAlignment(SwingConstants.CENTER);
 
          final JLabel difference = new JLabel();
          // TODO: Set icon to :cup:
          difference.setText((victory ? "+" : "-") + elo);
+         difference.setFont(Fonts.displayRegular);
          difference.setHorizontalAlignment(SwingConstants.CENTER);
 
          final JButton matchInfoButton = new JButton("Ver más información sobre la partida");
