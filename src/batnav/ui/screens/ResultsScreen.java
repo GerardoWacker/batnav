@@ -1,5 +1,7 @@
 package batnav.ui.screens;
 
+import batnav.instance.Game;
+import batnav.ui.components.GameButton;
 import batnav.ui.components.GamePanel;
 import batnav.utils.Colour;
 import batnav.utils.Fonts;
@@ -48,19 +50,23 @@ public class ResultsScreen extends JFrame implements ActionListener
          title.setHorizontalAlignment(SwingConstants.CENTER);
 
          final JLabel difference = new JLabel();
-         // TODO: Set icon to :cup:
+         Image image = ImageIO.read(new File("assets/textures/cup.png"));
+         Image imageScaled = image.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+         difference.setIcon(new ImageIcon(imageScaled));
          difference.setText((victory ? "+" : "-") + elo);
          difference.setFont(Fonts.displayRegular);
          difference.setHorizontalAlignment(SwingConstants.CENTER);
 
-         final JButton matchInfoButton = new JButton("Ver más información sobre la partida");
+         final GameButton matchInfoButton = new GameButton("Ver más información sobre la partida");
+         matchInfoButton.setAlternative(true);
          matchInfoButton.setBorder(BorderFactory.createEmptyBorder());
          matchInfoButton.setBackground(Colour.Transparent);
          matchInfoButton.setHorizontalAlignment(SwingConstants.CENTER);
          matchInfoButton.addActionListener(this);
          matchInfoButton.setActionCommand("matchInfo");
 
-         final JButton returnButton = new JButton("Volver al menú principal");
+         final GameButton returnButton = new GameButton("Volver al menú principal");
+         returnButton.setExtended(true);
          returnButton.addActionListener(this);
          returnButton.setActionCommand("return");
 
