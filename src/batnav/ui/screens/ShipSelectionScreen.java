@@ -3,6 +3,7 @@ package batnav.ui.screens;
 import batnav.instance.Game;
 import batnav.online.model.Ship;
 import batnav.ui.boards.ShipSelectionBoard;
+import batnav.utils.Colour;
 import com.google.common.collect.Lists;
 
 import javax.imageio.ImageIO;
@@ -20,8 +21,9 @@ import java.util.List;
 public class ShipSelectionScreen extends JFrame implements ActionListener
 {
    protected List<Ship> ships;
-   private Ship selectedShip;
+   protected Ship selectedShip;
    private final ShipSelectionBoard shipSelectionBoard;
+   protected ShipLabel currentLabel;
 
    public ShipSelectionScreen() throws IOException
    {
@@ -75,9 +77,9 @@ public class ShipSelectionScreen extends JFrame implements ActionListener
       // Add ship labels into the east panel.
       for (int i = 0; i < ships.size(); i++)
       {
-         ShipLabel jLabel = new ShipLabel(i, ships.get(i));
-         panelEast.add(jLabel);
-         jLabel.addMouseListener(new MouseEvent());
+         ShipLabel shipLabel = new ShipLabel(i, ships.get(i));
+         panelEast.add(shipLabel);
+         shipLabel.addMouseListener(new MouseEvent());
       }
 
       // Add the buttons into the east panel.
@@ -186,7 +188,7 @@ public class ShipSelectionScreen extends JFrame implements ActionListener
    }
 
 
-   private static class ShipLabel extends JLabel
+   private class ShipLabel extends JLabel
    {
       private final int id;
 
@@ -198,8 +200,11 @@ public class ShipSelectionScreen extends JFrame implements ActionListener
        */
       private ShipLabel(int id, Ship ship) throws IOException
       {
-
          final BufferedImage icon = ImageIO.read(new File("assets/ships/ship" + ship.getSize() + ".png"));
+
+         if (getSelectedShip() != null && getSelectedShip().equals(ship))
+            super.setBackground(Colour.Black);
+
          final int height = (150 / (icon.getWidth() / icon.getHeight()));
 
          super.setIcon(new ImageIcon(new ImageIcon(icon).getImage().getScaledInstance(150, height, Image.SCALE_DEFAULT)));
@@ -220,10 +225,25 @@ public class ShipSelectionScreen extends JFrame implements ActionListener
          // Note: It's expected that ONLY ShipLabels trigger this event.
          // If the mouseEvent was not triggered by a ShipLabel, then something is waaaay off.
 
+         if (ShipSelectionScreen.this.getCurrentLabel() != null)
+            ShipSelectionScreen.this.getCurrentLabel().setOpaque(false);
+
+         // Get the ShipLabel.
+         ShipLabel shipLabel = ((ShipLabel) mouseEvent.getSource());
+
          // Get the Id. from the ShipLabel.
-         int id = ((ShipLabel) mouseEvent.getSource()).getId();
+         int id = shipLabel.getId();
+
          // Set the selected ship.
          ShipSelectionScreen.this.setSelectedShip(ships.get(id));
+
+         // Change background.
+         shipLabel.setOpaque(ShipSelectionScreen.this.getSelectedShip().equals(ships.get(id)));
+         shipLabel.setBackground(Colour.Black);
+
+         ShipSelectionScreen.this.setCurrentLabel(shipLabel);
+
+         repaint();
       }
 
       @Override
@@ -374,6 +394,17 @@ public class ShipSelectionScreen extends JFrame implements ActionListener
    public void setSelectedShip(Ship selectedShip)
    {
       this.selectedShip = selectedShip;
+      repaint();
+   }
+
+   public void setCurrentLabel(ShipLabel currentLabel)
+   {
+      this.currentLabel = currentLabel;
+   }
+
+   public ShipLabel getCurrentLabel()
+   {
+      return currentLabel;
    }
 
    public static void main(String args[])
