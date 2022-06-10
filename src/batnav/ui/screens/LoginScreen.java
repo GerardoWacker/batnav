@@ -2,6 +2,7 @@ package batnav.ui.screens;
 
 import batnav.instance.Game;
 import batnav.online.model.Packet;
+import batnav.ui.components.GameButton;
 import batnav.ui.components.GamePanel;
 import batnav.ui.components.RoundedPasswordField;
 import batnav.ui.components.RoundedTextField;
@@ -18,7 +19,7 @@ public class LoginScreen extends JFrame implements ActionListener, KeyListener
    private final JTextField userName, userPassword;
    private final JLabel userLabel, logoContainerLabel, passwordLabel, alert, loadingText, jumpToRegisterScreen;
    private JPanel loginPanel, loadingPanel;
-   private JButton tempButton, loginButton;
+   private GameButton tempButton, loginButton;
    private GamePanel mainPanel;
    private CardLayout cl;
 
@@ -49,10 +50,9 @@ public class LoginScreen extends JFrame implements ActionListener, KeyListener
 
       loginPanel.setLayout(null);
 
-      this.jumpToRegisterScreen = new JLabel("Registrarse");
+      this.jumpToRegisterScreen = new JLabel("<html><u>¿No tenés una cuenta?</u></html");
       this.jumpToRegisterScreen.setForeground(Colour.BLUE);
-      jumpToRegisterScreen.setFont(Fonts.displayRegular);
-      this.jumpToRegisterScreen.setBounds(50, 350, 80, 25);
+      this.jumpToRegisterScreen.setBounds(50, 350, 200, 25);
       this.loginPanel.add(jumpToRegisterScreen);
       this.jumpToRegisterScreen.addMouseListener(new MouseListener()
       {
@@ -113,8 +113,9 @@ public class LoginScreen extends JFrame implements ActionListener, KeyListener
       userPassword.setBounds(50, 230, 200, 30);
       userPassword.setFont(Fonts.displayRegular);
 
-      this.loginButton = new JButton("Iniciar sesión");
-      loginButton.setBounds(50, 300, 200, 25);
+      this.loginButton = new GameButton("Iniciar sesión");
+      loginButton.setAlternative(true);
+      loginButton.setBounds(100, 290, 100, 50);
       loginButton.addActionListener(this);
       loginButton.setActionCommand("login");
       this.addKeyListener(this);
@@ -130,7 +131,7 @@ public class LoginScreen extends JFrame implements ActionListener, KeyListener
       this.loadingText = new JLabel("Iniciando sesión");
       loadingText.setBounds(100, 120, 200, 80);
 
-      this.tempButton = new JButton("Cancelar");
+      this.tempButton = new GameButton("Cancelar");
       tempButton.setBounds(50, 300, 165, 25);
       tempButton.addActionListener(this);
       tempButton.setActionCommand("cancel");
