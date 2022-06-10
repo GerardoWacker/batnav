@@ -180,6 +180,7 @@ public class ShipSelectionScreen extends JFrame implements ActionListener
                  Game.getInstance().getConnection(),
                  this.ships
             );
+            Game.getInstance().getMatchManager().getCurrentMatch().getMatchScreen().setVisible(true);
          }
       }
    }

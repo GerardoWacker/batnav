@@ -8,6 +8,8 @@ import batnav.online.session.SessionManager;
 import batnav.online.socket.Connection;
 import batnav.online.model.JSONPacket;
 import batnav.online.model.Packet;
+import batnav.ui.screens.ResultsScreen;
+import batnav.utils.Logger;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -114,6 +116,36 @@ public class MatchManager
    }
 
    /**
+    * Handles turn setting for the players in a match.
+    *
+    * @param response Contains a boolean with the turn's value.
+    */
+   public void turn(final Object[] response)
+   {
+      try
+      {
+         final JSONObject json = Connection.decodePacket(response);
+
+         // If the "content" value for this packet is true, then it's the user's turn.
+         if (json.getBoolean("content"))
+         {
+            this.getCurrentMatch().getMatchScreen().startTimer();
+            this.getCurrentMatch().getMatchScreen().getPlayerBoard().setDisabled(true);
+            this.getCurrentMatch().getMatchScreen().getOpponentBoard().setDisabled(false);
+         } else
+         {
+            this.getCurrentMatch().getMatchScreen().startTimer();
+            this.getCurrentMatch().getMatchScreen().getPlayerBoard().setDisabled(false);
+            this.getCurrentMatch().getMatchScreen().getOpponentBoard().setDisabled(true);
+         }
+      } catch (JSONException e)
+      {
+         throw new RuntimeException(e);
+      }
+
+   }
+
+   /**
     * Method executed when a bomb packet has been received. It updates the current match and the game's interface.
     *
     * @param response Packet from server.
@@ -135,7 +167,7 @@ public class MatchManager
    }
 
    /**
-    * Method executed when a bomb packet has been received. It updates the current match and the game's interface.
+    * Method executed when the ships packet has been received. It updates the current match and the game's interface.
     *
     * @param response Packet from server.
     */
@@ -179,6 +211,27 @@ public class MatchManager
             this.getCurrentMatch().getMatchScreen().repaint();
          }
       } catch (JSONException e)
+      {
+         e.printStackTrace();
+      }
+   }
+
+   /**
+    * Method used when the `match-end` packet is received.
+    *
+    * @param json Response String containing a JSON object. Structure: {win: boolean, elo: int, match: String}.
+    */
+   public void end(final Object[] json)
+   {
+      Logger.log("La partida ha finalizado.");
+
+      try
+      {
+         final JSONObject response = Connection.decodePacket(json);
+
+         this.getCurrentMatch().getMatchScreen().setVisible(false);
+         new ResultsScreen(response.getBoolean("win"), response.getInt("elo"), response.getString("match"));
+      } catch (Exception e)
       {
          e.printStackTrace();
       }

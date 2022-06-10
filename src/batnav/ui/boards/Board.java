@@ -19,12 +19,18 @@ public class Board extends JButton
    private final int tileSize = 26;
    private final int boardSize = tileSize * 10;
 
+   private boolean disabled;
+
+   private Color backgroundColour;
+
+   private boolean filled;
+
    public Board()
    {
       // As the Board is a button, disabling the default values for styling is necessary.
       super.setBorderPainted(false);
       super.setFocusPainted(false);
-      super.setContentAreaFilled(false);
+      super.setContentAreaFilled(this.filled);
 
       // Also, we set the same background as the board's.
       super.setBackground(Colour.AliceBlue);
@@ -35,6 +41,9 @@ public class Board extends JButton
    {
       super.paint(g);
 
+      g.setColor(backgroundColour);
+      g.fillRect(getX(), getY(), getWidth(), getHeight());
+
       // Set board position and size.
       final int paddingX = (this.getWidth() - boardSize) / 2;
       final int paddingY = (this.getHeight() - boardSize) / 2;
@@ -44,11 +53,17 @@ public class Board extends JButton
       g.fillRect(paddingX, paddingY, boardSize, boardSize);
 
       // Draw each line.
-      g.setColor(Colour.Black);
+      g.setColor(disabled ? Colour.DarkSlateGray : Colour.Black);
       for (int i = 0; i < 11; i++)
       {
          g.drawLine(paddingX + i * tileSize, paddingY, paddingX + i * tileSize, paddingY + boardSize);
          g.drawLine(paddingX, paddingY + i * tileSize, paddingX + boardSize, paddingY + i * tileSize);
+      }
+
+      if (disabled)
+      {
+         g.setColor(Colour.Gray.alpha(90));
+         g.fillRect(paddingX, paddingY, boardSize, boardSize);
       }
    }
 
@@ -87,10 +102,10 @@ public class Board extends JButton
          {
             final BufferedImage image = ImageIO.read(new File("assets/ships/ship" + ship.getSize() + ".png"));
 
-         final AffineTransform affineTransform = new AffineTransform();
-         affineTransform.translate(x + (ship.isVertical() ? tileSize : 0), y);
-         final double scale = tileSize * 0.01;
-         affineTransform.scale(scale, scale);
+            final AffineTransform affineTransform = new AffineTransform();
+            affineTransform.translate(x + (ship.isVertical() ? tileSize : 0), y);
+            final double scale = tileSize * 0.01;
+            affineTransform.scale(scale, scale);
 
             if (ship.isVertical())
             {
@@ -116,16 +131,44 @@ public class Board extends JButton
 
    public int[] handleClick(final Point point)
    {
-      // Set board position and size.
-      final int paddingX = (this.getWidth() - boardSize) / 2 + this.getX();
-      final int paddingY = (this.getHeight() - boardSize) / 2 + this.getY();
-
-      // Check if the click was executed inside the board.
-      if (point.x > paddingX && point.y > paddingY && point.x < paddingX + boardSize && point.y < paddingY + boardSize)
+      if (!disabled)
       {
-         // Perform calculations to get coordinates and return the values in an array.
-         return new int[]{(point.x - paddingX) / tileSize, (point.y - paddingY) / tileSize};
+         // Set board position and size.
+         final int paddingX = (this.getWidth() - boardSize) / 2 + this.getX();
+         final int paddingY = (this.getHeight() - boardSize) / 2 + this.getY();
+
+         // Check if the click was executed inside the board.
+         if (point.x > paddingX && point.y > paddingY && point.x < paddingX + boardSize && point.y < paddingY + boardSize)
+         {
+            // Perform calculations to get coordinates and return the values in an array.
+            return new int[]{(point.x - paddingX) / tileSize, (point.y - paddingY) / tileSize};
+         } else
+            return null;
       } else
          return null;
+   }
+
+   @Override
+   public void setBackground(Color bg)
+   {
+      this.backgroundColour = bg;
+      super.setBackground(bg);
+   }
+
+   public boolean isDisabled()
+   {
+      return disabled;
+   }
+
+   public void setDisabled(boolean disabled)
+   {
+      this.disabled = disabled;
+      this.repaint();
+   }
+
+   public void setFilled(boolean filled)
+   {
+      this.filled = filled;
+      this.setContentAreaFilled(filled);
    }
 }

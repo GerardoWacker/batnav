@@ -1,6 +1,5 @@
 package batnav.ui.screens;
 
-
 import batnav.online.model.User;
 import com.sun.tools.javac.Main;
 
