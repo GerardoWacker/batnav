@@ -1,6 +1,7 @@
 package batnav.ui.components;
 
 import batnav.utils.Colour;
+import batnav.utils.Fonts;
 import batnav.utils.Logger;
 
 import javax.imageio.ImageIO;
@@ -21,6 +22,7 @@ public class GameButton extends JButton
       this.setBackground(Colour.Transparent);
       this.setBorder(BorderFactory.createEmptyBorder());
       this.setForeground(Colour.Black);
+      this.setFont(Fonts.displayRegular.deriveFont(14f));
 
       try
       {
