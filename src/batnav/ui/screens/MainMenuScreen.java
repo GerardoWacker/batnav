@@ -1,48 +1,32 @@
 package batnav.ui.screens;
 
-import batnav.online.model.User;
-import com.sun.tools.javac.Main;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
 // class extends JFrame
 public class MainMenuScreen extends JFrame implements ActionListener {
 
-   private JLabel FindMatchButtonc;
-   private JPanel settingsPanel;
-   private JLabel batNavTextLabel;
-   private JButton findMatchButton;
-   private JLabel idUserLabel;
-   private JLabel eloUserLabel;
-   private JPanel userImageLabel;
-   private JLabel rankedImage;
-   private JButton previousMatchesButton;
-   private JButton settingsButton;
-   private JPanel mainPanel;
-   private JPanel menuScreenPanel;
-   private JPanel loadingToPlayPanel;
- //  private JButton gerardoWackerButton;
-  // private JButton juanIgnacioVecchioButton;
-   //private JButton matiasMenaDaDaltButton;
-   private JLabel alert;
-   private JButton cancelButton;
+   private JLabel findMatchButtonc;
+   private JLabel batNavTextLabel, idUserLabel, eloUserLabel, rankedImage, alert;
+   private JButton previousMatchesButton, settingsButton, cancelButton, findMatchButton;
+   private JPanel userImageLabel, settingsPanel, mainPanel, menuScreenPanel, loadingToPlayPanel;
    private CardLayout cl;
 
    public MainMenuScreen() {
       this.cl = new CardLayout();
+
       this.setSize(500,725);
       this.setLocationRelativeTo(null);
 
       this.menuScreenPanel = new JPanel();
       this.loadingToPlayPanel = new JPanel();
+
       this.mainPanel = new JPanel();
       this.mainPanel.setLayout(cl);
       this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -67,10 +51,10 @@ public class MainMenuScreen extends JFrame implements ActionListener {
       cancelButton.addActionListener(this);
       cancelButton.setActionCommand("Cancelar");
 
-      this.FindMatchButtonc = new JLabel("Encontrando partida . . .", SwingConstants.CENTER);
-      FindMatchButtonc.setFont(new Font("San Francisco Display", Font.BOLD, 20));
-      FindMatchButtonc.setHorizontalTextPosition(JLabel.CENTER);
-      FindMatchButtonc.setBounds(50, 200, 250, 100);
+      this.findMatchButtonc = new JLabel("Encontrando partida . . .", SwingConstants.CENTER);
+      findMatchButtonc.setFont(new Font("San Francisco Display", Font.BOLD, 20));
+      findMatchButtonc.setHorizontalTextPosition(JLabel.CENTER);
+      findMatchButtonc.setBounds(50, 200, 250, 100);
 
       this.batNavTextLabel = new JLabel("batnav", SwingConstants.CENTER);
       batNavTextLabel.setFont(new Font("San Francisco Display", Font.BOLD, 20));
@@ -123,10 +107,10 @@ public class MainMenuScreen extends JFrame implements ActionListener {
       JLabel RankedImage_ = new JLabel(new ImageIcon(myRankedImage));
       rankedImage.add(RankedImage_);
 
-      this.FindMatchButtonc = new JLabel("Encontrando partida . . .", SwingConstants.CENTER);
-      FindMatchButtonc.setFont(new Font("San Francisco Display", Font.BOLD, 20));
-      FindMatchButtonc.setHorizontalTextPosition(JLabel.CENTER);
-      FindMatchButtonc.setBounds(50, 200, 250, 100);
+      this.findMatchButtonc = new JLabel("Encontrando partida . . .", SwingConstants.CENTER);
+      findMatchButtonc.setFont(new Font("San Francisco Display", Font.BOLD, 20));
+      findMatchButtonc.setHorizontalTextPosition(JLabel.CENTER);
+      findMatchButtonc.setBounds(50, 200, 250, 100);
 
       this.findMatchButton = new JButton("Buscar Partida");
       findMatchButton.setBounds(0, 525, 500, 75);
@@ -141,7 +125,7 @@ public class MainMenuScreen extends JFrame implements ActionListener {
       findMatchButton.addActionListener(new ActionListener() {
          @Override
          public void actionPerformed(ActionEvent e) {
-            loadingToPlayPanel.add(FindMatchButtonc);
+            loadingToPlayPanel.add(findMatchButtonc);
             loadingToPlayPanel.add(cancelButton);
             cl.show(loadingToPlayPanel, "2");
             //problema del actionListener o el Performed
