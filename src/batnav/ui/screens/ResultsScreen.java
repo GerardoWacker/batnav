@@ -25,6 +25,7 @@ public class ResultsScreen extends JFrame implements ActionListener
       this.elo = elo;
       this.matchId = matchId;
 
+      this.setTitle("Resultados del juego");
       this.setLocationRelativeTo(null);
       this.setResizable(false);
 
@@ -33,7 +34,7 @@ public class ResultsScreen extends JFrame implements ActionListener
 
       container.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-      this.setSize(350, 150);
+      this.setSize(350, 180);
       container.setLayout(new GridLayout(4, 1));
 
       try
