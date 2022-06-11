@@ -202,9 +202,6 @@ public class ShipSelectionScreen extends JFrame implements ActionListener
       {
          final BufferedImage icon = ImageIO.read(new File("assets/ships/ship" + ship.getSize() + ".png"));
 
-         if (getSelectedShip() != null && getSelectedShip().equals(ship))
-            super.setBackground(Colour.Black);
-
          final int height = (150 / (icon.getWidth() / icon.getHeight()));
 
          super.setIcon(new ImageIcon(new ImageIcon(icon).getImage().getScaledInstance(150, height, Image.SCALE_DEFAULT)));
@@ -225,21 +222,40 @@ public class ShipSelectionScreen extends JFrame implements ActionListener
          // Note: It's expected that ONLY ShipLabels trigger this event.
          // If the mouseEvent was not triggered by a ShipLabel, then something is waaaay off.
 
-         if (ShipSelectionScreen.this.getCurrentLabel() != null)
-            ShipSelectionScreen.this.getCurrentLabel().setOpaque(false);
-
          // Get the ShipLabel.
          ShipLabel shipLabel = ((ShipLabel) mouseEvent.getSource());
 
          // Get the Id. from the ShipLabel.
          int id = shipLabel.getId();
 
+         try
+         {
+            if (ShipSelectionScreen.this.getCurrentLabel() != null)
+            {
+               final BufferedImage icon = ImageIO.read(new File("assets/ships/ship" +
+                    ships.get(ShipSelectionScreen.this.getCurrentLabel().getId()).getSize() + ".png"));
+               final int height = (150 / (icon.getWidth() / icon.getHeight()));
+
+               getCurrentLabel().setIcon(new ImageIcon(new ImageIcon(icon).getImage().getScaledInstance(150, height, Image.SCALE_DEFAULT)));
+            }
+         } catch (IOException e)
+         {
+            throw new RuntimeException(e);
+         }
+
          // Set the selected ship.
          ShipSelectionScreen.this.setSelectedShip(ships.get(id));
 
-         // Change background.
-         shipLabel.setOpaque(ShipSelectionScreen.this.getSelectedShip().equals(ships.get(id)));
-         shipLabel.setBackground(Colour.Black);
+         try
+         {
+            final BufferedImage icon = ImageIO.read(new File("assets/ships/ship" + ships.get(id).getSize() + "_selected.png"));
+            final int height = (150 / (icon.getWidth() / icon.getHeight()));
+
+            shipLabel.setIcon(new ImageIcon(new ImageIcon(icon).getImage().getScaledInstance(150, height, Image.SCALE_DEFAULT)));
+         } catch (IOException e)
+         {
+            throw new RuntimeException(e);
+         }
 
          ShipSelectionScreen.this.setCurrentLabel(shipLabel);
 
