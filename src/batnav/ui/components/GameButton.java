@@ -20,8 +20,8 @@ public class GameButton extends JButton
       super(text);
 
       this.setBackground(Colour.Transparent);
-      this.setBorder(BorderFactory.createEmptyBorder());
-      this.setForeground(Colour.Black);
+      this.setBorder(null);
+      this.setForeground(alternative ? Colour.AliceBlue : Colour.Black);
       this.setFont(Fonts.displayRegular.deriveFont(14f));
 
       try
@@ -39,7 +39,7 @@ public class GameButton extends JButton
    {
       this.setBackground(Colour.Transparent);
       this.setBorder(BorderFactory.createEmptyBorder());
-      this.setForeground(Colour.Black);
+      this.setForeground(alternative ? Colour.AliceBlue : Colour.Black);
 
       try
       {
@@ -57,10 +57,14 @@ public class GameButton extends JButton
    {
       Graphics2D g2d = (Graphics2D) g;
 
-      if (background != null)
-      {
-         g.drawImage(background, 0, 0, this.getWidth(), this.getHeight(), null);
-      }
+      Colour grad1 = alternative ? new Colour(53, 110, 255) : new Colour(255, 226, 53);
+      Colour grad2 = alternative ? new Colour(19, 59, 147) : new Colour(204, 140, 0);
+
+      GradientPaint gp = new GradientPaint(0, 0, grad1, 0, getHeight(), grad2);
+
+      g2d.setPaint(gp);
+
+      g.fillRect(0, 0, this.getWidth(), this.getHeight());
 
       super.paint(g);
    }
@@ -82,6 +86,8 @@ public class GameButton extends JButton
    public void setAlternative(boolean alternative)
    {
       this.alternative = alternative;
+      this.setForeground(alternative ? Colour.AliceBlue : Colour.Black);
+
       try
       {
          this.background = ImageIO.read(new File("assets/textures/button" + (extended ? "_long" : "") +
