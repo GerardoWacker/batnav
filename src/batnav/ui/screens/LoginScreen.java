@@ -26,7 +26,7 @@ public class LoginScreen extends JFrame implements ActionListener, KeyListener
    public LoginScreen()
    {
       this.cl = new CardLayout();
-      this.setSize(300, 430);
+      this.setSize(315, 450);
       this.setLocationRelativeTo(null);
       this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
@@ -101,7 +101,7 @@ public class LoginScreen extends JFrame implements ActionListener, KeyListener
       userLabel.setBounds(50, 100, 80, 25);
       userLabel.setFont(Fonts.displayRegular);
 
-      this.userName = new RoundedTextField(7, 20);
+      this.userName = new JTextField(20);
       userName.setBounds(50, 130, 200, 30);
       userName.setFont(Fonts.displayRegular);
 
@@ -109,7 +109,7 @@ public class LoginScreen extends JFrame implements ActionListener, KeyListener
       passwordLabel.setBounds(50, 200, 80, 25);
       passwordLabel.setFont(Fonts.displayRegular);
 
-      this.userPassword = new RoundedPasswordField(7, 20);
+      this.userPassword = new JPasswordField(20);
       userPassword.setBounds(50, 230, 200, 30);
       userPassword.setFont(Fonts.displayRegular);
 
