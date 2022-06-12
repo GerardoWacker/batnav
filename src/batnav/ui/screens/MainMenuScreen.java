@@ -195,7 +195,7 @@ public class MainMenuScreen extends JFrame implements ActionListener
          cancelMatchFindingButton.setBounds(120, 350, 160, 60);
          cancelMatchFindingButton.addActionListener(e -> {
             Game.getInstance().getMatchManager().leaveRankedQueue(Game.getInstance().getConnection());
-            cl.show(mainPanel, "2");
+            cl.show(mainPanel, "1");
          });
 
          final String[] advices = new String[]{
