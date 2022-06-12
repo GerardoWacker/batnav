@@ -67,7 +67,6 @@ public class ResultsScreen extends JFrame implements ActionListener
          matchInfoButton.setActionCommand("matchInfo");
 
          final GameButton returnButton = new GameButton("Volver al menú principal");
-         returnButton.setExtended(true);
          returnButton.addActionListener(this);
          returnButton.setActionCommand("return");
 
