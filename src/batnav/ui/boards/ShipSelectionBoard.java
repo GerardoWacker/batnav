@@ -18,11 +18,14 @@ public class ShipSelectionBoard extends Board
    @Override
    public void paint(Graphics g)
    {
+      /*
       super.paint(g);
 
       for (Ship ship : this.parent.getShips())
       {
          this.drawShip(g, ship);
       }
+
+       */
    }
 }
