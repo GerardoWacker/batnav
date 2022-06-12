@@ -233,7 +233,7 @@ public class ShipSelectionScreen extends JFrame implements ActionListener
             if (ShipSelectionScreen.this.getCurrentLabel() != null)
             {
                final BufferedImage icon = ImageIO.read(new File("assets/ships/ship" +
-                       ships.get(ShipSelectionScreen.this.getCurrentLabel().getId()).getSize() + ".png"));
+                    ships.get(ShipSelectionScreen.this.getCurrentLabel().getId()).getSize() + ".png"));
                final int height = (150 / (icon.getWidth() / icon.getHeight()));
 
                getCurrentLabel().setIcon(new ImageIcon(new ImageIcon(icon).getImage().getScaledInstance(150, height, Image.SCALE_DEFAULT)));

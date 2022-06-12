@@ -2,7 +2,12 @@ package batnav.ui.screens;
 
 import batnav.instance.Game;
 import batnav.online.model.Packet;
+import batnav.ui.components.GameButton;
+import batnav.ui.components.GamePanel;
+import batnav.ui.components.RoundedPasswordField;
+import batnav.ui.components.RoundedTextField;
 import batnav.utils.Colour;
+import batnav.utils.Fonts;
 import batnav.utils.Logger;
 
 import javax.swing.*;
@@ -14,85 +19,103 @@ public class LoginScreen extends JFrame implements ActionListener, KeyListener
    private final JTextField userName, userPassword;
    private final JLabel userLabel, logoContainerLabel, passwordLabel, alert, loadingText, jumpToRegisterScreen;
    private JPanel loginPanel, loadingPanel;
-   private JButton tempButton, loginButton;
-   private JPanel mainPanel;
+   private GameButton tempButton, loginButton;
+   private GamePanel mainPanel;
    private CardLayout cl;
 
    public LoginScreen()
    {
       this.cl = new CardLayout();
-      this.setSize(300, 500);
+      this.setSize(315, 450);
       this.setLocationRelativeTo(null);
+      this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+
       this.loginPanel = new JPanel();
       this.loadingPanel = new JPanel();
-      this.mainPanel = new JPanel();
+
+      loginPanel.setBackground(Colour.Transparent);
+      loginPanel.setOpaque(false);
+      loadingPanel.setBackground(Colour.Transparent);
+      loadingPanel.setOpaque(false);
+
+      this.mainPanel = new GamePanel();
+      mainPanel.setAlternative(true);
       this.mainPanel.setLayout(cl);
-      this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-      this.add(mainPanel);
+
       mainPanel.add(loginPanel, "1");
       mainPanel.add(loadingPanel, "2");
 
+      this.add(mainPanel);
       cl.show(mainPanel, "1");
 
       loginPanel.setLayout(null);
 
-      this.jumpToRegisterScreen = new JLabel("Registrarse");
+      this.jumpToRegisterScreen = new JLabel("<html><u>¿No tenés una cuenta?</u></html");
       this.jumpToRegisterScreen.setForeground(Colour.BLUE);
-      this.jumpToRegisterScreen.setBounds(50, 350, 80, 25);
+      this.jumpToRegisterScreen.setBounds(50, 350, 200, 25);
       this.loginPanel.add(jumpToRegisterScreen);
-      this.jumpToRegisterScreen.addMouseListener(new MouseListener() {
+      this.jumpToRegisterScreen.addMouseListener(new MouseListener()
+      {
          @Override
-         public void mouseClicked(MouseEvent e) {
-            if(e.getSource()==jumpToRegisterScreen){
+         public void mouseClicked(MouseEvent e)
+         {
+            if (e.getSource() == jumpToRegisterScreen)
+            {
                new RegisterScreen();
                setVisible(false);
             }
          }
 
          @Override
-         public void mousePressed(MouseEvent e) {
+         public void mousePressed(MouseEvent e)
+         {
 
          }
 
          @Override
-         public void mouseReleased(MouseEvent e) {
+         public void mouseReleased(MouseEvent e)
+         {
 
          }
 
          @Override
-         public void mouseEntered(MouseEvent e) {
+         public void mouseEntered(MouseEvent e)
+         {
 
          }
 
          @Override
-         public void mouseExited(MouseEvent e) {
+         public void mouseExited(MouseEvent e)
+         {
 
          }
       });
 
       this.logoContainerLabel = new JLabel("Iniciar sesión", SwingConstants.CENTER);
-      logoContainerLabel.setFont(new Font("San Francisco Display", Font.BOLD, 25));
+      logoContainerLabel.setFont(Fonts.displayTitle);
       logoContainerLabel.setHorizontalTextPosition(JLabel.CENTER);
-      logoContainerLabel.setBounds(35, 10, 200, 80);
-
+      logoContainerLabel.setBounds(50, 10, 200, 80);
+      logoContainerLabel.setBackground(Colour.Transparent);
 
       this.userLabel = new JLabel("Usuario");
       userLabel.setBounds(50, 100, 80, 25);
-
+      userLabel.setFont(Fonts.displayRegular);
 
       this.userName = new JTextField(20);
-      userName.setBounds(50, 130, 165, 25);
-
+      userName.setBounds(50, 130, 200, 30);
+      userName.setFont(Fonts.displayRegular);
 
       this.passwordLabel = new JLabel("Contraseña");
       passwordLabel.setBounds(50, 200, 80, 25);
-
+      passwordLabel.setFont(Fonts.displayRegular);
 
       this.userPassword = new JPasswordField(20);
-      userPassword.setBounds(50, 230, 165, 25);
+      userPassword.setBounds(50, 230, 200, 30);
+      userPassword.setFont(Fonts.displayRegular);
 
-      this.loginButton = new JButton("Iniciar sesión");
-      loginButton.setBounds(50, 300, 165, 25);
+      this.loginButton = new GameButton("Iniciar sesión");
+      loginButton.setAlternative(true);
+      loginButton.setBounds(100, 290, 100, 50);
       loginButton.addActionListener(this);
       loginButton.setActionCommand("login");
       this.addKeyListener(this);
@@ -108,11 +131,10 @@ public class LoginScreen extends JFrame implements ActionListener, KeyListener
       this.loadingText = new JLabel("Iniciando sesión");
       loadingText.setBounds(100, 120, 200, 80);
 
-      this.tempButton = new JButton("Cancelar");
+      this.tempButton = new GameButton("Cancelar");
       tempButton.setBounds(50, 300, 165, 25);
       tempButton.addActionListener(this);
       tempButton.setActionCommand("cancel");
-
 
       this.loginPanel.add(this.userName);
       this.loginPanel.add(this.logoContainerLabel);
@@ -121,7 +143,6 @@ public class LoginScreen extends JFrame implements ActionListener, KeyListener
       this.loginPanel.add(this.passwordLabel);
       this.loginPanel.add(this.loginButton);
       this.loginPanel.add(this.alert);
-
 
       this.loadingPanel.add(loadingText);
       this.loadingPanel.add(tempButton);
@@ -190,18 +211,21 @@ public class LoginScreen extends JFrame implements ActionListener, KeyListener
    }
 
    @Override
-   public void keyTyped(KeyEvent e) {
+   public void keyTyped(KeyEvent e)
+   {
 
    }
 
    @Override
-   public void keyPressed(KeyEvent e) {
+   public void keyPressed(KeyEvent e)
+   {
       System.out.println("you pressed character " + e.getKeyCode());
 
    }
 
    @Override
-   public void keyReleased(KeyEvent e) {
+   public void keyReleased(KeyEvent e)
+   {
 
    }
 }

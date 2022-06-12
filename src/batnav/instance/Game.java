@@ -5,8 +5,10 @@ import batnav.online.match.MatchManager;
 import batnav.notifications.NotificationManager;
 import batnav.online.session.SessionManager;
 import batnav.online.socket.Connection;
+import batnav.ui.screens.LoginScreen;
 import batnav.ui.screens.MainMenuScreen;
 import batnav.ui.screens.SplashScreen;
+import batnav.utils.FontUtil;
 import batnav.utils.Logger;
 import batnav.utils.RestUtils;
 import batnav.utils.Sambayon;
@@ -20,9 +22,11 @@ public class Game
    private SessionManager sessionManager;
    private Connection connection;
    private MatchManager matchManager;
+   private final FontUtil fontUtil;
    private SplashScreen splashScreen;
    private static Game instance;
    private MainMenuScreen mainMenuScreen;
+   private LoginScreen loginScreen;
 
    /**
     * batnav, a naval battle simulator.
@@ -36,6 +40,7 @@ public class Game
       this.notificationManager = new NotificationManager();
       this.sambayon = new Sambayon();
       this.configManager = new ConfigManager();
+      this.fontUtil = new FontUtil();
    }
 
    /**
@@ -77,6 +82,9 @@ public class Game
 
       this.mainMenuScreen = new MainMenuScreen();
       this.mainMenuScreen.setVisible(false);
+
+      this.loginScreen = new LoginScreen();
+      this.loginScreen.setVisible(false);
    }
 
    public Sambayon getSambayon()
@@ -122,6 +130,16 @@ public class Game
    public MainMenuScreen getMainMenuScreen()
    {
       return mainMenuScreen;
+   }
+
+   public LoginScreen getLoginScreen()
+   {
+      return loginScreen;
+   }
+
+   public FontUtil getFontUtil()
+   {
+      return fontUtil;
    }
 
    public static Game getInstance()

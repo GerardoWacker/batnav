@@ -5,6 +5,9 @@ import batnav.online.match.Match;
 import batnav.online.model.User;
 import batnav.ui.boards.OpponentBoard;
 import batnav.ui.boards.PlayerBoard;
+import batnav.ui.components.GamePanel;
+import batnav.utils.Colour;
+import batnav.utils.Fonts;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -43,22 +46,47 @@ public class MatchScreen extends JFrame implements ActionListener
 
       this.match = match;
 
+      final GamePanel content = new GamePanel();
+      content.setLayout(new BorderLayout());
+
       this.opponentBoard = new OpponentBoard(this.match);
       this.playerBoard = new PlayerBoard(this.match);
 
+      this.opponentBoard.setContentAreaFilled(false);
+      this.opponentBoard.setBorderPainted(false);
+      this.opponentBoard.setOpaque(false);
+
+      this.playerBoard.setFilled(false);
+      this.opponentBoard.setFilled(false);
+
       this.opponentInfo = new JPanel();
       this.playerInfo = new JPanel();
+
+      opponentInfo.setBackground(Colour.Transparent);
+      playerInfo.setBackground(Colour.Transparent);
+      opponentBoard.setBackground(Colour.Transparent);
+      playerBoard.setBackground(Colour.Transparent);
 
       this.middlePanel = new JPanel();
 
       this.opponentName = new JLabel(match.getOpponent().getUsername() + " (" + match.getOpponent().getElo() + ")");
       this.playerName = new JLabel(isOffline ? "Yo (1000)" : (Game.getInstance().getConnection().getCurrentUser().getUsername() + " (" + Game.getInstance().getConnection().getCurrentUser().getElo() + ")"));
 
+      opponentName.setFont(Fonts.displayTitle.deriveFont(14f));
+      playerName.setFont(Fonts.displayTitle.deriveFont(14f));
+
+      playerName.setForeground(Colour.AliceBlue);
+      opponentName.setForeground(Colour.AliceBlue);
+
       this.opponentIcon = new ImageIcon("assets/textures/red_icon.png");
       this.playerIcon = new ImageIcon("assets/textures/green_icon.png");
 
       this.counterLabel = new JLabel();
+      counterLabel.setText("88:88");
       this.dFormat = new DecimalFormat("00");
+
+      counterLabel.setFont(Fonts.displayMedium.deriveFont(20f));
+      counterLabel.setForeground(Colour.White);
 
       this.opponentflagPlaceholder = new JLabel();
       this.playerFlagPlaceholder = new JLabel();
@@ -90,6 +118,7 @@ public class MatchScreen extends JFrame implements ActionListener
 
       this.opponentBoard.addMouseListener(new BoardMouseEvent());
       middlePanel.setLayout(new GridLayout(2, 1));
+      middlePanel.setBackground(Colour.Transparent);
       middlePanel.add(opponentBoard);
       middlePanel.add(playerBoard);
 
@@ -106,9 +135,12 @@ public class MatchScreen extends JFrame implements ActionListener
       this.playerInfo.add(playerFlagPlaceholder);
       this.playerInfo.add(counterLabel, BorderLayout.EAST);
 
-      this.add(opponentInfo, BorderLayout.NORTH);
-      this.add(playerInfo, BorderLayout.SOUTH);
-      this.add(middlePanel, BorderLayout.CENTER);
+      content.add(opponentInfo, BorderLayout.NORTH);
+      content.add(playerInfo, BorderLayout.SOUTH);
+      content.add(middlePanel, BorderLayout.CENTER);
+
+      this.add(content);
+
       try
       {
          if (this.match.getPlayerShips().size() <= 0)
@@ -160,7 +192,8 @@ public class MatchScreen extends JFrame implements ActionListener
 
    public static void main(String[] args)
    {
-      new MatchScreen(new Match("asdfghjkl", new User("tu vieja", "AR", 0, 1000, false)));
+      MatchScreen matchScreen = new MatchScreen(new Match("asdfghjkl", new User("AAAAAAAAA", "AR", 0, 1000, false)));
+      matchScreen.setVisible(true);
    }
 
    @Override

@@ -1,5 +1,6 @@
 package batnav.ui.screens;
 
+import batnav.instance.Game;
 import batnav.utils.Colour;
 
 import javax.swing.*;
@@ -47,7 +48,7 @@ public class RegisterScreen extends JFrame implements ActionListener {
          @Override
          public void mouseClicked(MouseEvent e) {
             if(e.getSource()== jumpToLoginScreen){
-               new LoginScreen();
+               Game.getInstance().getLoginScreen().setVisible(true);
                setVisible(false);
             }
          }
