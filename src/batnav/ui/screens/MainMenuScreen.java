@@ -1,5 +1,6 @@
 package batnav.ui.screens;
 
+import batnav.instance.Game;
 import batnav.ui.components.GameButton;
 import batnav.ui.components.GamePanel;
 import batnav.utils.Colour;
@@ -10,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.net.URL;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -17,10 +19,6 @@ import javax.swing.border.BevelBorder;
 // class extends JFrame
 public class MainMenuScreen extends JFrame implements ActionListener
 {
-
-   private JLabel findingMatchesLabel;
-   private JLabel userIconLabel;
-   private JButton previousMatchesButton, settingsButton, cancelMatchFindingButton;
 
    private GamePanel menuScreenPanel, matchmakingPanel;
    private JPanel mainPanel;
@@ -48,7 +46,8 @@ public class MainMenuScreen extends JFrame implements ActionListener
 
          // Matchmaking panel
          this.matchmakingPanel = new GamePanel();
-         matchmakingPanel.setAlternative(true);
+         matchmakingPanel.setAlternative(false);
+         matchmakingPanel.setLayout(null);
 
          // Add child panels into main panel.
          mainPanel.add(menuScreenPanel, "1");
@@ -81,7 +80,7 @@ public class MainMenuScreen extends JFrame implements ActionListener
          userPanel.setBounds(0, 0, 300, 50);
 
          // Top panel : User panel : Icon.
-         this.userIconLabel = new JLabel();
+         JLabel userIconLabel = new JLabel();
          final BufferedImage userIcon = ImageIO.read(new File("assets/textures/green_icon.png"));
          userIconLabel.setIcon(new ImageIcon(userIcon.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
 
@@ -101,23 +100,33 @@ public class MainMenuScreen extends JFrame implements ActionListener
          eloUserLabel.setIcon(new ImageIcon(cupIcon.getScaledInstance(16, 16, Image.SCALE_SMOOTH)));
          eloUserLabel.setFont(Fonts.displayRegular.deriveFont(Font.BOLD));
 
+         // Top panel : User panel: User flag.
+         final BufferedImage playerFlagTexture = ImageIO.read(new URL("https://raw.githubusercontent.com/gosquared/flags/master/flags/flags-iso/flat/64/" + Game.getInstance().getConnection().getCurrentUser().getCountry() + ".png"));
+         final JLabel userFlag = new JLabel();
+         userFlag.setIcon(new ImageIcon(playerFlagTexture.getScaledInstance(25, 25, Image.SCALE_SMOOTH)));
+
          metaPanel.add(userNameLabel);
          metaPanel.add(eloUserLabel);
 
          userPanel.add(userIconLabel);
          userPanel.add(metaPanel);
+         userPanel.add(userFlag);
 
          // Top panel: Settings button.
          final JPanel settingsPanel = new JPanel();
          settingsPanel.setLayout(null);
          settingsPanel.setBounds(310, 0, 50, 50);
 
-         this.settingsButton = new GameButton();
+         GameButton settingsButton = new GameButton();
 
-         final BufferedImage settingsIcon = ImageIO.read(new File("assets/mainmenu/SettingsEngine.png"));
-         final JLabel settingsIconLabel = new JLabel(new ImageIcon(settingsIcon));
+         final BufferedImage settingsIcon = ImageIO.read(new File("assets/textures/settings.png"));
+         final JLabel settingsIconLabel = new JLabel("", SwingConstants.CENTER);
+         settingsIconLabel.setLayout(null);
+         settingsIconLabel.setIcon(new ImageIcon(settingsIcon.getScaledInstance(50, 50, Image.SCALE_SMOOTH)));
+         settingsIconLabel.setSize(50, 50);
 
          settingsButton.add(settingsIconLabel);
+         settingsButton.setHorizontalTextPosition(JLabel.CENTER);
          settingsButton.setSize(50, 50);
          settingsButton.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED, Colour.Black, Colour.Black));
          settingsButton.addActionListener(e -> new SettingsScreen());
@@ -143,7 +152,7 @@ public class MainMenuScreen extends JFrame implements ActionListener
          rankedImage.setVerticalTextPosition(JLabel.TOP);
 
          final BufferedImage myRankedImage = ImageIO.read(new File("assets/textures/ranked.png"));
-         rankedImage.setIcon(new ImageIcon(myRankedImage.getScaledInstance(250, 250, Image.SCALE_SMOOTH)));
+         rankedImage.setIcon(new ImageIcon(myRankedImage.getScaledInstance(250, 208, Image.SCALE_SMOOTH)));
          rankedImage.setBounds(0, 0, 400, 300);
 
          // Match panel : Find match button.
@@ -157,24 +166,53 @@ public class MainMenuScreen extends JFrame implements ActionListener
          findMatchButton.setFont(Fonts.displayMedium);
          findMatchButton.setBounds(120, 0, 160, 60);
 
-         findMatchButton.addActionListener(e -> cl.show(mainPanel, "2"));
+         findMatchButton.addActionListener(e -> {
+            Game.getInstance().getMatchManager().joinRankedQueue(Game.getInstance().getConnection());
+            cl.show(mainPanel, "2");
+         });
 
          findMatchButtonContainer.add(findMatchButton);
 
          matchPanel.add(rankedImage);
          matchPanel.add(findMatchButtonContainer);
 
-         this.findingMatchesLabel = new JLabel("Buscando oponentes...", SwingConstants.CENTER);
-         findingMatchesLabel.setFont(Fonts.displayMedium);
-         findingMatchesLabel.setHorizontalTextPosition(JLabel.CENTER);
-
          // Begin with the "searching for match" screen.
-         this.cancelMatchFindingButton = new GameButton("Cancelar");
-         cancelMatchFindingButton.addActionListener(this);
-         cancelMatchFindingButton.setActionCommand("Cancelar");
+         final JLabel findingMatchesLabel = new JLabel("Buscando oponentes...", SwingConstants.CENTER);
+         findingMatchesLabel.setFont(Fonts.displayTitle);
+         findingMatchesLabel.setForeground(Colour.AliceBlue);
+         findingMatchesLabel.setVerticalTextPosition(JLabel.TOP);
+         findingMatchesLabel.setHorizontalTextPosition(JLabel.CENTER);
+         findingMatchesLabel.setIcon(new ImageIcon(myRankedImage.getScaledInstance(200, 166, Image.SCALE_SMOOTH)));
+         findingMatchesLabel.setBounds(0, 0, 400, 300);
 
-         this.previousMatchesButton = new JButton("Previas Partidas");
-         previousMatchesButton.setFont(new Font("San Francisco Display", Font.PLAIN, 18));
+         final GameButton cancelMatchFindingButton = new GameButton("Cancelar");
+         cancelMatchFindingButton.setCancel(true);
+         cancelMatchFindingButton.addActionListener(this);
+         cancelMatchFindingButton.setIconTextGap(30);
+         cancelMatchFindingButton.setActionCommand("Cancelar");
+         cancelMatchFindingButton.setFont(Fonts.displayMedium);
+         cancelMatchFindingButton.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED, Colour.Black, Colour.Black));
+         cancelMatchFindingButton.setBounds(120, 350, 160, 60);
+         cancelMatchFindingButton.addActionListener(e -> {
+            Game.getInstance().getMatchManager().leaveRankedQueue(Game.getInstance().getConnection());
+            cl.show(mainPanel, "2");
+         });
+
+         final String[] advices = new String[]{
+              "En las partidas clasificatorias, tanto vos como tu<br>oponente tendrán 8 barcos.",
+              "Cada turno dura 45 segundos,<br>¡no malgastes el tiempo!",
+              "El ELO (u copas) que ganes dependerá de tu<br>puntaje y el de tu oponente.",
+              "¡Demostrá que sos el mejor jugador de batalla<br>naval jugando partidas clasificatorias!",
+              "Si encontrás un bug, notificanos a través del link<br>en Configuración.",
+              "En total, debés tirar 24 bombas como mínimo<br>para poder ganar.",
+              "Si te desconectás durante una partida, se<br>tomará como una derrota."
+         };
+
+         final JButton adviceButton = new JButton();
+         adviceButton.setText("<html>" + advices[(int) Math.floor(Math.random() * (7))] + "</html>");
+         adviceButton.setBounds(50, 430, 300, 80);
+         adviceButton.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED, Colour.Black, Colour.Black));
+         adviceButton.addActionListener(e -> adviceButton.setText("<html>" + advices[(int) Math.floor(Math.random() * (7))] + "</html>"));
 
          this.menuScreenPanel.add(titleLabel);
          this.menuScreenPanel.add(topPanel);
@@ -182,6 +220,7 @@ public class MainMenuScreen extends JFrame implements ActionListener
 
          this.matchmakingPanel.add(findingMatchesLabel);
          this.matchmakingPanel.add(cancelMatchFindingButton);
+         this.matchmakingPanel.add(adviceButton);
 
       } catch (Exception e)
       {
@@ -197,10 +236,7 @@ public class MainMenuScreen extends JFrame implements ActionListener
 
    public static void main(String[] args)
    {
-
-      {
-         new MainMenuScreen();
-      }
+      new MainMenuScreen();
    }
 
    @Override
