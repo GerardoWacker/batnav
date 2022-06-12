@@ -102,88 +102,88 @@ public class ShipSelectionScreen extends JFrame implements ActionListener
       switch (action)
       {
          case "rotateShip" ->
-         {
-            if (this.selectedShip.isVertical())
-            {
-               if (this.selectedShip.getX() >= 10 - this.selectedShip.getSize())
-               {
-                  if (!coordinatesHasShip(
-                       new int[]{10 - this.selectedShip.getSize(), this.selectedShip.getY()},
-                       false, this.selectedShip))
-                  {
-                     this.selectedShip.setPosition(10 - this.selectedShip.getSize(), this.selectedShip.getY());
-                     this.selectedShip.setVertical(false);
-                  } else
-                  {
-                     JOptionPane.showMessageDialog(null,
-                          "No se puede rotar a esa posición: ¡ya hay un barco!",
-                          "Advertencia", JOptionPane.WARNING_MESSAGE);
-                  }
-               } else
-               {
-                  if (!coordinatesHasShip(
-                       new int[]{this.selectedShip.getX(), this.selectedShip.getY()},
-                       false, this.selectedShip))
-                  {
-                     this.selectedShip.setVertical(false);
-                  } else
-                  {
-                     JOptionPane.showMessageDialog(null,
-                          "No se puede rotar a esa posición: ¡ya hay un barco!",
-                          "Advertencia", JOptionPane.WARNING_MESSAGE);
-                  }
-               }
-            } else
-            {
-               if (this.selectedShip.getY() >= 10 - this.selectedShip.getSize())
-               {
-                  if (!coordinatesHasShip(
-                       new int[]{this.selectedShip.getX(), 10 - this.selectedShip.getSize()},
-                       true, this.selectedShip))
-                  {
-                     this.selectedShip.setPosition(this.selectedShip.getX(), 10 - this.selectedShip.getSize());
-                     this.selectedShip.setVertical(true);
-                  } else
-                  {
-                     JOptionPane.showMessageDialog(null,
-                          "No se puede rotar a esa posición: ¡ya hay un barco!",
-                          "Advertencia", JOptionPane.WARNING_MESSAGE);
-                  }
-               } else
-               {
-                  if (!coordinatesHasShip(
-                       new int[]{this.selectedShip.getX(), this.selectedShip.getY()},
-                       true, this.selectedShip))
-                  {
-                     this.selectedShip.setVertical(true);
-                  } else
-                  {
-                     JOptionPane.showMessageDialog(null,
-                          "No se puede rotar a esa posición: ¡ya hay un barco!",
-                          "Advertencia", JOptionPane.WARNING_MESSAGE);
-                  }
-               }
-            }
-            this.shipSelectionBoard.update();
-         }
+                 {
+                    if (this.selectedShip.isVertical())
+                    {
+                       if (this.selectedShip.getX() >= 10 - this.selectedShip.getSize())
+                       {
+                          if (!coordinatesHasShip(
+                                  new int[]{10 - this.selectedShip.getSize(), this.selectedShip.getY()},
+                                  false, this.selectedShip))
+                          {
+                             this.selectedShip.setPosition(10 - this.selectedShip.getSize(), this.selectedShip.getY());
+                             this.selectedShip.setVertical(false);
+                          } else
+                          {
+                             JOptionPane.showMessageDialog(null,
+                                     "No se puede rotar a esa posición: ¡ya hay un barco!",
+                                     "Advertencia", JOptionPane.WARNING_MESSAGE);
+                          }
+                       } else
+                       {
+                          if (!coordinatesHasShip(
+                                  new int[]{this.selectedShip.getX(), this.selectedShip.getY()},
+                                  false, this.selectedShip))
+                          {
+                             this.selectedShip.setVertical(false);
+                          } else
+                          {
+                             JOptionPane.showMessageDialog(null,
+                                     "No se puede rotar a esa posición: ¡ya hay un barco!",
+                                     "Advertencia", JOptionPane.WARNING_MESSAGE);
+                          }
+                       }
+                    } else
+                    {
+                       if (this.selectedShip.getY() >= 10 - this.selectedShip.getSize())
+                       {
+                          if (!coordinatesHasShip(
+                                  new int[]{this.selectedShip.getX(), 10 - this.selectedShip.getSize()},
+                                  true, this.selectedShip))
+                          {
+                             this.selectedShip.setPosition(this.selectedShip.getX(), 10 - this.selectedShip.getSize());
+                             this.selectedShip.setVertical(true);
+                          } else
+                          {
+                             JOptionPane.showMessageDialog(null,
+                                     "No se puede rotar a esa posición: ¡ya hay un barco!",
+                                     "Advertencia", JOptionPane.WARNING_MESSAGE);
+                          }
+                       } else
+                       {
+                          if (!coordinatesHasShip(
+                                  new int[]{this.selectedShip.getX(), this.selectedShip.getY()},
+                                  true, this.selectedShip))
+                          {
+                             this.selectedShip.setVertical(true);
+                          } else
+                          {
+                             JOptionPane.showMessageDialog(null,
+                                     "No se puede rotar a esa posición: ¡ya hay un barco!",
+                                     "Advertencia", JOptionPane.WARNING_MESSAGE);
+                          }
+                       }
+                    }
+                    this.shipSelectionBoard.update();
+                 }
          case "setShips" ->
-         {
-            for (Ship ship : this.ships)
-            {
-               if (ship.getX() == null || ship.getY() == null)
-               {
-                  JOptionPane.showMessageDialog(null,
-                       "¡Todos los barcos deben tener posición!",
-                       "Advertencia", JOptionPane.WARNING_MESSAGE);
-                  return;
-               }
-            }
-            Game.getInstance().getMatchManager().setShips(
-                 Game.getInstance().getConnection(),
-                 this.ships
-            );
-            Game.getInstance().getMatchManager().getCurrentMatch().getMatchScreen().setVisible(true);
-         }
+                 {
+                    for (Ship ship : this.ships)
+                    {
+                       if (ship.getX() == null || ship.getY() == null)
+                       {
+                          JOptionPane.showMessageDialog(null,
+                                  "¡Todos los barcos deben tener posición!",
+                                  "Advertencia", JOptionPane.WARNING_MESSAGE);
+                          return;
+                       }
+                    }
+                    Game.getInstance().getMatchManager().setShips(
+                            Game.getInstance().getConnection(),
+                            this.ships
+                    );
+                    Game.getInstance().getMatchManager().getCurrentMatch().getMatchScreen().setVisible(true);
+                 }
       }
    }
 
@@ -296,7 +296,7 @@ public class ShipSelectionScreen extends JFrame implements ActionListener
          if (ShipSelectionScreen.this.selectedShip == null)
          {
             JOptionPane.showMessageDialog(null, "¡Tenés que seleccionar un barco!",
-                 "Advertencia", JOptionPane.WARNING_MESSAGE);
+                    "Advertencia", JOptionPane.WARNING_MESSAGE);
             return;
          }
 
@@ -314,7 +314,7 @@ public class ShipSelectionScreen extends JFrame implements ActionListener
             else
             {
                JOptionPane.showMessageDialog(null, "¡Ya hay un barco ocupando esa posición!",
-                    "Advertencia", JOptionPane.WARNING_MESSAGE);
+                       "Advertencia", JOptionPane.WARNING_MESSAGE);
                return;
             }
 
