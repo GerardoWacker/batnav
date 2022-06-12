@@ -12,8 +12,7 @@ import java.io.IOException;
 
 public class GameButton extends JButton
 {
-   private Image background;
-   private boolean alternative, extended;
+   private boolean alternative, extended, cancel;
 
    public GameButton(String text)
    {
@@ -21,35 +20,16 @@ public class GameButton extends JButton
 
       this.setBackground(Colour.Transparent);
       this.setBorder(null);
-      this.setForeground(alternative ? Colour.AliceBlue : Colour.Black);
+      this.setForeground(alternative || cancel ? Colour.White : Colour.Black);
       this.setFont(Fonts.displayRegular.deriveFont(14f));
-
-      try
-      {
-         this.background = ImageIO.read(new File("assets/textures/button" + (extended ? "_long" : "") +
-              (alternative ? "_alternative" : "") + ".png"));
-      } catch (IOException e)
-      {
-         Logger.err("Hubo un error leyendo una textura.");
-         throw new RuntimeException(e);
-      }
    }
 
    public GameButton()
    {
       this.setBackground(Colour.Transparent);
       this.setBorder(BorderFactory.createEmptyBorder());
-      this.setForeground(alternative ? Colour.AliceBlue : Colour.Black);
-
-      try
-      {
-         this.background = ImageIO.read(new File("assets/textures/button" + (extended ? "_long" : "") +
-              (alternative ? "_alternative" : "") + ".png"));
-      } catch (IOException e)
-      {
-         Logger.err("Hubo un error leyendo una textura.");
-         throw new RuntimeException(e);
-      }
+      this.setForeground(alternative || cancel ? Colour.White : Colour.Black);
+      this.setFont(Fonts.displayRegular.deriveFont(14f));
    }
 
    @Override
@@ -57,8 +37,8 @@ public class GameButton extends JButton
    {
       Graphics2D g2d = (Graphics2D) g;
 
-      Colour grad1 = alternative ? new Colour(53, 110, 255) : new Colour(255, 226, 53);
-      Colour grad2 = alternative ? new Colour(19, 59, 147) : new Colour(204, 140, 0);
+      Colour grad1 = cancel ? new Colour(255, 0, 0) : (alternative ? new Colour(53, 110, 255) : new Colour(255, 226, 53));
+      Colour grad2 = cancel ? new Colour(120, 0, 0) : (alternative ? new Colour(19, 59, 147) : new Colour(204, 140, 0));
 
       GradientPaint gp = new GradientPaint(0, 0, grad1, 0, getHeight(), grad2);
 
@@ -69,33 +49,16 @@ public class GameButton extends JButton
       super.paint(g);
    }
 
-   public void setExtended(boolean extended)
+   public void setCancel(boolean cancel)
    {
-      this.extended = extended;
-      try
-      {
-         this.background = ImageIO.read(new File("assets/textures/button" + (extended ? "_long" : "") +
-              (alternative ? "_alternative" : "") + ".png"));
-      } catch (IOException e)
-      {
-         throw new RuntimeException(e);
-      }
-      repaint();
+      this.cancel = cancel;
+      this.setForeground(alternative || cancel ? Colour.White : Colour.Black);
    }
 
    public void setAlternative(boolean alternative)
    {
       this.alternative = alternative;
-      this.setForeground(alternative ? Colour.AliceBlue : Colour.Black);
-
-      try
-      {
-         this.background = ImageIO.read(new File("assets/textures/button" + (extended ? "_long" : "") +
-              (alternative ? "_alternative" : "") + ".png"));
-      } catch (IOException e)
-      {
-         throw new RuntimeException(e);
-      }
+      this.setForeground(alternative || cancel ? Colour.White : Colour.Black);
       repaint();
    }
 }
