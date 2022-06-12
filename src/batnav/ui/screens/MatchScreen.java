@@ -52,13 +52,6 @@ public class MatchScreen extends JFrame implements ActionListener
       this.opponentBoard = new OpponentBoard(this.match);
       this.playerBoard = new PlayerBoard(this.match);
 
-      this.opponentBoard.setContentAreaFilled(false);
-      this.opponentBoard.setBorderPainted(false);
-      this.opponentBoard.setOpaque(false);
-
-      this.playerBoard.setFilled(false);
-      this.opponentBoard.setFilled(false);
-
       this.opponentInfo = new JPanel();
       this.playerInfo = new JPanel();
 

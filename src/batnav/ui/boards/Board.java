@@ -14,24 +14,18 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class Board extends JButton
+public class Board extends JPanel
 {
    private final int tileSize = 26;
    private final int boardSize = tileSize * 10;
 
    private boolean disabled;
 
-   private Color backgroundColour;
-
    private boolean filled;
 
    public Board()
    {
       // As the Board is a button, disabling the default values for styling is necessary.
-      this.setBorderPainted(false);
-      this.setFocusPainted(false);
-      this.setContentAreaFilled(this.filled);
-
       this.setOpaque(this.filled);
    }
 
@@ -147,13 +141,6 @@ public class Board extends JButton
          return null;
    }
 
-   @Override
-   public void setBackground(Color bg)
-   {
-      this.backgroundColour = bg;
-      super.setBackground(bg);
-   }
-
    public boolean isDisabled()
    {
       return disabled;
@@ -168,6 +155,5 @@ public class Board extends JButton
    public void setFilled(boolean filled)
    {
       this.filled = filled;
-      this.setContentAreaFilled(filled);
    }
 }
