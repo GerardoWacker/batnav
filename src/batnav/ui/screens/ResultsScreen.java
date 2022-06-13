@@ -94,11 +94,9 @@ public class ResultsScreen extends JFrame implements ActionListener
    {
       switch (e.getActionCommand())
       {
-         case "matchInfo":
-            // TODO: Implement MatchReviewScreen.
-            break;
          case "return":
             this.setVisible(false);
+            Game.getInstance().getMainMenuScreen().displayMainMenu();
             Game.getInstance().getMainMenuScreen().setVisible(true);
       }
    }
