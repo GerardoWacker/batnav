@@ -99,6 +99,7 @@ public class ResultsScreen extends JFrame implements ActionListener
             break;
          case "return":
             this.setVisible(false);
+            Game.getInstance().getMainMenuScreen().setVisible(true);
       }
    }
 }
