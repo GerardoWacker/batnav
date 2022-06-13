@@ -1,7 +1,10 @@
 package batnav.ui.screens;
 
 import batnav.instance.Game;
+import batnav.ui.components.GameButton;
+import batnav.ui.components.GamePanel;
 import batnav.utils.Colour;
+import batnav.utils.Fonts;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -22,11 +25,17 @@ public class ResultsScreen extends JFrame implements ActionListener
       this.elo = elo;
       this.matchId = matchId;
 
+      this.setTitle("Resultados del juego");
       this.setLocationRelativeTo(null);
       this.setResizable(false);
 
-      this.setSize(350, 150);
-      this.setLayout(new GridLayout(4, 1));
+      final GamePanel container = new GamePanel();
+      container.setAlternative(true);
+
+      container.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+      this.setSize(350, 180);
+      container.setLayout(new GridLayout(4, 1));
 
       try
       {
@@ -38,33 +47,39 @@ public class ResultsScreen extends JFrame implements ActionListener
          iconLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
          final JLabel title = new JLabel(victory ? "¡Has ganado!" : "¡Has perdido!");
-         title.setFont(new Font("San Francisco Display", Font.BOLD, 25));
+         title.setFont(Fonts.displayTitle);
          title.setHorizontalAlignment(SwingConstants.CENTER);
 
          final JLabel difference = new JLabel();
-         // TODO: Set icon to :cup:
+         Image image = ImageIO.read(new File("assets/textures/cup.png"));
+         Image imageScaled = image.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+         difference.setIcon(new ImageIcon(imageScaled));
          difference.setText((victory ? "+" : "-") + elo);
+         difference.setFont(Fonts.displayRegular);
          difference.setHorizontalAlignment(SwingConstants.CENTER);
 
-         final JButton matchInfoButton = new JButton("Ver más información sobre la partida");
+         final GameButton matchInfoButton = new GameButton("Ver más información sobre la partida");
+         matchInfoButton.setAlternative(true);
          matchInfoButton.setBorder(BorderFactory.createEmptyBorder());
          matchInfoButton.setBackground(Colour.Transparent);
          matchInfoButton.setHorizontalAlignment(SwingConstants.CENTER);
          matchInfoButton.addActionListener(this);
          matchInfoButton.setActionCommand("matchInfo");
 
-         final JButton returnButton = new JButton("Volver al menú principal");
+         final GameButton returnButton = new GameButton("Volver al menú principal");
          returnButton.addActionListener(this);
          returnButton.setActionCommand("return");
 
-         this.add(iconLabel);
-         this.add(title);
-         this.add(difference);
-         this.add(returnButton);
+         container.add(iconLabel);
+         container.add(title);
+         container.add(difference);
+         container.add(returnButton);
       } catch (Exception e)
       {
          e.printStackTrace();
       }
+
+      this.add(container);
 
       this.setVisible(true);
    }
@@ -84,6 +99,7 @@ public class ResultsScreen extends JFrame implements ActionListener
             break;
          case "return":
             this.setVisible(false);
+            Game.getInstance().getMainMenuScreen().setVisible(true);
       }
    }
 }

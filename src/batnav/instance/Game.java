@@ -80,9 +80,6 @@ public class Game
 
       this.splashScreen.setDisplayString("Iniciando...");
 
-      this.mainMenuScreen = new MainMenuScreen();
-      this.mainMenuScreen.setVisible(false);
-
       this.loginScreen = new LoginScreen();
       this.loginScreen.setVisible(false);
    }
@@ -140,6 +137,11 @@ public class Game
    public FontUtil getFontUtil()
    {
       return fontUtil;
+   }
+
+   public void setMainMenuScreen(MainMenuScreen mainMenuScreen)
+   {
+      this.mainMenuScreen = mainMenuScreen;
    }
 
    public static Game getInstance()

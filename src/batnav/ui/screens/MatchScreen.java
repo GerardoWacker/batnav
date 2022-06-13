@@ -5,10 +5,13 @@ import batnav.online.match.Match;
 import batnav.online.model.User;
 import batnav.ui.boards.OpponentBoard;
 import batnav.ui.boards.PlayerBoard;
+import batnav.ui.components.GamePanel;
 import batnav.utils.Colour;
+import batnav.utils.Fonts;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -44,33 +47,33 @@ public class MatchScreen extends JFrame implements ActionListener
 
       this.match = match;
 
+      final GamePanel content = new GamePanel();
+      content.setLayout(new BorderLayout());
+
       this.opponentBoard = new OpponentBoard(this.match);
       this.playerBoard = new PlayerBoard(this.match);
-
-      this.playerBoard.setFilled(true);
-      this.opponentBoard.setFilled(true);
 
       this.opponentInfo = new JPanel();
       this.playerInfo = new JPanel();
 
-      Colour backgroundColour = new Colour(165, 189, 242);
+      opponentInfo.setBackground(Colour.Transparent);
+      playerInfo.setBackground(Colour.Transparent);
+      opponentBoard.setBackground(Colour.Transparent);
+      playerBoard.setBackground(Colour.Transparent);
 
-      opponentInfo.setBackground(backgroundColour);
-      playerInfo.setBackground(backgroundColour);
-      opponentBoard.setBackground(backgroundColour);
-      playerBoard.setBackground(backgroundColour);
+      opponentBoard.setDisabled(true);
+      playerBoard.setDisabled(true);
 
       this.middlePanel = new JPanel();
-
-      Font displayFont = Game.getInstance().getFontUtil().createFont("Roboto-Regular").deriveFont(Font.PLAIN, 14);
-
-      Font largeFont = new Font("Roboto", Font.PLAIN, 20);
 
       this.opponentName = new JLabel(match.getOpponent().getUsername() + " (" + match.getOpponent().getElo() + ")");
       this.playerName = new JLabel(isOffline ? "Yo (1000)" : (Game.getInstance().getConnection().getCurrentUser().getUsername() + " (" + Game.getInstance().getConnection().getCurrentUser().getElo() + ")"));
 
-      opponentName.setFont(displayFont);
-      playerName.setFont(displayFont);
+      opponentName.setFont(Fonts.displayTitle.deriveFont(14f));
+      playerName.setFont(Fonts.displayTitle.deriveFont(14f));
+
+      playerName.setForeground(Colour.AliceBlue);
+      opponentName.setForeground(Colour.AliceBlue);
 
       this.opponentIcon = new ImageIcon("assets/textures/red_icon.png");
       this.playerIcon = new ImageIcon("assets/textures/green_icon.png");
@@ -78,7 +81,10 @@ public class MatchScreen extends JFrame implements ActionListener
       this.counterLabel = new JLabel();
       this.dFormat = new DecimalFormat("00");
 
-      counterLabel.setFont(largeFont);
+      counterLabel.setFont(Fonts.displayMedium.deriveFont(18f));
+      counterLabel.setBackground(new Colour(24,76,204));
+      counterLabel.setOpaque(true);
+      counterLabel.setForeground(Colour.White);
 
       this.opponentflagPlaceholder = new JLabel();
       this.playerFlagPlaceholder = new JLabel();
@@ -110,6 +116,7 @@ public class MatchScreen extends JFrame implements ActionListener
 
       this.opponentBoard.addMouseListener(new BoardMouseEvent());
       middlePanel.setLayout(new GridLayout(2, 1));
+      middlePanel.setBackground(Colour.Transparent);
       middlePanel.add(opponentBoard);
       middlePanel.add(playerBoard);
 
@@ -126,9 +133,13 @@ public class MatchScreen extends JFrame implements ActionListener
       this.playerInfo.add(playerFlagPlaceholder);
       this.playerInfo.add(counterLabel, BorderLayout.EAST);
 
-      this.add(opponentInfo, BorderLayout.NORTH);
-      this.add(playerInfo, BorderLayout.SOUTH);
-      this.add(middlePanel, BorderLayout.CENTER);
+      content.add(opponentInfo, BorderLayout.NORTH);
+      content.add(playerInfo, BorderLayout.SOUTH);
+      content.add(middlePanel, BorderLayout.CENTER);
+
+      this.add(content);
+
+      this.startTimer();
 
       try
       {
@@ -147,7 +158,7 @@ public class MatchScreen extends JFrame implements ActionListener
 
    public void resetTimer()
    {
-      this.ddSecond = "30";
+      this.ddSecond = "45";
       counterLabel.setText("00:" + ddSecond);
       this.second = 0;
       timer.restart();
@@ -155,7 +166,7 @@ public class MatchScreen extends JFrame implements ActionListener
 
    public void startTimer()
    {
-      this.ddSecond = "30";
+      this.ddSecond = "45";
       this.second = 0;
 
       if (this.timer != null)
@@ -167,9 +178,11 @@ public class MatchScreen extends JFrame implements ActionListener
 
       this.timer = new Timer(1000, e -> {
          second++;
-         ddSecond = dFormat.format(30 - second);
+         ddSecond = dFormat.format(45 - second);
          counterLabel.setText("00:" + ddSecond);
-         if (second == 30)
+         counterLabel.repaint();
+         counterLabel.revalidate();
+         if (second == 45)
          {
             timer.stop();
          }

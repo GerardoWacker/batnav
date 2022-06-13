@@ -1,222 +1,246 @@
 package batnav.ui.screens;
 
-import batnav.online.model.User;
-import com.sun.tools.javac.Main;
+import batnav.instance.Game;
+import batnav.ui.components.GameButton;
+import batnav.ui.components.GamePanel;
+import batnav.utils.Colour;
+import batnav.utils.Fonts;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
-import java.net.URI;
+import java.net.URL;
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
 
 // class extends JFrame
-public class MainMenuScreen extends JFrame implements ActionListener {
+public class MainMenuScreen extends JFrame implements ActionListener
+{
 
-   private JLabel FindMatchButtonc;
-   private JPanel settingsPanel;
-   private JLabel batNavTextLabel;
-   private JButton findMatchButton;
-   private JLabel idUserLabel;
-   private JLabel eloUserLabel;
-   private JPanel userImageLabel;
-   private JLabel rankedImage;
-   private JButton previousMatchesButton;
-   private JButton settingsButton;
+   private GamePanel menuScreenPanel, matchmakingPanel;
    private JPanel mainPanel;
-   private JPanel menuScreenPanel;
-   private JPanel loadingToPlayPanel;
- //  private JButton gerardoWackerButton;
-  // private JButton juanIgnacioVecchioButton;
-   //private JButton matiasMenaDaDaltButton;
-   private JLabel alert;
-   private JButton cancelButton;
    private CardLayout cl;
 
-   public MainMenuScreen() {
+   public MainMenuScreen()
+   {
+      this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+
       this.cl = new CardLayout();
-      this.setSize(500,725);
+
+      this.setSize(400, 600);
       this.setLocationRelativeTo(null);
 
-      this.menuScreenPanel = new JPanel();
-      this.loadingToPlayPanel = new JPanel();
-      this.mainPanel = new JPanel();
-      this.mainPanel.setLayout(cl);
-      this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-      this.add(mainPanel);
-      mainPanel.add(menuScreenPanel,"1");
-      mainPanel.add(loadingToPlayPanel, "2");
-      cl.show(mainPanel,"1");
-      menuScreenPanel.setLayout(null);
+      try
+      {
+         // Create main (parent) panel.
+         this.mainPanel = new JPanel();
+         this.mainPanel.setLayout(cl);
 
-      this.cancelButton = new JButton("Cancel");
-      cancelButton.setBounds(400, 400, 100, 100);
-      cancelButton.setFont(new Font("San Francisco Display", Font.PLAIN, 20));
-      cancelButton.addActionListener(new ActionListener() {
-         @Override
-         public void actionPerformed(ActionEvent e) {
-            new MainMenuScreen();
-         }
-      });
+         // Main menu panel.
+         this.menuScreenPanel = new GamePanel();
+         menuScreenPanel.setAlternative(false);
+         menuScreenPanel.setLayout(null);
 
-      this.cancelButton = new JButton("Cancelar");
-      cancelButton.setBounds(50,300,165,25);
-      cancelButton.addActionListener(this);
-      cancelButton.setActionCommand("Cancelar");
+         // Matchmaking panel
+         this.matchmakingPanel = new GamePanel();
+         matchmakingPanel.setAlternative(false);
+         matchmakingPanel.setLayout(null);
 
-      this.FindMatchButtonc = new JLabel("Encontrando partida . . .", SwingConstants.CENTER);
-      FindMatchButtonc.setFont(new Font("San Francisco Display", Font.BOLD, 20));
-      FindMatchButtonc.setHorizontalTextPosition(JLabel.CENTER);
-      FindMatchButtonc.setBounds(50, 200, 250, 100);
+         // Add child panels into main panel.
+         mainPanel.add(menuScreenPanel, "1");
+         mainPanel.add(matchmakingPanel, "2");
 
-      this.batNavTextLabel = new JLabel("batnav", SwingConstants.CENTER);
-      batNavTextLabel.setFont(new Font("San Francisco Display", Font.BOLD, 20));
-      batNavTextLabel.setHorizontalTextPosition(JLabel.CENTER);
-      batNavTextLabel.setBounds(50, 10, 375, 40);
+         // Begin with main menu panel.
 
-      this.settingsButton = new JButton("Settings");
-      settingsButton.setBounds(445, 10, 55, 40);
-      settingsButton.addActionListener(new ActionListener() {
+         // Main title.
+         final JLabel titleLabel = new JLabel("batnav", SwingConstants.CENTER);
+         final BufferedImage titleIcon = ImageIO.read(new File("assets/ships/ship2.png"));
+         titleLabel.setIcon(new ImageIcon(titleIcon.getScaledInstance(50, 25, Image.SCALE_SMOOTH)));
+         titleLabel.setForeground(Colour.AliceBlue);
+         titleLabel.setFont(Fonts.displayTitle.deriveFont(25f));
+         titleLabel.setVerticalTextPosition(JLabel.BOTTOM);
+         titleLabel.setHorizontalTextPosition(JLabel.CENTER);
+         titleLabel.setBounds(0, 0, 400, 80);
 
+         // Top panel.
+         final JPanel topPanel = new JPanel();
+         topPanel.setOpaque(false);
+         topPanel.setBackground(Colour.Transparent);
+         topPanel.setSize(300, 50);
+         topPanel.setBounds(10, 90, 380, 50);
+         topPanel.setLayout(null);
 
-         @Override
-         public void actionPerformed(ActionEvent e) {
-         new SettingsScreen();
+         // Top panel : User panel.
+         final GamePanel userPanel = new GamePanel();
+         userPanel.setAlternative(true);
+         userPanel.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED, Colour.Black, Colour.Black));
+         userPanel.setBounds(0, 0, 300, 50);
 
-         }
-      });
-      BufferedImage mySettingsImage;
+         // Top panel : User panel : Icon.
+         JLabel userIconLabel = new JLabel();
+         final BufferedImage userIcon = ImageIO.read(new File("assets/textures/green_icon.png"));
+         userIconLabel.setIcon(new ImageIcon(userIcon.getScaledInstance(40, 40, Image.SCALE_SMOOTH)));
 
-      this.idUserLabel = new JLabel("AAA");
-      idUserLabel.setBounds(85,50,425,25);
-      idUserLabel.setFont(new Font("San Francisco Display", Font.TRUETYPE_FONT, 16));
+         // Top panel : User panel : Meta panel.
+         final JPanel metaPanel = new JPanel();
+         metaPanel.setOpaque(false);
+         metaPanel.setBackground(Colour.Transparent);
+         metaPanel.setLayout(new GridLayout(2, 1));
 
-      this.userImageLabel = new JPanel();
-      userImageLabel.setBounds(0,50,75,75);
-      BufferedImage myUserImage;
+         // Top panel : User panel : Meta panel : Username label.
+         final JLabel userNameLabel = new JLabel(Game.getInstance().getConnection().getCurrentUser().getUsername());
+         userNameLabel.setFont(Fonts.displayRegular);
 
-      this.eloUserLabel = new JLabel("4500");
-      eloUserLabel.setFont(new Font("San Francisco Display", Font.ITALIC, 16));
-      eloUserLabel.setBounds(85,75,425,25);
+         // Top panel : User panel : Meta panel : Elo label.
+         final JLabel eloUserLabel = new JLabel(String.valueOf(Game.getInstance().getConnection().getCurrentUser().getElo()));
+         final BufferedImage cupIcon = ImageIO.read(new File("assets/textures/cup.png"));
+         eloUserLabel.setIcon(new ImageIcon(cupIcon.getScaledInstance(16, 16, Image.SCALE_SMOOTH)));
+         eloUserLabel.setFont(Fonts.displayRegular.deriveFont(Font.BOLD));
 
-      this.rankedImage = new JLabel();
-      rankedImage.setBounds(0,150,500,400);
-      BufferedImage myRankedImage;
+         // Top panel : User panel: User flag.
+         final BufferedImage playerFlagTexture = ImageIO.read(new URL("https://raw.githubusercontent.com/gosquared/flags/master/flags/flags-iso/flat/64/" + Game.getInstance().getConnection().getCurrentUser().getCountry() + ".png"));
+         final JLabel userFlag = new JLabel();
+         userFlag.setIcon(new ImageIcon(playerFlagTexture.getScaledInstance(25, 25, Image.SCALE_SMOOTH)));
 
-      try {
-         mySettingsImage = ImageIO.read(new File("assets/mainmenu/SettingsEngine.png"));
-         myUserImage = ImageIO.read(new File("assets/mainmenu/imagesOfUsers/Sth.png"));
-         myRankedImage = ImageIO.read(new File("assets/mainmenu/ranked.png"));
-      } catch (IOException e) {
+         metaPanel.add(userNameLabel);
+         metaPanel.add(eloUserLabel);
+
+         userPanel.add(userIconLabel);
+         userPanel.add(metaPanel);
+         userPanel.add(userFlag);
+
+         // Top panel: Settings button.
+         final JPanel settingsPanel = new JPanel();
+         settingsPanel.setLayout(null);
+         settingsPanel.setBounds(310, 0, 50, 50);
+
+         GameButton settingsButton = new GameButton();
+
+         final BufferedImage settingsIcon = ImageIO.read(new File("assets/textures/settings.png"));
+         final JLabel settingsIconLabel = new JLabel("", SwingConstants.CENTER);
+         settingsIconLabel.setLayout(null);
+         settingsIconLabel.setIcon(new ImageIcon(settingsIcon.getScaledInstance(50, 50, Image.SCALE_SMOOTH)));
+         settingsIconLabel.setSize(50, 50);
+
+         settingsButton.add(settingsIconLabel);
+         settingsButton.setHorizontalTextPosition(JLabel.CENTER);
+         settingsButton.setSize(50, 50);
+         settingsButton.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED, Colour.Black, Colour.Black));
+         settingsButton.addActionListener(e -> new SettingsScreen());
+
+         settingsPanel.add(settingsButton);
+
+         topPanel.add(userPanel);
+         topPanel.add(settingsPanel);
+
+         // Match panel.
+         final JPanel matchPanel = new JPanel();
+         matchPanel.setOpaque(false);
+         matchPanel.setBackground(Colour.Transparent);
+         matchPanel.setBounds(0, 150, 400, 400);
+         matchPanel.setLayout(null);
+
+         // Match panel : Ranked image panel.
+         final JLabel rankedImage = new JLabel("Clasificatoria", SwingConstants.CENTER);
+         rankedImage.setFont(Fonts.displayTitle.deriveFont(20f));
+         rankedImage.setForeground(Colour.AliceBlue);
+
+         rankedImage.setHorizontalTextPosition(JLabel.CENTER);
+         rankedImage.setVerticalTextPosition(JLabel.TOP);
+
+         final BufferedImage myRankedImage = ImageIO.read(new File("assets/textures/ranked.png"));
+         rankedImage.setIcon(new ImageIcon(myRankedImage.getScaledInstance(250, 208, Image.SCALE_SMOOTH)));
+         rankedImage.setBounds(0, 0, 400, 300);
+
+         // Match panel : Find match button.
+         final JPanel findMatchButtonContainer = new JPanel();
+         findMatchButtonContainer.setBackground(Colour.Transparent);
+         findMatchButtonContainer.setBounds(0, 300, 400, 110);
+         findMatchButtonContainer.setLayout(null);
+
+         final JButton findMatchButton = new GameButton("Buscar partida");
+         findMatchButton.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED, Colour.Black, Colour.Black));
+         findMatchButton.setFont(Fonts.displayMedium);
+         findMatchButton.setBounds(120, 0, 160, 60);
+
+         findMatchButton.addActionListener(e -> {
+            Game.getInstance().getMatchManager().joinRankedQueue(Game.getInstance().getConnection());
+            cl.show(mainPanel, "2");
+         });
+
+         findMatchButtonContainer.add(findMatchButton);
+
+         matchPanel.add(rankedImage);
+         matchPanel.add(findMatchButtonContainer);
+
+         // Begin with the "searching for match" screen.
+         final JLabel findingMatchesLabel = new JLabel("Buscando oponentes...", SwingConstants.CENTER);
+         findingMatchesLabel.setFont(Fonts.displayTitle);
+         findingMatchesLabel.setForeground(Colour.AliceBlue);
+         findingMatchesLabel.setVerticalTextPosition(JLabel.TOP);
+         findingMatchesLabel.setHorizontalTextPosition(JLabel.CENTER);
+         findingMatchesLabel.setIcon(new ImageIcon(myRankedImage.getScaledInstance(200, 166, Image.SCALE_SMOOTH)));
+         findingMatchesLabel.setBounds(0, 0, 400, 300);
+
+         final GameButton cancelMatchFindingButton = new GameButton("Cancelar");
+         cancelMatchFindingButton.setCancel(true);
+         cancelMatchFindingButton.addActionListener(this);
+         cancelMatchFindingButton.setIconTextGap(30);
+         cancelMatchFindingButton.setActionCommand("Cancelar");
+         cancelMatchFindingButton.setFont(Fonts.displayMedium);
+         cancelMatchFindingButton.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED, Colour.Black, Colour.Black));
+         cancelMatchFindingButton.setBounds(120, 350, 160, 60);
+         cancelMatchFindingButton.addActionListener(e -> {
+            Game.getInstance().getMatchManager().leaveRankedQueue(Game.getInstance().getConnection());
+            cl.show(mainPanel, "1");
+         });
+
+         final String[] advices = new String[]{
+              "En las partidas clasificatorias, tanto vos como tu<br>oponente tendrán 8 barcos.",
+              "Cada turno dura 45 segundos,<br>¡no malgastes el tiempo!",
+              "El ELO (u copas) que ganes dependerá de tu<br>puntaje y el de tu oponente.",
+              "¡Demostrá que sos el mejor jugador de batalla<br>naval jugando partidas clasificatorias!",
+              "Si encontrás un bug, notificanos a través del link<br>en Configuración.",
+              "En total, debés tirar 24 bombas como mínimo<br>para poder ganar.",
+              "Si te desconectás durante una partida, se<br>tomará como una derrota."
+         };
+
+         final JButton adviceButton = new JButton();
+         adviceButton.setText("<html>" + advices[(int) Math.floor(Math.random() * (7))] + "</html>");
+         adviceButton.setBounds(50, 430, 300, 80);
+         adviceButton.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED, Colour.Black, Colour.Black));
+         adviceButton.addActionListener(e -> adviceButton.setText("<html>" + advices[(int) Math.floor(Math.random() * (7))] + "</html>"));
+
+         this.menuScreenPanel.add(titleLabel);
+         this.menuScreenPanel.add(topPanel);
+         this.menuScreenPanel.add(matchPanel);
+
+         this.matchmakingPanel.add(findingMatchesLabel);
+         this.matchmakingPanel.add(cancelMatchFindingButton);
+         this.matchmakingPanel.add(adviceButton);
+
+      } catch (Exception e)
+      {
          throw new RuntimeException(e);
       }
 
-      JLabel SettingsImage_ = new JLabel(new ImageIcon(mySettingsImage));
-      settingsButton.add(SettingsImage_);
+      this.add(mainPanel);
+      cl.show(mainPanel, "1");
 
-      JLabel UserImage_ = new JLabel(new ImageIcon(myUserImage));
-      userImageLabel.add(UserImage_);
-
-      JLabel RankedImage_ = new JLabel(new ImageIcon(myRankedImage));
-      rankedImage.add(RankedImage_);
-
-      this.FindMatchButtonc = new JLabel("Encontrando partida . . .", SwingConstants.CENTER);
-      FindMatchButtonc.setFont(new Font("San Francisco Display", Font.BOLD, 20));
-      FindMatchButtonc.setHorizontalTextPosition(JLabel.CENTER);
-      FindMatchButtonc.setBounds(50, 200, 250, 100);
-
-      this.findMatchButton = new JButton("Buscar Partida");
-      findMatchButton.setBounds(0, 525, 500, 75);
-      findMatchButton.setFont(new Font("San Francisco Display", Font.PLAIN, 16));
-      findMatchButton.addActionListener(this);
-      findMatchButton.setActionCommand("Finding Matches");
-      this.alert = new JLabel("Trying to find a match");
-      alert.setOpaque(true);
-      alert.setForeground(Color.white);
-      alert.setBackground(Color.CYAN);
-      alert.setBounds(50, 350, 200, 25);
-      findMatchButton.addActionListener(new ActionListener() {
-         @Override
-         public void actionPerformed(ActionEvent e) {
-            loadingToPlayPanel.add(FindMatchButtonc);
-            loadingToPlayPanel.add(cancelButton);
-            cl.show(loadingToPlayPanel, "2");
-            //problema del actionListener o el Performed
-
-         }
-      });
-
-      this.previousMatchesButton = new JButton("Previas Partidas");
-      previousMatchesButton.setBounds(0,600, 500, 100);
-      previousMatchesButton.setFont(new Font("San Francisco Display", Font.PLAIN, 18));
-
-    /*  this.gerardoWackerButton = new JButton("Gerardo Wacker");
-      gerardoWackerButton.setFont(new Font("San Francisco Display", Font.ITALIC, 10));
-      gerardoWackerButton.setBounds(15,  705, 150, 50);
-      gerardoWackerButton.addActionListener(new ActionListener() {
-         @Override
-         public void actionPerformed(ActionEvent e) {
-            try {
-               Desktop.getDesktop().browse(URI.create("https://github.com/GerardoWacker"));
-            } catch (IOException ex) {
-               throw new RuntimeException(ex);
-            }
-         }
-      });
-
-      this.juanIgnacioVecchioButton = new JButton("Juan Ignacio Vecchio");
-      juanIgnacioVecchioButton.setFont(new Font("San Francisco Display", Font.ITALIC, 10));
-      juanIgnacioVecchioButton.setBounds(175, 705, 150, 50);
-      juanIgnacioVecchioButton.addActionListener(new ActionListener() {
-         @Override
-         public void actionPerformed(ActionEvent e) {
-            try {
-               Desktop.getDesktop().browse(URI.create("https://github.com/juanvecchio"));
-            } catch (IOException ex) {
-               throw new RuntimeException(ex);
-            }
-         }
-      });
-
-      this.matiasMenaDaDaltButton = new JButton("Matias Mena Da Dalt");
-      matiasMenaDaDaltButton.setFont(new Font("San Francisco Display", Font.ITALIC, 10));
-      matiasMenaDaDaltButton.setBounds(335, 705, 150, 50);
-      matiasMenaDaDaltButton.addActionListener(new ActionListener() {
-         @Override
-         public void actionPerformed(ActionEvent e) {
-            try {
-               Desktop.getDesktop().browse(URI.create("https://github.com/Matias0-git"));
-            } catch (IOException ex) {
-               throw new RuntimeException(ex);
-            }
-         }
-      });
-*/
-      this.menuScreenPanel.add(this.batNavTextLabel);
-      this.menuScreenPanel.add(this.settingsButton);
-      this.menuScreenPanel.add(this.userImageLabel);
-      this.menuScreenPanel.add(this.idUserLabel);
-      this.menuScreenPanel.add(this.eloUserLabel);
-      this.menuScreenPanel.add(this.rankedImage);
-      this.menuScreenPanel.add(this.findMatchButton);
-      this.menuScreenPanel.add(this.previousMatchesButton);
-/*
-      this.loadingToPlayPanel.add(this.cancelButton);
-      this.loadingToPlayPanel.add(this.alert);
-*/
       this.setResizable(false);
       this.setVisible(true);
    }
-   public static void main (String[]args){
 
-      {
-         new MainMenuScreen();
-      }
+   public static void main(String[] args)
+   {
+      new MainMenuScreen();
    }
+
    @Override
-   public void actionPerformed(ActionEvent e) {
+   public void actionPerformed(ActionEvent e)
+   {
    }
 }
