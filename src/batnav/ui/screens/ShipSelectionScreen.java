@@ -79,7 +79,7 @@ public class ShipSelectionScreen extends JFrame implements ActionListener
          jLabel.addMouseListener(new MouseEvent());
          eastPanel.add(Box.createVerticalStrut(6));
       }
-
+      eastPanel.add(Box.createVerticalStrut(6));
 
       this.eastPanel.setLayout(new BoxLayout(eastPanel, BoxLayout.Y_AXIS));
       this.eastPanel.setSize(300,100);
@@ -213,7 +213,7 @@ public class ShipSelectionScreen extends JFrame implements ActionListener
        */
       private ShipLabel(int id, Ship ship) throws IOException
       {
-         int cubes = (int) (170 / 5);
+         int cubes = 170 / 5;
          final BufferedImage icon = ImageIO.read(new File("assets/ships/ship" + ship.getSize() + ".png"));
          final int height = cubes;
          final int width = cubes * ship.getSize();
@@ -245,11 +245,14 @@ public class ShipSelectionScreen extends JFrame implements ActionListener
          {
             if (ShipSelectionScreen.this.getCurrentLabel() != null)
             {
+               int cubes = 170 / 5;
+               final int height = cubes;
+               final int width = cubes * ships.get(shipLabel.id).getSize();
                final BufferedImage icon = ImageIO.read(new File("assets/ships/ship" +
                     ships.get(ShipSelectionScreen.this.getCurrentLabel().getId()).getSize() + ".png"));
-               final int height = (150 / (icon.getWidth() / icon.getHeight()));
 
-               getCurrentLabel().setIcon(new ImageIcon(new ImageIcon(icon).getImage().getScaledInstance(150, height, Image.SCALE_DEFAULT)));
+
+               getCurrentLabel().setIcon(new ImageIcon(new ImageIcon(icon).getImage().getScaledInstance(width, height, Image.SCALE_DEFAULT)));
             }
          } catch (IOException e)
          {
@@ -261,10 +264,13 @@ public class ShipSelectionScreen extends JFrame implements ActionListener
 
          try
          {
+            int cubes = 170 / 5;
+            final int height = cubes;
+            final int width = cubes * ships.get(shipLabel.id).getSize();
             final BufferedImage icon = ImageIO.read(new File("assets/ships/ship" + ships.get(id).getSize() + "_selected.png"));
-            final int height = (150 / (icon.getWidth() / icon.getHeight()));
+            //final int height = (150 / (icon.getWidth() / icon.getHeight()));
 
-            shipLabel.setIcon(new ImageIcon(new ImageIcon(icon).getImage().getScaledInstance(150, height, Image.SCALE_DEFAULT)));
+            shipLabel.setIcon(new ImageIcon(new ImageIcon(icon).getImage().getScaledInstance(width, height, Image.SCALE_DEFAULT)));
          } catch (IOException e)
          {
             throw new RuntimeException(e);
