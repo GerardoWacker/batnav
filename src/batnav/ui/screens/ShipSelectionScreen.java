@@ -3,11 +3,13 @@ package batnav.ui.screens;
 import batnav.instance.Game;
 import batnav.online.model.Ship;
 import batnav.ui.boards.ShipSelectionBoard;
+import batnav.ui.components.GamePanel;
 import batnav.utils.Colour;
 import com.google.common.collect.Lists;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,15 +22,20 @@ import java.util.List;
 
 public class ShipSelectionScreen extends JFrame implements ActionListener
 {
+   JPanel southPanel, centerPanel, eastPanel, gamePanel;
+   JButton okButton, rotateButton;
    protected List<Ship> ships;
-   protected Ship selectedShip;
+   private Ship selectedShip;
    private final ShipSelectionBoard shipSelectionBoard;
    protected ShipLabel currentLabel;
 
+
    public ShipSelectionScreen() throws IOException
    {
+
       this.ships = Lists.newArrayList();
       this.shipSelectionBoard = new ShipSelectionBoard(this);
+      this.setPreferredSize(new Dimension(380,300));
 
       // Add ships.
       this.ships.add(new Ship(2));
@@ -40,58 +47,64 @@ public class ShipSelectionScreen extends JFrame implements ActionListener
       this.ships.add(new Ship(4));
       this.ships.add(new Ship(5));
 
+
+      this.southPanel = new JPanel();
+      this.eastPanel = new JPanel();
+      this.centerPanel = new JPanel();
+      this.gamePanel = new GamePanel();
+
+      this.rotateButton = new JButton("Rotar");
+      this.setSize(580, 490);
+      this.setLayout(new BorderLayout());
       this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+      this.rotateButton.setMaximumSize(new Dimension(170,30));
       this.setResizable(false);
 
-      this.setSize(580, 490);
-      this.setLayout(new BorderLayout(0, 40));
+      this.okButton = new JButton("Aceptar");
 
-      final JPanel panelEast = new JPanel(), panelSouth = new JPanel();
+      eastPanel.setPreferredSize(new Dimension(200, 300));
+      //this.add(southPanel, BorderLayout.SOUTH);
 
-      // Create a submit button.
-      final JButton okButton = new JButton();
-      okButton.setText("Aceptar");
-      okButton.setPreferredSize(new Dimension(100, 30));
-      okButton.addActionListener(this);
-      okButton.setActionCommand("setShips");
+      //this.add(eastPanel, BorderLayout.EAST);
 
-      // Create the button that will be responsible for rotating the current selectedShip.
-      final JButton rotateButton = new JButton();
-      rotateButton.setSize(new Dimension(100, 10));
-      rotateButton.setText("Rotar");
-      rotateButton.addActionListener(this);
-      rotateButton.setActionCommand("rotateShip");
+      this.southPanel.setLayout(new FlowLayout(FlowLayout.TRAILING));
+      this.southPanel.setBorder(new EmptyBorder(10,10,10,10));
+      this.southPanel.add(okButton);
 
-      // Position components.
-      shipSelectionBoard.setPreferredSize(new Dimension(380, 300));
-      panelEast.setPreferredSize(new Dimension(150, 300));
-      panelSouth.setSize(new Dimension(600, 65));
-
-      // Add the correspondent Board MouseEvents.
-      this.shipSelectionBoard.addMouseListener(new BoardMouseEvent());
-
-      // Set layouts for the other components.
-      panelEast.setLayout(new GridLayout(9, 1));
-      panelSouth.setLayout(new BorderLayout());
-
-      // Add ship labels into the east panel.
       for (int i = 0; i < ships.size(); i++)
       {
-         ShipLabel shipLabel = new ShipLabel(i, ships.get(i));
-         panelEast.add(shipLabel);
-         shipLabel.addMouseListener(new MouseEvent());
+         ShipLabel jLabel = new ShipLabel(i, ships.get(i));
+         eastPanel.add(jLabel);
+         jLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+         jLabel.addMouseListener(new MouseEvent());
+         eastPanel.add(Box.createVerticalStrut(6));
       }
+      eastPanel.add(Box.createVerticalStrut(6));
 
-      // Add the buttons into the east panel.
-      panelEast.add(rotateButton);
-      panelSouth.add(okButton, BorderLayout.EAST);
+      this.eastPanel.setLayout(new BoxLayout(eastPanel, BoxLayout.Y_AXIS));
+      this.eastPanel.setSize(300,100);
+      this.eastPanel.setBorder(new EmptyBorder(10,10,10,10));
+      rotateButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+      this.eastPanel.add(rotateButton);
 
-      // Add every panel to its correspondent location using the BorderLayout positioning methods.
-      this.add(this.shipSelectionBoard, BorderLayout.CENTER);
-      this.add(panelSouth, BorderLayout.SOUTH);
-      this.add(panelEast, BorderLayout.EAST);
+      this.eastPanel.setOpaque(false);
+      this.eastPanel.setBackground(Colour.Transparent);
+      this.southPanel.setOpaque(false);
+      this.southPanel.setBackground(Colour.Transparent);
 
-      // Finally, show the actual window.
+
+
+      this.centerPanel.setBackground(Color.pink);
+      this.centerPanel.setLayout(new BorderLayout());
+      //this.centerPanel.add(this.shipSelectionBoard);
+      //this.shipSelectionBoard.setOpaque(true);
+      //this.shipSelectionBoard.setBackground(Colour.Tomato);
+      //this.add(this.shipSelectionBoard, BorderLayout.CENTER);
+      this.gamePanel.setLayout(new BorderLayout());
+      this.gamePanel.add(this.shipSelectionBoard, BorderLayout.CENTER);
+      this.gamePanel.add(this.southPanel, BorderLayout.SOUTH);
+      this.gamePanel.add(this.eastPanel, BorderLayout.EAST);
+      this.add(gamePanel);
       this.setVisible(true);
    }
 
@@ -200,11 +213,11 @@ public class ShipSelectionScreen extends JFrame implements ActionListener
        */
       private ShipLabel(int id, Ship ship) throws IOException
       {
+         int cubes = 170 / 5;
          final BufferedImage icon = ImageIO.read(new File("assets/ships/ship" + ship.getSize() + ".png"));
-
-         final int height = (150 / (icon.getWidth() / icon.getHeight()));
-
-         super.setIcon(new ImageIcon(new ImageIcon(icon).getImage().getScaledInstance(150, height, Image.SCALE_DEFAULT)));
+         final int height = cubes;
+         final int width = cubes * ship.getSize();
+         super.setIcon(new ImageIcon(new ImageIcon(icon).getImage().getScaledInstance(width, height, Image.SCALE_DEFAULT)));
          this.id = id;
       }
 
@@ -232,11 +245,14 @@ public class ShipSelectionScreen extends JFrame implements ActionListener
          {
             if (ShipSelectionScreen.this.getCurrentLabel() != null)
             {
+               int cubes = 170 / 5;
+               final int height = cubes;
+               final int width = cubes * ships.get(shipLabel.id).getSize();
                final BufferedImage icon = ImageIO.read(new File("assets/ships/ship" +
                     ships.get(ShipSelectionScreen.this.getCurrentLabel().getId()).getSize() + ".png"));
-               final int height = (150 / (icon.getWidth() / icon.getHeight()));
 
-               getCurrentLabel().setIcon(new ImageIcon(new ImageIcon(icon).getImage().getScaledInstance(150, height, Image.SCALE_DEFAULT)));
+
+               getCurrentLabel().setIcon(new ImageIcon(new ImageIcon(icon).getImage().getScaledInstance(width, height, Image.SCALE_DEFAULT)));
             }
          } catch (IOException e)
          {
@@ -248,10 +264,13 @@ public class ShipSelectionScreen extends JFrame implements ActionListener
 
          try
          {
+            int cubes = 170 / 5;
+            final int height = cubes;
+            final int width = cubes * ships.get(shipLabel.id).getSize();
             final BufferedImage icon = ImageIO.read(new File("assets/ships/ship" + ships.get(id).getSize() + "_selected.png"));
-            final int height = (150 / (icon.getWidth() / icon.getHeight()));
+            //final int height = (150 / (icon.getWidth() / icon.getHeight()));
 
-            shipLabel.setIcon(new ImageIcon(new ImageIcon(icon).getImage().getScaledInstance(150, height, Image.SCALE_DEFAULT)));
+            shipLabel.setIcon(new ImageIcon(new ImageIcon(icon).getImage().getScaledInstance(width, height, Image.SCALE_DEFAULT)));
          } catch (IOException e)
          {
             throw new RuntimeException(e);
@@ -413,7 +432,7 @@ public class ShipSelectionScreen extends JFrame implements ActionListener
       repaint();
    }
 
-   public void setCurrentLabel(ShipLabel currentLabel)
+   public void setCurrentLabel(ShipLabel selectedShip)
    {
       this.currentLabel = currentLabel;
    }
