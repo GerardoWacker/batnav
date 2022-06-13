@@ -261,6 +261,11 @@ public class MatchScreen extends JFrame implements ActionListener
       }
    }
 
+   public ShipSelectionScreen getShipSelectionScreen()
+   {
+      return shipSelectionScreen;
+   }
+
    public OpponentBoard getOpponentBoard()
    {
       return opponentBoard;
