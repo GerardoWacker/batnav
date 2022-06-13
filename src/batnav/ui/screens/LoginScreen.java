@@ -166,9 +166,6 @@ public class LoginScreen extends JFrame implements ActionListener, KeyListener
                Game.getInstance().getConnection().sendPacket(
                     new Packet("authenticate", Game.getInstance().getSessionManager().getSessionId())
                );
-
-               Game.getInstance().setMainMenuScreen(new MainMenuScreen());
-               Game.getInstance().getMainMenuScreen().setVisible(true);
                this.setVisible(false);
             } else
             {
