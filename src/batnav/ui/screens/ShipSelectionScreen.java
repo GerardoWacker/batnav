@@ -57,6 +57,7 @@ public class ShipSelectionScreen extends JFrame implements ActionListener
       this.setSize(580, 490);
       this.setLayout(new BorderLayout());
       this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+      this.rotateButton.setMaximumSize(new Dimension(170,30));
       this.setResizable(false);
 
       this.okButton = new JButton("Aceptar");
@@ -75,7 +76,8 @@ public class ShipSelectionScreen extends JFrame implements ActionListener
          ShipLabel jLabel = new ShipLabel(i, ships.get(i));
          eastPanel.add(jLabel);
          jLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-         //jLabel.addMouseListener(new MouseEvent());
+         jLabel.addMouseListener(new MouseEvent());
+         eastPanel.add(Box.createVerticalStrut(6));
       }
 
 
@@ -84,6 +86,12 @@ public class ShipSelectionScreen extends JFrame implements ActionListener
       this.eastPanel.setBorder(new EmptyBorder(10,10,10,10));
       rotateButton.setAlignmentX(Component.CENTER_ALIGNMENT);
       this.eastPanel.add(rotateButton);
+
+      this.eastPanel.setOpaque(false);
+      this.eastPanel.setBackground(Colour.Transparent);
+      this.southPanel.setOpaque(false);
+      this.southPanel.setBackground(Colour.Transparent);
+
 
 
       this.centerPanel.setBackground(Color.pink);
@@ -211,8 +219,6 @@ public class ShipSelectionScreen extends JFrame implements ActionListener
          final int width = cubes * ship.getSize();
          super.setIcon(new ImageIcon(new ImageIcon(icon).getImage().getScaledInstance(width, height, Image.SCALE_DEFAULT)));
          this.id = id;
-         this.setOpaque(true);
-         this.setBackground(Color.black);
       }
 
       public int getId()
