@@ -11,6 +11,7 @@ import batnav.utils.Fonts;
 import batnav.utils.Logger;
 
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
 import java.awt.*;
 import java.awt.event.*;
 
@@ -115,7 +116,8 @@ public class LoginScreen extends JFrame implements ActionListener, KeyListener
 
       this.loginButton = new GameButton("Iniciar sesión");
       loginButton.setAlternative(true);
-      loginButton.setBounds(100, 290, 100, 50);
+      loginButton.setBounds(75, 290, 150, 30);
+      loginButton.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED, Colour.Black, Colour.Black));
       loginButton.addActionListener(this);
       loginButton.setActionCommand("login");
       this.addKeyListener(this);
@@ -164,8 +166,6 @@ public class LoginScreen extends JFrame implements ActionListener, KeyListener
                Game.getInstance().getConnection().sendPacket(
                     new Packet("authenticate", Game.getInstance().getSessionManager().getSessionId())
                );
-
-               Game.getInstance().getMainMenuScreen().setVisible(true);
                this.setVisible(false);
             } else
             {
