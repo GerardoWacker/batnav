@@ -234,6 +234,11 @@ public class MainMenuScreen extends JFrame implements ActionListener
       this.setVisible(true);
    }
 
+   public void displayMainMenu()
+   {
+      this.cl.show(mainPanel, "1");
+   }
+
    public static void main(String[] args)
    {
       new MainMenuScreen();
