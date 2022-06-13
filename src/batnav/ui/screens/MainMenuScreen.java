@@ -91,7 +91,7 @@ public class MainMenuScreen extends JFrame implements ActionListener
          metaPanel.setLayout(new GridLayout(2, 1));
 
          // Top panel : User panel : Meta panel : Username label.
-         final JLabel userNameLabel = new JLabel("Usuario");
+         final JLabel userNameLabel = new JLabel(Game.getInstance().getConnection().getCurrentUser().getUsername());
          userNameLabel.setFont(Fonts.displayRegular);
 
          // Top panel : User panel : Meta panel : Elo label.
