@@ -11,6 +11,7 @@ import batnav.utils.Fonts;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -60,6 +61,9 @@ public class MatchScreen extends JFrame implements ActionListener
       opponentBoard.setBackground(Colour.Transparent);
       playerBoard.setBackground(Colour.Transparent);
 
+      opponentBoard.setDisabled(true);
+      playerBoard.setDisabled(true);
+
       this.middlePanel = new JPanel();
 
       this.opponentName = new JLabel(match.getOpponent().getUsername() + " (" + match.getOpponent().getElo() + ")");
@@ -75,10 +79,11 @@ public class MatchScreen extends JFrame implements ActionListener
       this.playerIcon = new ImageIcon("assets/textures/green_icon.png");
 
       this.counterLabel = new JLabel();
-      counterLabel.setText("88:88");
       this.dFormat = new DecimalFormat("00");
 
-      counterLabel.setFont(Fonts.displayMedium.deriveFont(20f));
+      counterLabel.setFont(Fonts.displayMedium.deriveFont(18f));
+      counterLabel.setBackground(new Colour(24,76,204));
+      counterLabel.setOpaque(true);
       counterLabel.setForeground(Colour.White);
 
       this.opponentflagPlaceholder = new JLabel();
@@ -134,6 +139,8 @@ public class MatchScreen extends JFrame implements ActionListener
 
       this.add(content);
 
+      this.startTimer();
+
       try
       {
          if (this.match.getPlayerShips().size() <= 0)
@@ -151,7 +158,7 @@ public class MatchScreen extends JFrame implements ActionListener
 
    public void resetTimer()
    {
-      this.ddSecond = "30";
+      this.ddSecond = "45";
       counterLabel.setText("00:" + ddSecond);
       this.second = 0;
       timer.restart();
@@ -159,7 +166,7 @@ public class MatchScreen extends JFrame implements ActionListener
 
    public void startTimer()
    {
-      this.ddSecond = "30";
+      this.ddSecond = "45";
       this.second = 0;
 
       if (this.timer != null)
@@ -171,9 +178,11 @@ public class MatchScreen extends JFrame implements ActionListener
 
       this.timer = new Timer(1000, e -> {
          second++;
-         ddSecond = dFormat.format(30 - second);
+         ddSecond = dFormat.format(45 - second);
          counterLabel.setText("00:" + ddSecond);
-         if (second == 30)
+         counterLabel.repaint();
+         counterLabel.revalidate();
+         if (second == 45)
          {
             timer.stop();
          }
