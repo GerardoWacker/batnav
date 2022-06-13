@@ -3,6 +3,7 @@ package batnav.ui.screens;
 import batnav.instance.Game;
 import batnav.online.model.Ship;
 import batnav.ui.boards.ShipSelectionBoard;
+import batnav.ui.components.GamePanel;
 import batnav.utils.Colour;
 import com.google.common.collect.Lists;
 
@@ -21,7 +22,7 @@ import java.util.List;
 
 public class ShipSelectionScreen extends JFrame implements ActionListener
 {
-   JPanel southPanel, centerPanel, eastPanel;
+   JPanel southPanel, centerPanel, eastPanel, gamePanel;
    JButton okButton, rotateButton;
    protected List<Ship> ships;
    private Ship selectedShip;
@@ -50,6 +51,7 @@ public class ShipSelectionScreen extends JFrame implements ActionListener
       this.southPanel = new JPanel();
       this.eastPanel = new JPanel();
       this.centerPanel = new JPanel();
+      this.gamePanel = new GamePanel();
 
       this.rotateButton = new JButton("Rotar");
       this.setSize(580, 490);
@@ -60,11 +62,9 @@ public class ShipSelectionScreen extends JFrame implements ActionListener
       this.okButton = new JButton("Aceptar");
 
       eastPanel.setPreferredSize(new Dimension(200, 300));
-      this.southPanel.setBackground(Color.BLUE);
-      this.eastPanel.setBackground(Color.red);
-      this.add(southPanel, BorderLayout.SOUTH);
+      //this.add(southPanel, BorderLayout.SOUTH);
 
-      this.add(eastPanel, BorderLayout.EAST);
+      //this.add(eastPanel, BorderLayout.EAST);
 
       this.southPanel.setLayout(new FlowLayout(FlowLayout.TRAILING));
       this.southPanel.setBorder(new EmptyBorder(10,10,10,10));
@@ -91,7 +91,12 @@ public class ShipSelectionScreen extends JFrame implements ActionListener
       //this.centerPanel.add(this.shipSelectionBoard);
       //this.shipSelectionBoard.setOpaque(true);
       //this.shipSelectionBoard.setBackground(Colour.Tomato);
-      this.add(this.shipSelectionBoard, BorderLayout.CENTER);
+      //this.add(this.shipSelectionBoard, BorderLayout.CENTER);
+      this.gamePanel.setLayout(new BorderLayout());
+      this.gamePanel.add(this.shipSelectionBoard, BorderLayout.CENTER);
+      this.gamePanel.add(this.southPanel, BorderLayout.SOUTH);
+      this.gamePanel.add(this.eastPanel, BorderLayout.EAST);
+      this.add(gamePanel);
       this.setVisible(true);
    }
 
