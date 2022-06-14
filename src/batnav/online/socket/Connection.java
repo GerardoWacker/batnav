@@ -212,17 +212,11 @@ public class Connection
     */
    private void onDisconnect(final Object[] json)
    {
-      try
-      {
-         final JSONObject response = Connection.decodePacket(json);
-         Logger.log(response.toString());
-      } catch (JSONException e)
-      {
-         throw new RuntimeException(e);
-      }
-
       if (!this.disconnectionWasIssued)
       {
+         Game.getInstance().getMainMenuScreen().setVisible(false);
+         if(Game.getInstance().getMatchManager().getCurrentMatch() != null)
+            Game.getInstance().getMatchManager().getCurrentMatch().getMatchScreen().setVisible(false);
          JOptionPane.showMessageDialog(null,
               "Fuiste desconectado del servidor",
               "Advertencia", JOptionPane.ERROR_MESSAGE);
