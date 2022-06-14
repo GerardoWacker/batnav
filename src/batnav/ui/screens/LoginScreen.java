@@ -216,6 +216,11 @@ public class LoginScreen extends JFrame implements ActionListener, KeyListener
 
    }
 
+   public void showLoginPanel()
+   {
+      this.cl.show(mainPanel, "1");
+   }
+
    @Override
    public void keyPressed(KeyEvent e)
    {
