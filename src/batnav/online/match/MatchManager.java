@@ -132,11 +132,13 @@ public class MatchManager
             this.getCurrentMatch().getMatchScreen().startTimer();
             this.getCurrentMatch().getMatchScreen().getPlayerBoard().setDisabled(true);
             this.getCurrentMatch().getMatchScreen().getOpponentBoard().setDisabled(false);
+            this.getCurrentMatch().getMatchScreen().repaint();
          } else
          {
             this.getCurrentMatch().getMatchScreen().startTimer();
             this.getCurrentMatch().getMatchScreen().getPlayerBoard().setDisabled(false);
             this.getCurrentMatch().getMatchScreen().getOpponentBoard().setDisabled(true);
+            this.getCurrentMatch().getMatchScreen().repaint();
          }
       } catch (JSONException e)
       {
