@@ -229,8 +229,11 @@ public class MatchManager
       {
          final JSONObject response = Connection.decodePacket(json);
 
+         Game.getInstance().getConnection().getCurrentUser().updateElo(response.getInt("elo"));
+         Game.getInstance().getConnection().getCurrentUser().updatePlays(1);
          this.getCurrentMatch().getMatchScreen().setVisible(false);
          this.getCurrentMatch().getMatchScreen().getShipSelectionScreen().setVisible(false);
+         this.setCurrentMatch(null);
          new ResultsScreen(response.getBoolean("win"), response.getInt("elo"), response.getString("match"));
       } catch (Exception e)
       {
