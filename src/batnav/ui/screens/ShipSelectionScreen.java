@@ -37,6 +37,7 @@ public class ShipSelectionScreen extends JFrame implements ActionListener
       this.setLayout(new BorderLayout());
       this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       this.setResizable(false);
+      this.setLocationRelativeTo(null);
 
       this.setTitle("Posicioná tus barcos — batnav");
 
