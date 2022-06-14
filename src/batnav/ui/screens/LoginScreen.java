@@ -50,6 +50,7 @@ public class LoginScreen extends JFrame implements ActionListener, KeyListener
       cl.show(mainPanel, "1");
 
       loginPanel.setLayout(null);
+      loadingPanel.setLayout(null);
 
       this.jumpToRegisterScreen = new JLabel("<html><u>¿No tenés una cuenta?</u></html");
       this.jumpToRegisterScreen.setForeground(Colour.BLUE);
@@ -130,11 +131,15 @@ public class LoginScreen extends JFrame implements ActionListener, KeyListener
       alert.setBounds(50, 350, 200, 25);
       alert.setVisible(false);
 
-      this.loadingText = new JLabel("Iniciando sesión");
-      loadingText.setBounds(100, 120, 200, 80);
+      this.loadingText = new JLabel("Iniciando sesión...");
+      loadingText.setBounds(0, 120, 315, 80);
+      loadingText.setFont(Fonts.displayMedium);
+      loadingText.setHorizontalAlignment(JLabel.CENTER);
 
       this.tempButton = new GameButton("Cancelar");
-      tempButton.setBounds(50, 300, 165, 25);
+      tempButton.setCancel(true);
+      tempButton.setBounds(75, 300, 155, 40);
+      tempButton.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED, Colour.Black, Colour.Black));
       tempButton.addActionListener(this);
       tempButton.setActionCommand("cancel");
 
@@ -150,7 +155,6 @@ public class LoginScreen extends JFrame implements ActionListener, KeyListener
       this.loadingPanel.add(tempButton);
 
       this.setResizable(false);
-      this.setAlwaysOnTop(true);
       this.setVisible(true);
    }
 
@@ -169,9 +173,10 @@ public class LoginScreen extends JFrame implements ActionListener, KeyListener
                this.setVisible(false);
             } else
             {
-               this.alert.setText("Los datos ingresados son incorrectos.");
-               this.alert.setVisible(true);
                cl.show(mainPanel, "1");
+               JOptionPane.showMessageDialog(null,
+                    "¡Los datos ingresados son incorrectos!",
+                    "Error al iniciar sesión", JOptionPane.ERROR_MESSAGE);
             }
          } catch (Exception e)
          {
@@ -207,7 +212,8 @@ public class LoginScreen extends JFrame implements ActionListener, KeyListener
 
    public static void main(String[] args)
    {
-      new LoginScreen();
+      LoginScreen loginScreen = new LoginScreen();
+      loginScreen.cl.show(loginScreen.mainPanel, "2");
    }
 
    @Override
