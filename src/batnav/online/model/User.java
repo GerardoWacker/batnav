@@ -3,7 +3,7 @@ package batnav.online.model;
 public class User
 {
    private final String username, country, created;
-   private final int plays, elo;
+   private int plays, elo;
    private final boolean developer;
 
    /**
@@ -72,5 +72,15 @@ public class User
    public boolean isDeveloper()
    {
       return developer;
+   }
+
+   public void updateElo(int byHowMuch)
+   {
+      this.elo += byHowMuch;
+   }
+
+   public void updatePlays(int byHowMuch)
+   {
+      this.plays += byHowMuch;
    }
 }
