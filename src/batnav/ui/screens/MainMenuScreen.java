@@ -28,6 +28,8 @@ public class MainMenuScreen extends JFrame implements ActionListener
    {
       this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
+      this.setTitle("batnav");
+
       this.cl = new CardLayout();
 
       this.setSize(400, 600);
