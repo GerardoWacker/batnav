@@ -7,11 +7,13 @@ import com.google.gson.JsonObject;
 import batnav.config.ConfigManager;
 import batnav.utils.Logger;
 import batnav.utils.RestUtils;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Consumer;
 
 public class SessionManager
 {
@@ -59,7 +61,8 @@ public class SessionManager
                    Notification.Priority.CRITICAL,
                    "Ha ocurrido un error",
                    e.getLocalizedMessage(),
-                   a -> {}
+                   a -> {
+                   }
               )
          );
          e.printStackTrace();
@@ -100,8 +103,31 @@ public class SessionManager
       return returnValue.get();
    }
 
+   public boolean register(final String username, final String password, final String email, Consumer<String> response) throws JSONException
+   {
+      AtomicBoolean returnValue = new AtomicBoolean(false);
+
+      final JSONObject registerReqObj = new JSONObject();
+      registerReqObj.put("username", username);
+      registerReqObj.put("password", password);
+      registerReqObj.put("email", email);
+
+      this.restUtils.sendJSONRequest("register", registerReqObj, res -> {
+         if (res.get("success").getAsBoolean())
+         {
+            returnValue.set(true);
+            response.accept("El usuario fue creado con éxito.");
+         } else {
+            response.accept(res.get("content").getAsString());
+         }
+      });
+
+      return returnValue.get();
+   }
+
    /**
     * Saves the session unique identifier into local configuration.
+    *
     * @param sessionId Unique session identifier (UUID).
     */
    public void saveSession(String sessionId)
@@ -119,7 +145,8 @@ public class SessionManager
                    Notification.Priority.CRITICAL,
                    "Ha ocurrido un error",
                    e.getLocalizedMessage(),
-                   a -> {}
+                   a -> {
+                   }
               )
          );
          e.printStackTrace();

@@ -230,6 +230,7 @@ public class MatchManager
          final JSONObject response = Connection.decodePacket(json);
 
          this.getCurrentMatch().getMatchScreen().setVisible(false);
+         this.getCurrentMatch().getMatchScreen().getShipSelectionScreen().setVisible(false);
          new ResultsScreen(response.getBoolean("win"), response.getInt("elo"), response.getString("match"));
       } catch (Exception e)
       {

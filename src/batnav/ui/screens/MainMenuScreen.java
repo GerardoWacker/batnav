@@ -95,7 +95,7 @@ public class MainMenuScreen extends JFrame implements ActionListener
          userNameLabel.setFont(Fonts.displayRegular);
 
          // Top panel : User panel : Meta panel : Elo label.
-         final JLabel eloUserLabel = new JLabel("1000");
+         final JLabel eloUserLabel = new JLabel(String.valueOf(Game.getInstance().getConnection().getCurrentUser().getElo()));
          final BufferedImage cupIcon = ImageIO.read(new File("assets/textures/cup.png"));
          eloUserLabel.setIcon(new ImageIcon(cupIcon.getScaledInstance(16, 16, Image.SCALE_SMOOTH)));
          eloUserLabel.setFont(Fonts.displayRegular.deriveFont(Font.BOLD));
@@ -232,6 +232,11 @@ public class MainMenuScreen extends JFrame implements ActionListener
 
       this.setResizable(false);
       this.setVisible(true);
+   }
+
+   public void displayMainMenu()
+   {
+      this.cl.show(mainPanel, "1");
    }
 
    public static void main(String[] args)

@@ -1,10 +1,12 @@
 package batnav.ui.screens;
 
 import batnav.instance.Game;
+import batnav.online.model.Packet;
 import batnav.ui.components.GameButton;
 import batnav.ui.components.GamePanel;
 import batnav.utils.Colour;
 import batnav.utils.Fonts;
+import batnav.utils.Logger;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -23,7 +25,6 @@ public class RegisterScreen extends JFrame implements ActionListener
 
    RegisterScreen()
    {
-
       this.setSize(315, 600);
       this.setResizable(false);
 
@@ -109,6 +110,8 @@ public class RegisterScreen extends JFrame implements ActionListener
       this.repeatpasswordField.setBounds(50, 370, 200, 30);
       registerButton.setBounds(75, 430, 150, 30);
 
+      registerButton.addActionListener(e -> this.createRegisterThread());
+
       contentPanel.setLayout(null);
 
       contentPanel.add(usernameLabel);
@@ -127,6 +130,46 @@ public class RegisterScreen extends JFrame implements ActionListener
       this.setVisible(true);
 
 
+   }
+
+   private void createRegisterThread()
+   {
+      Thread registerThread = new Thread(() -> {
+         Logger.log("Creado hilo de registro.");
+
+         if (usernameField.getText().length() > 0 && passwordField.getText().length() > 0 && repeatpasswordField.getText().length() > 0 && emailField.getText().length() > 0)
+         {
+            if (passwordField.getText().equals(repeatpasswordField.getText()))
+            {
+               try
+               {
+                  if (Game.getInstance().getSessionManager().register(usernameField.getText(), passwordField.getText(), emailField.getText(),
+                       response -> JOptionPane.showMessageDialog(null, response,
+                       "Respuesta del servidor", JOptionPane.INFORMATION_MESSAGE)))
+                  {
+                     this.setVisible(false);
+                     Game.getInstance().getLoginScreen().setVisible(true);
+                  }
+               } catch (Exception e)
+               {
+                  throw new RuntimeException(e);
+               }
+            } else
+            {
+               JOptionPane.showMessageDialog(null,
+                    "¡Las contraseñas no coinciden!",
+                    "Advertencia", JOptionPane.WARNING_MESSAGE);
+            }
+         } else
+         {
+            JOptionPane.showMessageDialog(null,
+                 "¡Todos los campos deben ser completados!",
+                 "Advertencia", JOptionPane.WARNING_MESSAGE);
+         }
+
+      });
+
+      registerThread.start();
    }
 
 
