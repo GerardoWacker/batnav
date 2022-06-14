@@ -10,7 +10,6 @@ import batnav.utils.Fonts;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -150,7 +149,6 @@ public class MatchScreen extends JFrame implements ActionListener
 
          this.add(content);
 
-         this.startTimer();
       } catch (Exception e)
       {
          throw new RuntimeException(e);
