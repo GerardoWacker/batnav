@@ -43,6 +43,12 @@ public class Board extends JPanel
            new Colour(171, 202, 224), getWidth(), getHeight(), new Colour(240, 248, 255));
 
       g2d.setPaint(gp);
+
+      if (disabled)
+      {
+         g.setColor(Colour.Gray);
+      }
+
       g.fillRect(paddingX, paddingY, boardSize, boardSize);
 
       // Draw each line.
@@ -51,12 +57,6 @@ public class Board extends JPanel
       {
          g.drawLine(paddingX + i * tileSize, paddingY, paddingX + i * tileSize, paddingY + boardSize);
          g.drawLine(paddingX, paddingY + i * tileSize, paddingX + boardSize, paddingY + i * tileSize);
-      }
-
-      if (disabled)
-      {
-         g.setColor(Colour.Gray.alpha(90));
-         g.fillRect(paddingX, paddingY, boardSize, boardSize);
       }
    }
 
@@ -149,11 +149,11 @@ public class Board extends JPanel
    public void setDisabled(boolean disabled)
    {
       this.disabled = disabled;
-      this.repaint();
    }
 
    public void setFilled(boolean filled)
    {
+      this.setOpaque(filled);
       this.filled = filled;
    }
 }
