@@ -45,7 +45,7 @@ public class SettingsScreen extends JFrame implements ActionListener
          settingsPanel.setLayout(null);
          this.settingsPanel.setOpaque(false);
          this.settingsPanel.setBackground(Colour.Transparent);
-         this.logoutButton = new GameButton("Logout");
+         this.logoutButton = new GameButton("Cerrar sesión");
          logoutButton.setCancel(true);
          logoutButton.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED, Colour.Black, Colour.Black));
          logoutButton.setBounds(100, 30, 300, 50);
