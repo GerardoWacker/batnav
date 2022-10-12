@@ -6,6 +6,8 @@
 
 A multiplayer naval battle simulator.
 
+**🏆 WINNER OF THE [UB](https://ub.edu.ar/) 2022 VIDEOGAME CONTEST 🏆** 
+
 ## ❓ FAQ
 ### 🤔 What's this?
 This is a one-time game. It's not intended to be taken seriously. Nevertheless, it'll be heavily updated in the months of March-June of '22.
