@@ -102,8 +102,14 @@ public class MainMenuScreen extends JFrame implements ActionListener
          eloUserLabel.setIcon(new ImageIcon(cupIcon.getScaledInstance(16, 16, Image.SCALE_SMOOTH)));
          eloUserLabel.setFont(Fonts.displayRegular.deriveFont(Font.BOLD));
 
+         BufferedImage playerFlagTexture;
+
          // Top panel : User panel: User flag.
-         final BufferedImage playerFlagTexture = ImageIO.read(new URL("https://raw.githubusercontent.com/gosquared/flags/master/flags/flags-iso/flat/64/" + Game.getInstance().getConnection().getCurrentUser().getCountry() + ".png"));
+         try {
+            playerFlagTexture = ImageIO.read(new URL("https://raw.githubusercontent.com/gosquared/flags/master/flags/flags-iso/flat/64/" + Game.getInstance().getConnection().getCurrentUser().getCountry() + ".png"));
+         } catch (Exception e) {
+            playerFlagTexture = ImageIO.read(new URL("https://raw.githubusercontent.com/gosquared/flags/master/flags/flags-iso/flat/64/AR.png"));
+         }
          final JLabel userFlag = new JLabel();
          userFlag.setIcon(new ImageIcon(playerFlagTexture.getScaledInstance(25, 25, Image.SCALE_SMOOTH)));
 
