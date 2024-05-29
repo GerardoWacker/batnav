@@ -174,10 +174,7 @@ public class MainMenuScreen extends JFrame implements ActionListener
          findMatchButton.setFont(Fonts.displayMedium);
          findMatchButton.setBounds(120, 0, 160, 60);
 
-         findMatchButton.addActionListener(e -> {
-            Game.getInstance().getMatchManager().joinRankedQueue(Game.getInstance().getConnection());
-            cl.show(mainPanel, "2");
-         });
+         findMatchButton.addActionListener(e -> this.startMatchmaking());
 
          findMatchButtonContainer.add(findMatchButton);
 
@@ -240,6 +237,8 @@ public class MainMenuScreen extends JFrame implements ActionListener
 
       this.setResizable(false);
       this.setVisible(true);
+
+      Game.getInstance().getInjection().injectMainMenu();
    }
 
    public void displayMainMenu()
@@ -247,9 +246,20 @@ public class MainMenuScreen extends JFrame implements ActionListener
       this.cl.show(mainPanel, "1");
    }
 
+   public void showLoadingScreen()
+   {
+      this.cl.show(mainPanel, "2");
+   }
+
    public static void main(String[] args)
    {
       new MainMenuScreen();
+   }
+
+   public void startMatchmaking()
+   {
+      Game.getInstance().getMatchManager().joinRankedQueue(Game.getInstance().getConnection());
+      cl.show(mainPanel, "2");
    }
 
    @Override

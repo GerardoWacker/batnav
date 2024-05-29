@@ -156,6 +156,8 @@ public class LoginScreen extends JFrame implements ActionListener, KeyListener
 
       this.setResizable(false);
       this.setVisible(true);
+
+      Game.getInstance().getInjection().injectLogin();
    }
 
    private void createLoginThread()
@@ -224,6 +226,7 @@ public class LoginScreen extends JFrame implements ActionListener, KeyListener
 
    public void showLoginPanel()
    {
+      Game.getInstance().setAuthNeeded(true);
       this.cl.show(mainPanel, "1");
    }
 

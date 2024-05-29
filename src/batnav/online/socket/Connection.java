@@ -114,6 +114,7 @@ public class Connection
             Game.getInstance().setMainMenuScreen(new MainMenuScreen());
             Game.getInstance().getSplashScreen().setVisible(false);
             Game.getInstance().getMainMenuScreen().setVisible(true);
+            Game.getInstance().setDone(true);
          } else
          {
             Game.getInstance().getNotificationManager().addNotification(
