@@ -1,5 +1,7 @@
 package batnav.instance;
 
+import batnav.automated.Automation;
+import batnav.automated.EmptyAutomation;
 import batnav.config.ConfigManager;
 import batnav.online.match.MatchManager;
 import batnav.notifications.NotificationManager;
@@ -27,6 +29,9 @@ public class Game
    private static Game instance;
    private MainMenuScreen mainMenuScreen;
    private LoginScreen loginScreen;
+   private boolean done = false;
+   private boolean authNeeded = false;
+   private final Automation injection;
 
    /**
     * batnav, a naval battle simulator.
@@ -35,12 +40,18 @@ public class Game
     * @author Juan Ignacio Vecchio
     * @author Matías Mena Da Dalt
     */
-   public Game()
+   public Game(final Automation automation)
    {
+      this.injection = automation;
       this.notificationManager = new NotificationManager();
       this.sambayon = new Sambayon();
       this.configManager = new ConfigManager();
       this.fontUtil = new FontUtil();
+   }
+
+   public Game()
+   {
+      this(new EmptyAutomation());
    }
 
    /**
@@ -147,5 +158,30 @@ public class Game
    public static Game getInstance()
    {
       return instance == null ? instance = new Game() : instance;
+   }
+
+   public boolean isDone()
+   {
+      return done;
+   }
+
+   public boolean isAuthNeeded()
+   {
+      return authNeeded;
+   }
+
+   public void setAuthNeeded(boolean authNeeded)
+   {
+      this.authNeeded = authNeeded;
+   }
+
+   public Automation getInjection()
+   {
+      return injection;
+   }
+
+   public void setDone(boolean done)
+   {
+      this.done = done;
    }
 }
