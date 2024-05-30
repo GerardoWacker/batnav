@@ -38,6 +38,11 @@ public class SessionManager
     */
    public boolean loadSession()
    {
+      if (Game.getInstance().hasInjection())
+      {
+         Logger.log("No se cargó el archivo de sesión porque hay una inyección en curso.");
+         return false;
+      }
       try
       {
          // Read session file.
