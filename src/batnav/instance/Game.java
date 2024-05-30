@@ -31,7 +31,7 @@ public class Game
    private LoginScreen loginScreen;
    private boolean done = false;
    private boolean authNeeded = false;
-   private final Automation injection;
+   private Automation injection;
 
    /**
     * batnav, a naval battle simulator.
@@ -40,25 +40,32 @@ public class Game
     * @author Juan Ignacio Vecchio
     * @author Matías Mena Da Dalt
     */
-   public Game(final Automation automation)
+   public Game()
    {
-      this.injection = automation;
       this.notificationManager = new NotificationManager();
       this.sambayon = new Sambayon();
       this.configManager = new ConfigManager();
       this.fontUtil = new FontUtil();
    }
 
-   public Game()
+   /**
+    * Launches the game with no automations.
+    */
+   public void launch()
    {
-      this(new EmptyAutomation());
+      this.launch(new EmptyAutomation());
    }
 
    /**
     * Launches the game.
     */
-   public void launch()
+   public void launch(final Automation automation)
    {
+      // Check if an injection has been loaded.
+      this.injection = automation;
+      Logger.log((this.hasInjection() ? "Hay" : "No hay") + " una inyección en curso.");
+      if (this.hasInjection()) Logger.log(this.getInjection().getClass().getName() + ": [" + this.getInjection().getDescriptor() + "]");
+
       this.splashScreen = new SplashScreen();
       this.splashScreen.setDisplayString("Conectando con Sambayón");
 
@@ -93,6 +100,7 @@ public class Game
 
       this.loginScreen = new LoginScreen();
       this.loginScreen.setVisible(false);
+
    }
 
    public Sambayon getSambayon()
@@ -183,5 +191,10 @@ public class Game
    public void setDone(boolean done)
    {
       this.done = done;
+   }
+
+   public boolean hasInjection()
+   {
+      return !(this.injection instanceof EmptyAutomation);
    }
 }
