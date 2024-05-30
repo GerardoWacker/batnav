@@ -4,8 +4,6 @@ import batnav.instance.Game;
 import batnav.online.model.Packet;
 import batnav.ui.components.GameButton;
 import batnav.ui.components.GamePanel;
-import batnav.ui.components.RoundedPasswordField;
-import batnav.ui.components.RoundedTextField;
 import batnav.utils.Colour;
 import batnav.utils.Fonts;
 import batnav.utils.Logger;
@@ -156,8 +154,6 @@ public class LoginScreen extends JFrame implements ActionListener, KeyListener
 
       this.setResizable(false);
       this.setVisible(true);
-
-      Game.getInstance().getInjection().injectLogin();
    }
 
    private void createLoginThread()
