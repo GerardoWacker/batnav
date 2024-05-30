@@ -16,6 +16,7 @@ import org.json.JSONObject;
 
 import javax.swing.*;
 import java.util.List;
+import java.util.Objects;
 
 public class MatchManager
 {
@@ -93,6 +94,8 @@ public class MatchManager
          }
 
          final JSONObject object = new JSONObject();
+
+         assert this.currentMatch != null;
 
          object.put("matchId", this.getCurrentMatch().getId());
          object.put("playerId", this.sessionManager.getSessionId());
@@ -239,7 +242,8 @@ public class MatchManager
             this.getCurrentMatch().getMatchScreen().getShipSelectionScreen().setVisible(false);
          }
          this.setCurrentMatch(null);
-         new ResultsScreen(response.getBoolean("win"), response.getInt("elo"), response.getString("match"));
+         final ResultsScreen resultsScreen = new ResultsScreen(response.getBoolean("win"), response.getInt("elo"), response.getString("match"));
+         Game.getInstance().getInjection().injectMatchEnd(resultsScreen);
       } catch (Exception e)
       {
          e.printStackTrace();
