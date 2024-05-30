@@ -4,27 +4,36 @@ import batnav.automated.Automation;
 import batnav.instance.Game;
 import batnav.online.model.Packet;
 import batnav.online.model.Ship;
+import batnav.online.socket.Connection;
+import batnav.ui.screens.LoginScreen;
+import batnav.ui.screens.MainMenuScreen;
+import batnav.ui.screens.ResultsScreen;
+import batnav.utils.Logger;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class AutomationGenerator
 {
-
-   public Automation generate(final DefenceType defenceType, AttackType attackType)
+   public static Automation generate(final String username, final DefenceType defenceType, AttackType attackType)
    {
       return new Automation()
       {
          @Override
-         public void injectLogin()
+         public void injectLogin(final Connection connection)
          {
+            Logger.log("Se inyectó secuencia de inicio de sesión.");
+            Game.getInstance().getSplashScreen().setVisible(false);
             try
             {
-               if (Game.getInstance().getSessionManager().login("usuario1", "asdfghjkl"))
+               if (Game.getInstance().getSessionManager().login(username, "asdfghjkl"))
                {
                   Game.getInstance().getConnection().sendPacket(
                           new Packet("authenticate", Game.getInstance().getSessionManager().getSessionId())
                   );
+                  Game.getInstance().getLoginScreen().setVisible(false);
                }
             } catch (Exception e)
             {
@@ -33,9 +42,9 @@ public class AutomationGenerator
          }
 
          @Override
-         public void injectMainMenu()
+         public void injectMainMenu(final MainMenuScreen mainMenuScreen)
          {
-            Game.getInstance().getMainMenuScreen().startMatchmaking();
+            mainMenuScreen.startMatchmaking();
          }
 
          @Override
@@ -50,10 +59,12 @@ public class AutomationGenerator
                default -> ships = new ArrayList<>();
             }
 
+            System.out.println(Arrays.toString(ships.toArray()));
             Game.getInstance().getMatchManager().setShips(
                     Game.getInstance().getConnection(),
                     ships
             );
+
             Game.getInstance().getMatchManager().getCurrentMatch().getMatchScreen().setVisible(true);
          }
 
@@ -61,6 +72,18 @@ public class AutomationGenerator
          public void injectBombSequence()
          {
 
+         }
+
+         @Override
+         public void injectMatchEnd(final ResultsScreen resultsScreen)
+         {
+            resultsScreen.setVisible(false);
+         }
+
+         @Override
+         public String getDescriptor()
+         {
+            return "Inicio de sesión: " + username + ". Estrategia de defensa: " + defenceType.name() + ". Estrategia de ataque: " + attackType.name() + ".";
          }
       };
    }

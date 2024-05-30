@@ -1,15 +1,19 @@
 package batnav.automated;
 
+import batnav.online.socket.Connection;
+import batnav.ui.screens.MainMenuScreen;
+import batnav.ui.screens.ResultsScreen;
+
 public class EmptyAutomation implements Automation
 {
    @Override
-   public void injectLogin()
+   public void injectLogin(final Connection connection)
    {
 
    }
 
    @Override
-   public void injectMainMenu()
+   public void injectMainMenu(final MainMenuScreen mainMenuScreen)
    {
 
    }
@@ -24,5 +28,17 @@ public class EmptyAutomation implements Automation
    public void injectBombSequence()
    {
 
+   }
+
+   @Override
+   public void injectMatchEnd(final ResultsScreen resultsScreen)
+   {
+
+   }
+
+   @Override
+   public String getDescriptor()
+   {
+      return "Just an empty injection";
    }
 }
