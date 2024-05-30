@@ -238,11 +238,12 @@ public class MainMenuScreen extends JFrame implements ActionListener
       this.setResizable(false);
       this.setVisible(true);
 
-      Game.getInstance().getInjection().injectMainMenu();
+      Game.getInstance().getInjection().injectMainMenu(this);
    }
 
    public void displayMainMenu()
    {
+      Game.getInstance().getInjection().injectMainMenu(this);
       this.cl.show(mainPanel, "1");
    }
 
