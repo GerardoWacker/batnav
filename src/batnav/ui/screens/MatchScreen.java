@@ -7,6 +7,7 @@ import batnav.ui.boards.OpponentBoard;
 import batnav.ui.boards.PlayerBoard;
 import batnav.utils.Colour;
 import batnav.utils.Fonts;
+import batnav.utils.Logger;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -103,7 +104,9 @@ public class MatchScreen extends JFrame implements ActionListener
             this.opponentFlagTexture = ImageIO.read(new URL("https://raw.githubusercontent.com/gosquared/flags/master/flags/flags-iso/flat/64/" + match.getOpponent().getCountry() + ".png"));
          } catch (IOException e)
          {
-            e.printStackTrace();
+            Logger.warn("Cargadas texturas de respaldo.");
+            this.playerFlagTexture = ImageIO.read(new URL("https://raw.githubusercontent.com/gosquared/flags/master/flags/flags-iso/flat/64/" + "AR" + ".png"));
+            this.opponentFlagTexture = ImageIO.read(new URL("https://raw.githubusercontent.com/gosquared/flags/master/flags/flags-iso/flat/64/" + "AR" + ".png"));
          }
 
          Image playerFlagTextureScaled = playerFlagTexture.getScaledInstance(15, 15, Image.SCALE_SMOOTH);
