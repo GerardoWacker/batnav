@@ -19,6 +19,7 @@ import org.json.JSONObject;
 
 import javax.swing.*;
 import java.util.Arrays;
+import java.util.Objects;
 
 public class Connection
 {
@@ -62,7 +63,10 @@ public class Connection
 
             this.disconnectionWasIssued = false;
 
-            this.socket.emit("authenticate", uuid);
+            if (Game.getInstance().hasInjection())
+               Game.getInstance().getInjection().injectLogin(this);
+            else
+               this.socket.emit("authenticate", uuid);
 
             // Authentication.
             this.socket.on("authentication", this::authentication);
@@ -71,8 +75,8 @@ public class Connection
             this.socket.on("match", this::match);
             this.socket.on("match-bomb-thrown", this.matchManager::hasThrownBomb);
             this.socket.on("match-bomb-receive", this.matchManager::receiveBomb);
-            this.socket.on("match-ships-set", data -> this.matchManager
-                 .getCurrentMatch().getMatchScreen().setPlayerReady());
+            this.socket.on("match-ships-set", data -> Objects.requireNonNull(this.matchManager
+                    .getCurrentMatch().getMatchScreen()).setPlayerReady());
             this.socket.on("match-ships-receive", this.matchManager::receiveShips);
             this.socket.on("match-turn", this.matchManager::turn);
             this.socket.on("match-end", this.matchManager::end);
@@ -93,6 +97,7 @@ public class Connection
     */
    private void authentication(final Object[] json)
    {
+      Logger.log("Recibido paquete de autenticación.");
       try
       {
          final JSONObject response = Connection.decodePacket(json);
@@ -102,12 +107,12 @@ public class Connection
             final JSONObject userObject = response.getJSONObject("content").getJSONObject("content");
 
             this.setCurrentUser(new User(
-                 userObject.getString("username"),
-                 userObject.getString("country"),
-                 userObject.getString("created"),
-                 userObject.getJSONObject("stats").getInt("plays"),
-                 userObject.getJSONObject("stats").getInt("elo"),
-                 userObject.getBoolean("developer")
+                    userObject.getString("username"),
+                    userObject.getString("country"),
+                    userObject.getString("created"),
+                    userObject.getJSONObject("stats").getInt("plays"),
+                    userObject.getJSONObject("stats").getInt("elo"),
+                    userObject.getBoolean("developer")
             ));
             Logger.log("Iniciada sesión como " + this.getCurrentUser().getUsername());
 //            this.sendPacket(new Packet("join-ranked-queue", this.sessionManager.getSessionId()));
@@ -118,13 +123,13 @@ public class Connection
          } else
          {
             Game.getInstance().getNotificationManager().addNotification(
-                 new Notification(
-                      Notification.Priority.CRITICAL,
-                      "Ha ocurrido un error",
-                      "Error de sesión" + response.getString("content"),
-                      a -> {
-                      }
-                 )
+                    new Notification(
+                            Notification.Priority.CRITICAL,
+                            "Ha ocurrido un error",
+                            "Error de sesión" + response.getString("content"),
+                            a -> {
+                            }
+                    )
             );
             Logger.warn("Ha surgido un error iniciando sesión.");
             Logger.warn(response.getString("content"));
@@ -139,13 +144,13 @@ public class Connection
       } catch (JSONException e)
       {
          Game.getInstance().getNotificationManager().addNotification(
-              new Notification(
-                   Notification.Priority.CRITICAL,
-                   "Ha ocurrido un error",
-                   e.getLocalizedMessage(),
-                   a -> {
-                   }
-              )
+                 new Notification(
+                         Notification.Priority.CRITICAL,
+                         "Ha ocurrido un error",
+                         e.getLocalizedMessage(),
+                         a -> {
+                         }
+                 )
          );
          e.printStackTrace();
       }
@@ -171,20 +176,22 @@ public class Connection
 
             // Set current match.
             this.matchManager.setCurrentMatch(
-                 new Match(
-                      matchObject.getString("matchId"),
-                      new User(
-                           opponentObject.getString("username"),
-                           opponentObject.getString("country"),
-                           opponentObject.getJSONObject("stats").getInt("plays"),
-                           opponentObject.getJSONObject("stats").getInt("elo"),
-                           opponentObject.getBoolean("developer")
-                      )
-                 )
+                    new Match(
+                            matchObject.getString("matchId"),
+                            new User(
+                                    opponentObject.getString("username"),
+                                    opponentObject.getString("country"),
+                                    opponentObject.getJSONObject("stats").getInt("plays"),
+                                    opponentObject.getJSONObject("stats").getInt("elo"),
+                                    opponentObject.getBoolean("developer")
+                            )
+                    )
             );
 
             Game.getInstance().getMainMenuScreen().setVisible(false);
+            System.out.println(Game.getInstance().getConnection().currentUser.getUsername());
             this.matchManager.getCurrentMatch().setMatchScreen(new MatchScreen(this.matchManager.getCurrentMatch()));
+            Game.getInstance().getInjection().injectSetShips();
          } else
          {
             final JSONObject matchFailObject = response.getJSONObject("content");
@@ -216,11 +223,11 @@ public class Connection
       if (!this.disconnectionWasIssued)
       {
          Game.getInstance().getMainMenuScreen().setVisible(false);
-         if(Game.getInstance().getMatchManager().getCurrentMatch() != null)
+         if (Game.getInstance().getMatchManager().getCurrentMatch() != null)
             Game.getInstance().getMatchManager().getCurrentMatch().getMatchScreen().setVisible(false);
          JOptionPane.showMessageDialog(null,
-              "Fuiste desconectado del servidor",
-              "Advertencia", JOptionPane.ERROR_MESSAGE);
+                 "Fuiste desconectado del servidor",
+                 "Advertencia", JOptionPane.ERROR_MESSAGE);
       }
    }
 
