@@ -5,7 +5,6 @@ import batnav.instance.Game;
 import batnav.online.model.Packet;
 import batnav.online.model.Ship;
 import batnav.online.socket.Connection;
-import batnav.ui.screens.LoginScreen;
 import batnav.ui.screens.MainMenuScreen;
 import batnav.ui.screens.ResultsScreen;
 import batnav.utils.Logger;
@@ -13,7 +12,6 @@ import batnav.utils.Logger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 public class AutomationGenerator
 {
