@@ -1,42 +1,48 @@
-package batnav.automated.variant;
+package batnav.automated.variant.attack;
 
-import batnav.online.model.Bomb;
-import batnav.online.socket.Connection;
+import batnav.instance.Game;
+import batnav.utils.Logger;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public class CrossAttack
+public class CrossAttack extends Attack
 {
    public List<int[]> bombsToThrow;
 
    public CrossAttack()
    {
       this.bombsToThrow = new ArrayList<>();
-      this.bombsToThrow.add(new int[]{0, 0});
-      this.bombsToThrow.add(new int[]{1, 1});
-      this.bombsToThrow.add(new int[]{2, 2});
-      this.bombsToThrow.add(new int[]{3, 3});
-      this.bombsToThrow.add(new int[]{4, 4});
-      this.bombsToThrow.add(new int[]{5, 5});
-      this.bombsToThrow.add(new int[]{6, 6});
-      this.bombsToThrow.add(new int[]{7, 7});
-      this.bombsToThrow.add(new int[]{8, 8});
-      this.bombsToThrow.add(new int[]{9, 9});
-      this.bombsToThrow.add(new int[]{0, 9});
-      this.bombsToThrow.add(new int[]{1, 8});
-      this.bombsToThrow.add(new int[]{2, 7});
-      this.bombsToThrow.add(new int[]{3, 6});
-      this.bombsToThrow.add(new int[]{4, 5});
-      this.bombsToThrow.add(new int[]{5, 4});
-      this.bombsToThrow.add(new int[]{6, 3});
-      this.bombsToThrow.add(new int[]{7, 2});
-      this.bombsToThrow.add(new int[]{8, 1});
-      this.bombsToThrow.add(new int[]{9, 9});
+      for (int i = 0; i < 10; i++)
+      {
+         this.bombsToThrow.add(new int[]{i, i});
+      }
+
+      for (int i = 0; i < 10; i++)
+      {
+         this.bombsToThrow.add(new int[]{i, 9 - i});
+      }
+
+      for (int x = 0; x < 9; x++)
+      {
+         for (int y = 0; y <= x; y++)
+         {
+            if (x - y != y)
+               this.bombsToThrow.add(new int[]{x - y, y});
+         }
+      }
    }
 
-   public void receiveBomb(final Connection connection)
+   @Override
+   public void receiveBomb()
    {
-
+      if (!bombsToThrow.isEmpty())
+      {
+         Game.getInstance().getMatchManager().throwBomb(Game.getInstance().getConnection(),
+              this.bombsToThrow.get(0)[0], this.bombsToThrow.get(0)[1]);
+         this.bombsToThrow.remove(0);
+         Logger.log("Se arrojó una bomba");
+      }
    }
 }
