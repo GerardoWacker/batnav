@@ -1,6 +1,9 @@
 package batnav.automated.variant;
 
 import batnav.automated.Automation;
+import batnav.automated.variant.attack.Attack;
+import batnav.automated.variant.attack.CrossAttack;
+import batnav.automated.variant.attack.RandomAttack;
 import batnav.instance.Game;
 import batnav.online.model.Packet;
 import batnav.online.model.Ship;
@@ -17,6 +20,19 @@ public class AutomationGenerator
 {
    public static Automation generate(final String username, final DefenceType defenceType, AttackType attackType)
    {
+      final Attack attack = switch(attackType)
+      {
+         case CROSS -> new CrossAttack();
+         case RANDOM -> new RandomAttack();
+         default -> new Attack()
+         {
+            @Override
+            public void receiveBomb()
+            {
+               super.receiveBomb();
+            }
+         };
+      };
       return new Automation()
       {
          @Override
@@ -53,7 +69,8 @@ public class AutomationGenerator
             {
                case MIDDLE -> ships = Defences.getMiddleDefence();
                case CORNER -> ships = Defences.getCornerDefence();
-               case RANDOM -> ships = Defences.getRowDefence();
+               case ROW -> ships = Defences.getRowDefence();
+               case RANDOM -> ships = Defences.getRandomDefence();
                default -> ships = new ArrayList<>();
             }
 
@@ -69,7 +86,8 @@ public class AutomationGenerator
          @Override
          public void injectBombSequence()
          {
-
+            Logger.log("Se recibió una bomba");
+            attack.receiveBomb();
          }
 
          @Override
@@ -88,7 +106,7 @@ public class AutomationGenerator
 
    public enum DefenceType
    {
-      RANDOM, CORNER, MIDDLE,
+      RANDOM, CORNER, MIDDLE, ROW
    }
 
    public enum AttackType
