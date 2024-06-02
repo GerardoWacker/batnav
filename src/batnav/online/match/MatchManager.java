@@ -165,6 +165,7 @@ public class MatchManager
          this.getCurrentMatch().addOpponentBomb(new int[]{coordinates.getInt(0), coordinates.getInt(1)});
 
          this.currentMatch.getMatchScreen().repaint();
+         Game.getInstance().getInjection().injectBombSequence();
       } catch (JSONException e)
       {
          e.printStackTrace();
