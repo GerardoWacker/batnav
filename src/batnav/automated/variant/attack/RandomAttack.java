@@ -28,14 +28,23 @@ public class RandomAttack extends Attack
    @Override
    public void receiveBomb()
    {
+      int[] coordinates = generateCoordinates();
+      Game.getInstance().getMatchManager().throwBomb(Game.getInstance().getConnection(),
+              coordinates[0], coordinates[1]);
+      Logger.log("Se arrojó una bomba en " + coordinates[0] + ", " + coordinates[1]);
+   }
+
+   public int[] generateCoordinates()
+   {
       int coordX = (int) (Math.random() * 10);
       int coordY = (int) (Math.random() * 10);
-      if (!bombMatrix[coordX][coordY])
-      {
-         Game.getInstance().getMatchManager().throwBomb(Game.getInstance().getConnection(),
-                 coordX, coordY);
+
+      Logger.log("Se han generado las coordenadas" + coordX + ", " + coordY);
+      if (this.bombMatrix[coordX][coordY])
+         return generateCoordinates();
+      else {
          bombMatrix[coordX][coordY] = true;
-         Logger.log("Se arrojó una bomba");
+         return new int[]{coordX, coordY};
       }
    }
 }
