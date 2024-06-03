@@ -2,7 +2,6 @@ package batnav.automated;
 
 import batnav.online.socket.Connection;
 import batnav.ui.screens.MainMenuScreen;
-import batnav.ui.screens.ResultsScreen;
 
 public interface Automation
 {
@@ -10,6 +9,6 @@ public interface Automation
    void injectMainMenu(final MainMenuScreen mainMenuScreen);
    void injectSetShips();
    void injectBombSequence();
-   void injectMatchEnd(final ResultsScreen resultsScreen);
+   void injectMatchEnd();
    String getDescriptor();
 }

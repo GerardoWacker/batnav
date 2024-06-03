@@ -20,7 +20,7 @@ public class AutomationGenerator
 {
    public static Automation generate(final String username, final DefenceType defenceType, AttackType attackType)
    {
-      final Attack attack = switch(attackType)
+      final Attack attack = switch (attackType)
       {
          case CROSS -> new CrossAttack();
          case RANDOM -> new RandomAttack();
@@ -91,9 +91,10 @@ public class AutomationGenerator
          }
 
          @Override
-         public void injectMatchEnd(final ResultsScreen resultsScreen)
+         public void injectMatchEnd()
          {
-            resultsScreen.setVisible(false);
+            Game.getInstance().getMainMenuScreen().displayMainMenu();
+            Game.getInstance().getMainMenuScreen().setVisible(true);
          }
 
          @Override

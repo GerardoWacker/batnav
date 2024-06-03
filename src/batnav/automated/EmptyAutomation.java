@@ -31,7 +31,7 @@ public class EmptyAutomation implements Automation
    }
 
    @Override
-   public void injectMatchEnd(final ResultsScreen resultsScreen)
+   public void injectMatchEnd()
    {
 
    }
