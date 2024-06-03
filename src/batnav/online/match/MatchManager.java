@@ -107,13 +107,13 @@ public class MatchManager
       } catch (JSONException e)
       {
          Game.getInstance().getNotificationManager().addNotification(
-              new Notification(
-                   Notification.Priority.CRITICAL,
-                   "Ha ocurrido un error",
-                   e.getLocalizedMessage(),
-                   a -> {
-                   }
-              )
+                 new Notification(
+                         Notification.Priority.CRITICAL,
+                         "Ha ocurrido un error",
+                         e.getLocalizedMessage(),
+                         a -> {
+                         }
+                 )
          );
       }
    }
@@ -182,6 +182,11 @@ public class MatchManager
       this.getCurrentMatch().hasReceivedOpponentShips();
    }
 
+   public void matchStart(final Object[] response)
+   {
+      Game.getInstance().getInjection().injectStartMatch();
+   }
+
    /**
     * Method executed when the player's bomb has been thrown. It updates the current match and the game's interface.
     *
@@ -198,20 +203,21 @@ public class MatchManager
             final JSONObject content = json.getJSONObject("content");
 
             final int x = content.getJSONArray("coordinates").getInt(0),
-                 y = content.getJSONArray("coordinates").getInt(1);
+                    y = content.getJSONArray("coordinates").getInt(1);
 
             final boolean hasHit = content.getBoolean("hasHit");
             final boolean hasSunk = content.getBoolean("hasSunk");
 
             if (hasSunk)
             {
-               JOptionPane.showMessageDialog(null,
-                    "¡Hundiste un barco!",
-                    "Notificación", JOptionPane.INFORMATION_MESSAGE);
+               if (!Game.getInstance().hasInjection())
+                  JOptionPane.showMessageDialog(null,
+                          "¡Hundiste un barco!",
+                          "Notificación", JOptionPane.INFORMATION_MESSAGE);
             }
 
             this.getCurrentMatch().addPlayerBomb(new Bomb(
-                 x, y, false, hasHit
+                    x, y, false, hasHit
             ));
 
             this.getCurrentMatch().getMatchScreen().repaint();
@@ -243,8 +249,11 @@ public class MatchManager
             this.getCurrentMatch().getMatchScreen().getShipSelectionScreen().setVisible(false);
          }
          this.setCurrentMatch(null);
-         final ResultsScreen resultsScreen = new ResultsScreen(response.getBoolean("win"), response.getInt("elo"), response.getString("match"));
-         Game.getInstance().getInjection().injectMatchEnd(resultsScreen);
+         if (!Game.getInstance().hasInjection())
+         {
+            final ResultsScreen resultsScreen = new ResultsScreen(response.getBoolean("win"), response.getInt("elo"), response.getString("match"));
+         }
+         Game.getInstance().getInjection().injectMatchEnd();
       } catch (Exception e)
       {
          e.printStackTrace();
