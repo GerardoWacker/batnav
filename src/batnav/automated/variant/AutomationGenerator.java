@@ -99,6 +99,12 @@ public class AutomationGenerator
          }
 
          @Override
+         public void injectStartMatch()
+         {
+            attack.receiveBomb();
+         }
+
+         @Override
          public String getDescriptor()
          {
             return "Inicio de sesión: " + username + ". Estrategia de defensa: " + defenceType.name() + ". Estrategia de ataque: " + attackType.name() + ".";

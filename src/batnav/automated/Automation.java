@@ -10,5 +10,6 @@ public interface Automation
    void injectSetShips();
    void injectBombSequence();
    void injectMatchEnd();
+   void injectStartMatch();
    String getDescriptor();
 }

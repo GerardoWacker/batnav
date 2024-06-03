@@ -37,6 +37,12 @@ public class EmptyAutomation implements Automation
    }
 
    @Override
+   public void injectStartMatch()
+   {
+
+   }
+
+   @Override
    public String getDescriptor()
    {
       return "Just an empty injection";
