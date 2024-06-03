@@ -32,6 +32,15 @@ public class CrossAttack extends Attack
                this.bombsToThrow.add(new int[]{x - y, y});
          }
       }
+
+      for (int y = 0; y < 10; y++)
+      {
+         for (int x = 0; x <= 9 - y; x++)
+         {
+            if ((9 - x) != (y + x) && y != 0)
+               this.bombsToThrow.add(new int[]{9 - x, y + x});
+         }
+      }
    }
 
    @Override
@@ -40,7 +49,7 @@ public class CrossAttack extends Attack
       if (!bombsToThrow.isEmpty())
       {
          Game.getInstance().getMatchManager().throwBomb(Game.getInstance().getConnection(),
-              this.bombsToThrow.get(0)[0], this.bombsToThrow.get(0)[1]);
+                 this.bombsToThrow.get(0)[0], this.bombsToThrow.get(0)[1]);
          this.bombsToThrow.remove(0);
          Logger.log("Se arrojó una bomba");
       }
