@@ -5,12 +5,7 @@ import batnav.utils.Logger;
 
 public class RandomAttack extends Attack
 {
-   public boolean[][] bombMatrix = new boolean[10][10];
-
-   public RandomAttack()
-   {
-      fillMatrix();
-   }
+   public boolean[][] bombMatrix;
 
    public void fillMatrix()
    {
@@ -21,6 +16,13 @@ public class RandomAttack extends Attack
             bombMatrix[i][j] = false;
          }
       }
+   }
+
+   @Override
+   public void startAttack()
+   {
+      bombMatrix = new boolean[10][10];
+      fillMatrix();
    }
 
    @Override
