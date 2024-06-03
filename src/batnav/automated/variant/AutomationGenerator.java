@@ -80,6 +80,7 @@ public class AutomationGenerator
                     ships
             );
 
+            attack.startAttack();
             Game.getInstance().getMatchManager().getCurrentMatch().getMatchScreen().setVisible(true);
          }
 
