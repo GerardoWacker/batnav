@@ -11,7 +11,8 @@ public class CrossAttack extends Attack
 {
    public List<int[]> bombsToThrow;
 
-   public CrossAttack()
+   @Override
+   public void startAttack()
    {
       this.bombsToThrow = new ArrayList<>();
       for (int i = 0; i < 10; i++)
