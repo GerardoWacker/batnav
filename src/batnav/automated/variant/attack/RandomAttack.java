@@ -39,7 +39,7 @@ public class RandomAttack extends Attack
       int coordX = (int) (Math.random() * 10);
       int coordY = (int) (Math.random() * 10);
 
-      Logger.log("Se han generado las coordenadas" + coordX + ", " + coordY);
+      Logger.log("Se han generado las coordenadas " + coordX + ", " + coordY);
       if (this.bombMatrix[coordX][coordY])
          return generateCoordinates();
       else {
