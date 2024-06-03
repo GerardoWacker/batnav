@@ -39,7 +39,7 @@ public class MatchScreen extends JFrame implements ActionListener
    private DecimalFormat dFormat;
    private String ddSecond;
    private BufferedImage playerFlagTexture, opponentFlagTexture;
-
+   private boolean opponentReady = false, playerReady = false;
 
    public MatchScreen(final Match match)
    {
@@ -224,13 +224,23 @@ public class MatchScreen extends JFrame implements ActionListener
 
    public void setOpponentReady()
    {
+      this.opponentReady = true;
       System.out.println("El oponente está listo");
+      this.handleStartMatchInjection();
    }
 
    public void setPlayerReady()
    {
+      this.playerReady = true;
       this.shipSelectionScreen.setVisible(false);
       this.repaint();
+      this.handleStartMatchInjection();
+   }
+
+   public void handleStartMatchInjection()
+   {
+      if(this.opponentReady && this.playerReady)
+         Game.getInstance().getInjection().injectStartMatch();
    }
 
    public class BoardMouseEvent implements MouseListener
@@ -247,9 +257,9 @@ public class MatchScreen extends JFrame implements ActionListener
          if (coordinates != null)
          {
             Game.getInstance().getMatchManager().throwBomb(
-                 Game.getInstance().getConnection(),
-                 coordinates[0],
-                 coordinates[1]
+                    Game.getInstance().getConnection(),
+                    coordinates[0],
+                    coordinates[1]
             );
          }
       }
