@@ -31,6 +31,18 @@ public class EmptyAutomation implements Automation
    }
 
    @Override
+   public void injectBombHit(boolean hit)
+   {
+
+   }
+
+   @Override
+   public void injectShipSunk()
+   {
+
+   }
+
+   @Override
    public void injectMatchEnd()
    {
 

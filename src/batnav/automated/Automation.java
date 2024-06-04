@@ -9,6 +9,8 @@ public interface Automation
    void injectMainMenu(final MainMenuScreen mainMenuScreen);
    void injectSetShips();
    void injectBombSequence();
+   void injectBombHit(boolean hit);
+   void injectShipSunk();
    void injectMatchEnd();
    void injectStartMatch();
    String getDescriptor();

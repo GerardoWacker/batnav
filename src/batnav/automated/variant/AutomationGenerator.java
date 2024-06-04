@@ -9,7 +9,6 @@ import batnav.online.model.Packet;
 import batnav.online.model.Ship;
 import batnav.online.socket.Connection;
 import batnav.ui.screens.MainMenuScreen;
-import batnav.ui.screens.ResultsScreen;
 import batnav.utils.Logger;
 
 import java.util.ArrayList;
@@ -89,6 +88,18 @@ public class AutomationGenerator
          {
             Logger.log("Se recibió una bomba");
             attack.receiveBomb();
+         }
+
+         @Override
+         public void injectBombHit(boolean hit)
+         {
+            attack.setBombHit(hit);
+         }
+
+         @Override
+         public void injectShipSunk()
+         {
+            attack.setShipSunk();
          }
 
          @Override

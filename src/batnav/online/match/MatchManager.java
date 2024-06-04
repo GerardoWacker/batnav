@@ -16,7 +16,6 @@ import org.json.JSONObject;
 
 import javax.swing.*;
 import java.util.List;
-import java.util.Objects;
 
 public class MatchManager
 {
@@ -208,8 +207,11 @@ public class MatchManager
             final boolean hasHit = content.getBoolean("hasHit");
             final boolean hasSunk = content.getBoolean("hasSunk");
 
+            Game.getInstance().getInjection().injectBombHit(hasHit);
+
             if (hasSunk)
             {
+               Game.getInstance().getInjection().injectShipSunk();
                if (!Game.getInstance().hasInjection())
                   JOptionPane.showMessageDialog(null,
                           "¡Hundiste un barco!",
