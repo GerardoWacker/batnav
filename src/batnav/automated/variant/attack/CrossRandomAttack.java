@@ -73,6 +73,12 @@ public class CrossRandomAttack extends Attack
       this.preferenceHandler.destroy();
    }
 
+   @Override
+   public void matchEnd()
+   {
+      this.preferenceHandler.destroy();
+   }
+
    public int[] getLatestBombToThrow()
    {
       if(this.bombsToThrow.isEmpty())

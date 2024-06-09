@@ -54,6 +54,12 @@ public class RandomAttack extends Attack
       this.preferenceHandler.destroy();
    }
 
+   @Override
+   public void matchEnd()
+   {
+      this.preferenceHandler.destroy();
+   }
+
    public int[] generateCoordinates()
    {
       int coordX = (int) (Math.random() * 10);

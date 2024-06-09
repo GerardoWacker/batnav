@@ -100,6 +100,7 @@ public class AutomationGenerator
          @Override
          public void injectMatchEnd()
          {
+            attack.matchEnd();
             Game.getInstance().getMainMenuScreen().displayMainMenu();
             Game.getInstance().getMainMenuScreen().setVisible(true);
          }

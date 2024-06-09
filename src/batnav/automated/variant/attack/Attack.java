@@ -6,4 +6,5 @@ public abstract class Attack
    public void receiveBomb(){}
    public void setBombHit(boolean hit){}
    public void setShipSunk(){}
+   public void matchEnd(){}
 }
