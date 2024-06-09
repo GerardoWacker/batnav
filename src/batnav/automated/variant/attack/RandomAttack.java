@@ -5,7 +5,13 @@ import batnav.utils.Logger;
 
 public class RandomAttack extends Attack
 {
+   private final PreferenceHandler preferenceHandler;
    public boolean[][] bombMatrix;
+
+   public RandomAttack(final boolean preference)
+   {
+      this.preferenceHandler = new PreferenceHandler(preference);
+   }
 
    public void fillMatrix()
    {
@@ -28,10 +34,24 @@ public class RandomAttack extends Attack
    @Override
    public void receiveBomb()
    {
-      int[] coordinates = generateCoordinates();
+      int[] generatedCoordinates = generateCoordinates();
+      int[] coordinates = this.preferenceHandler.handle(generatedCoordinates[0], generatedCoordinates[1]);
+      this.bombMatrix[coordinates[0]][coordinates[1]] = true;
       Game.getInstance().getMatchManager().throwBomb(Game.getInstance().getConnection(),
               coordinates[0], coordinates[1]);
       Logger.log("Se arrojó una bomba en " + coordinates[0] + ", " + coordinates[1]);
+   }
+
+   @Override
+   public void setBombHit(boolean hit)
+   {
+      preferenceHandler.setBombHit(this.bombMatrix, hit);
+   }
+
+   @Override
+   public void setShipSunk()
+   {
+      this.preferenceHandler.destroy();
    }
 
    public int[] generateCoordinates()
@@ -42,8 +62,8 @@ public class RandomAttack extends Attack
       Logger.log("Se han generado las coordenadas " + coordX + ", " + coordY);
       if (this.bombMatrix[coordX][coordY])
          return generateCoordinates();
-      else {
-         bombMatrix[coordX][coordY] = true;
+      else
+      {
          return new int[]{coordX, coordY};
       }
    }

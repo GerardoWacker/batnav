@@ -22,7 +22,8 @@ public class AutomationGenerator
       final Attack attack = switch (attackType)
       {
          case CROSS -> new CrossAttack();
-         case RANDOM -> new RandomAttack();
+         case RANDOM -> new RandomAttack(false);
+         case RANDOM_PREF -> new RandomAttack(true);
          default -> new Attack()
          {
             @Override
