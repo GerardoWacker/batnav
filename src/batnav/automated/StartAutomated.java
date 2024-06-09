@@ -13,6 +13,6 @@ public class StartAutomated
       System.out.println("Ingresá número de usuario: ");
       int i = scanner.nextInt();
       Game.getInstance().launch(AutomationGenerator.generate("usuario" + i,
-              AutomationGenerator.DefenceType.RANDOM, AutomationGenerator.AttackType.RANDOM));
+              AutomationGenerator.DefenceType.RANDOM, AutomationGenerator.AttackType.RANDOM_PREF));
    }
 }
