@@ -3,6 +3,7 @@ package batnav.automated.variant;
 import batnav.automated.Automation;
 import batnav.automated.variant.attack.Attack;
 import batnav.automated.variant.attack.CrossAttack;
+import batnav.automated.variant.attack.CrossRandomAttack;
 import batnav.automated.variant.attack.RandomAttack;
 import batnav.instance.Game;
 import batnav.online.model.Packet;
@@ -24,14 +25,7 @@ public class AutomationGenerator
          case CROSS -> new CrossAttack();
          case RANDOM -> new RandomAttack(false);
          case RANDOM_PREF -> new RandomAttack(true);
-         default -> new Attack()
-         {
-            @Override
-            public void receiveBomb()
-            {
-               super.receiveBomb();
-            }
-         };
+         case CROSS_PREF -> new CrossRandomAttack();
       };
       return new Automation()
       {
