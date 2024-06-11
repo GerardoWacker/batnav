@@ -196,7 +196,7 @@ public class PreferenceHandler
 
    private void generateDown(boolean[][] bombMap, final int x, final int y)
    {
-      for (int i = 1; i < 6; i++)
+      for (int i = 1; i < 8; i++)
       {
          if (bombMapContains(bombMap, x, y + i))
          {
@@ -208,7 +208,7 @@ public class PreferenceHandler
 
    private void generateUp(boolean[][] bombMap, final int x, final int y)
    {
-      for (int i = 1; i < 6; i++)
+      for (int i = 1; i < 8; i++)
       {
          if (bombMapContains(bombMap, x, y - i))
          {
@@ -220,7 +220,7 @@ public class PreferenceHandler
 
    private void generateLeft(boolean[][] bombMap, final int x, final int y)
    {
-      for (int i = 1; i < 6; i++)
+      for (int i = 1; i < 8; i++)
       {
          if (bombMapContains(bombMap, x - i, y))
          {
@@ -232,7 +232,7 @@ public class PreferenceHandler
 
    private void generateRight(boolean[][] bombMap, final int x, final int y)
    {
-      for (int i = 1; i < 6; i++)
+      for (int i = 1; i < 8; i++)
       {
          if (bombMapContains(bombMap, x + i, y))
          {
