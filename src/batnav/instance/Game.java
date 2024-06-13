@@ -64,7 +64,8 @@ public class Game
       // Check if an injection has been loaded.
       this.injection = automation;
       Logger.log((this.hasInjection() ? "Hay" : "No hay") + " una inyección en curso.");
-      if (this.hasInjection()) Logger.log(this.getInjection().getClass().getName() + ": [" + this.getInjection().getDescriptor() + "]");
+      if (this.hasInjection())
+         Logger.log(this.getInjection().getClass().getName() + ": [" + this.getInjection().getDescriptor() + "]");
 
       this.splashScreen = new SplashScreen();
       this.splashScreen.setDisplayString("Conectando con Sambayón");
@@ -88,6 +89,9 @@ public class Game
 
       this.splashScreen.setDisplayString("Cargando sesión");
 
+      this.loginScreen = new LoginScreen();
+      this.loginScreen.setVisible(false);
+
       // Load session.
       this.sessionManager.loadSession();
 
@@ -97,10 +101,6 @@ public class Game
       this.connection.connect(this.sessionManager.getSessionId());
 
       this.splashScreen.setDisplayString("Iniciando...");
-
-      this.loginScreen = new LoginScreen();
-      this.loginScreen.setVisible(false);
-
    }
 
    public Sambayon getSambayon()
