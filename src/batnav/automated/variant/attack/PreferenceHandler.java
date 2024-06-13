@@ -47,6 +47,8 @@ public class PreferenceHandler
          }
          case POLLING, FOUND_VERTICAL, FOUND_HORIZONTAL, UP, DOWN, LEFT, RIGHT ->
          {
+            if(this.coordinates.isEmpty())
+               this.setStatus(Status.DISABLED);
             final int[] coords = this.getAndRemove();
             this.lastBomb = new int[]{coords[0], coords[1]};
             Logger.log("Se devolvieron las coordenadas [" + coords[0] + ", " + coords[1] + "]");
@@ -138,7 +140,8 @@ public class PreferenceHandler
    public void destroy()
    {
       this.setStatus(Status.DISABLED);
-      this.coordinates.clear();
+      if(this.coordinates != null)
+         this.coordinates.clear();
       this.setX(0);
       this.setY(0);
    }
