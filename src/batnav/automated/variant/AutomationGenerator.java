@@ -63,7 +63,6 @@ public class AutomationGenerator
             {
                case MIDDLE -> ships = Defences.getMiddleDefence();
                case CORNER -> ships = Defences.getCornerDefence();
-               case ROW -> ships = Defences.getRowDefence();
                case RANDOM -> ships = Defences.getRandomDefence();
                default -> ships = new ArrayList<>();
             }

@@ -65,30 +65,6 @@ public class Defences
       return ships;
    }
 
-   public static List<Ship> getRowDefence()
-   {
-      final List<Ship> ships = new ArrayList<Ship>();
-
-      ships.add(new Ship(2));
-      ships.add(new Ship(2));
-      ships.add(new Ship(2));
-      ships.add(new Ship(3));
-      ships.add(new Ship(3));
-      ships.add(new Ship(3));
-      ships.add(new Ship(4));
-      ships.add(new Ship(5));
-
-      ships.get(0).setPosition(2, 1);
-      ships.get(1).setPosition(2, 3);
-      ships.get(2).setPosition(1, 7);
-      ships.get(3).setPosition(4, 1);
-      ships.get(4).setPosition(4, 3);
-      ships.get(5).setPosition(1, 5);
-      ships.get(6).setPosition(4, 5);
-      ships.get(7).setPosition(3, 7);
-
-      return ships;
-   }
 
    public static List<Ship> getRandomDefence()
    {
