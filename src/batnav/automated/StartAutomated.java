@@ -48,6 +48,9 @@ public class StartAutomated
          default -> null;
       };
 
-      Game.getInstance().launch(AutomationGenerator.generate(attack.toString(), defence, attack));
+      System.out.println("Ingresá qué número de usuario elegir:");
+      int u = scanner.nextInt();
+
+      Game.getInstance().launch(AutomationGenerator.generate("usuario" + u, defence, attack));
    }
 }
