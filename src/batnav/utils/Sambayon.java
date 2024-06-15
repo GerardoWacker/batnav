@@ -22,9 +22,14 @@ import java.util.Map;
 public class Sambayon
 {
    private final String SAMBAYON_ENDPOINT = "https://sb.rar.vg/";
-   private final String FALLBACK_SERVER = "https://batnav.glitch.me/";
+   private static String FALLBACK_SERVER = "http://127.0.0.1:1301";
    private final Map<String, String> serverPool = Maps.newHashMap();
    private boolean fallbackMode = false;
+
+   public static void setPort(int port)
+   {
+      FALLBACK_SERVER = "http://127.0.0.1:" + port;
+   }
 
    /**
     * Get a server's URL based on location.

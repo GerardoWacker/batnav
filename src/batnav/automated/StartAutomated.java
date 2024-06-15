@@ -2,6 +2,7 @@ package batnav.automated;
 
 import batnav.automated.variant.AutomationGenerator;
 import batnav.instance.Game;
+import batnav.utils.Sambayon;
 
 import java.util.Scanner;
 
@@ -30,6 +31,9 @@ public class StartAutomated
          default -> null;
       };
 
+      System.out.println("Ingresá qué puerto vas a usar:");
+      int p = scanner.nextInt();
+      Sambayon.setPort(p);
 
       System.out.println("Ingresá qué número de usuario elegir:");
       int u = scanner.nextInt();
