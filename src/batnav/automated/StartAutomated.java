@@ -21,16 +21,6 @@ public class StartAutomated
 
       int a = scanner.nextInt();
 
-      System.out.println("Ingresá qué estrategia de defensa elegir: ");
-
-      System.out.println("""
-           1) Esquinas
-           2) Random
-           3) Centro\s
-          \s""");
-
-      int d = scanner.nextInt();
-
       AutomationGenerator.AttackType attack = switch (a)
       {
          case 1 -> AutomationGenerator.AttackType.CROSS;
@@ -40,17 +30,10 @@ public class StartAutomated
          default -> null;
       };
 
-      AutomationGenerator.DefenceType defence = switch (d)
-      {
-         case 1 -> AutomationGenerator.DefenceType.CORNER;
-         case 2 -> AutomationGenerator.DefenceType.RANDOM;
-         case 3 -> AutomationGenerator.DefenceType.MIDDLE;
-         default -> null;
-      };
 
       System.out.println("Ingresá qué número de usuario elegir:");
       int u = scanner.nextInt();
 
-      Game.getInstance().launch(AutomationGenerator.generate("usuario" + u, defence, attack));
+      Game.getInstance().launch(AutomationGenerator.generate("usuario" + u, AutomationGenerator.DefenceType.RANDOM, attack));
    }
 }
