@@ -162,6 +162,8 @@ public class MatchScreen extends JFrame implements ActionListener
          if (this.match.getPlayerShips().size() <= 0)
          {
             this.shipSelectionScreen = new ShipSelectionScreen();
+            if (!Game.getInstance().hasInjection())
+               this.shipSelectionScreen.setVisible(true);
          } else
          {
             this.setVisible(true);
@@ -239,7 +241,7 @@ public class MatchScreen extends JFrame implements ActionListener
 
    public void handleStartMatchInjection()
    {
-      if(this.opponentReady && this.playerReady)
+      if (this.opponentReady && this.playerReady)
          Game.getInstance().getInjection().injectStartMatch();
    }
 

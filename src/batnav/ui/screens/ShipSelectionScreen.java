@@ -125,7 +125,6 @@ public class ShipSelectionScreen extends JFrame implements ActionListener
       gamePanel.add(southPanel, BorderLayout.SOUTH);
       gamePanel.add(eastPanel, BorderLayout.EAST);
       this.add(gamePanel);
-      this.setVisible(true);
    }
 
    @Override
