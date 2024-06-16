@@ -52,7 +52,7 @@ public class CrossRandomAttack extends Attack
          generatedCoordinates = generateCoordinates();
       }
 
-      int[] coordinates = this.preferenceHandler.handle(generatedCoordinates[0], generatedCoordinates[1]);
+      int[] coordinates = this.preferenceHandler.handle(generatedCoordinates);
       this.bombMatrix[coordinates[0]][coordinates[1]] = true;
       Game.getInstance().getMatchManager().throwBomb(Game.getInstance().getConnection(),
               coordinates[0], coordinates[1]);

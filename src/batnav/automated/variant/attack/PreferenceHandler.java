@@ -34,16 +34,15 @@ public class PreferenceHandler
       this.setStatus(Status.POLLING);
    }
 
-   public int[] handle(final int x, final int y)
+   public int[] handle(final int[] coordinates)
    {
-      if (!this.enabled) return new int[]{x, y};
+      if (!this.enabled) return coordinates;
       switch (this.getStatus())
       {
          default ->
          {
-            final int[] coords = new int[]{x, y};
-            this.lastBomb = coords;
-            return coords;
+            this.lastBomb = coordinates;
+            return coordinates;
          }
          case POLLING, FOUND_VERTICAL, FOUND_HORIZONTAL, UP, DOWN, LEFT, RIGHT ->
          {
@@ -51,7 +50,7 @@ public class PreferenceHandler
             {
                this.setStatus(Status.DISABLED);
                this.destroy();
-               this.handle(x, y);
+               this.handle(coordinates);
             }
             try
             {
@@ -63,9 +62,9 @@ public class PreferenceHandler
             {
                this.setStatus(Status.DISABLED);
                this.destroy();
-               this.handle(x, y);
+               this.handle(coordinates);
             }
-            return this.handle(x, y);
+            return this.handle(coordinates);
          }
       }
    }
