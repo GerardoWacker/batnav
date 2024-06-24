@@ -35,9 +35,7 @@ public class StartAutomated
       int p = scanner.nextInt();
       Sambayon.setPort(p);
 
-      System.out.println("Ingresá qué número de usuario elegir:");
-      int u = scanner.nextInt();
-
-      Game.getInstance().launch(AutomationGenerator.generate("usuario" + u, AutomationGenerator.DefenceType.RANDOM, attack));
+      assert attack != null;
+      Game.getInstance().launch(AutomationGenerator.generate(attack.name(), AutomationGenerator.DefenceType.RANDOM, attack));
    }
 }
